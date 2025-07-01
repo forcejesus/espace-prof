@@ -112,11 +112,19 @@ All colors MUST be HSL.
   }
 
   .icon-scale {
-    @apply group-hover:scale-110 transition-transform duration-300;
+    @apply transition-transform duration-300;
+  }
+
+  .group:hover .icon-scale {
+    @apply scale-110;
   }
 
   .arrow-slide {
-    @apply group-hover:translate-x-2 transition-all duration-300;
+    @apply transition-all duration-300;
+  }
+
+  .group:hover .arrow-slide {
+    @apply translate-x-2;
   }
 
   .stat-card {
@@ -124,6 +132,6 @@ All colors MUST be HSL.
   }
 
   .action-card {
-    @apply bg-white border border-orange-100 rounded-xl p-4 md:p-6 hover-lift group cursor-pointer;
+    @apply bg-white border border-orange-100 rounded-xl p-4 md:p-6 hover-lift cursor-pointer;
   }
 }
