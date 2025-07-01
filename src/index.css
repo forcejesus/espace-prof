@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -101,5 +102,28 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  /* Effets hover principaux */
+  .hover-lift {
+    @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+  }
+
+  .icon-scale {
+    @apply group-hover:scale-110 transition-transform duration-300;
+  }
+
+  .arrow-slide {
+    @apply group-hover:translate-x-2 transition-all duration-300;
+  }
+
+  .stat-card {
+    @apply bg-white border border-orange-200 rounded-xl p-4 md:p-6 hover-lift;
+  }
+
+  .action-card {
+    @apply bg-white border border-orange-100 rounded-xl p-4 md:p-6 hover-lift group cursor-pointer;
   }
 }
