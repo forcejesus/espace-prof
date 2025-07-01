@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { ArrowLeft, Plus, Save, Eye, Trash2, GripVertical, HelpCircle, CheckSquare, Type, Image } from "lucide-react";
+import { ArrowLeft, Plus, Save, Eye, Trash2, GripVertical, HelpCircle, CheckSquare, Type, Image, Play } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
