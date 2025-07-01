@@ -84,16 +84,16 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
   return (
     <div className="p-4 md:p-6 space-y-6 md:space-y-8 bg-gradient-to-br from-orange-50 to-orange-100 min-h-screen">
-      {/* Header avec gradient orange */}
+      {/* Header avec gradient orange et branding AKILI */}
       <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-6 md:p-8 shadow-lg">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
           <div className="flex items-center space-x-4">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
-              <Award className="w-8 h-8 text-white" />
+            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+              <GraduationCap className="w-8 h-8 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-white">Bonjour, Mme Dubois ! 👋</h1>
-              <p className="text-orange-100 text-sm md:text-base">Voici un aperçu de vos activités récentes</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-white">Bonjour sur AKILI ! 👋</h1>
+              <p className="text-orange-100 text-sm md:text-base">Votre plateforme éducative interactive</p>
             </div>
           </div>
           <div className="flex space-x-3">
@@ -156,7 +156,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           {quickActions.map((action, index) => (
             <div 
               key={index} 
-              className="action-card"
+              className="action-card group"
               onClick={action.onClick}
             >
               <div className="flex items-center justify-between">

@@ -6,7 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 const Index = () => {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-slate-50 to-indigo-50">
+      <div className="min-h-screen flex w-full bg-gradient-to-br from-orange-50 to-orange-100">
         <Sidebar />
         <main className="flex-1 overflow-auto">
           <Outlet />

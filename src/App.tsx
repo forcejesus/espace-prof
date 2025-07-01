@@ -12,6 +12,7 @@ import LiveSessionPage from "./pages/LiveSession";
 import SessionHistoryPage from "./pages/SessionHistory";
 import SettingsPage from "./pages/Settings";
 import ProfilePage from "./pages/Profile";
+import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/" element={<Index />}>
             <Route index element={<DashboardPage />} />
             <Route path="library" element={<QuizLibraryPage />} />
