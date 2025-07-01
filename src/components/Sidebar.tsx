@@ -8,6 +8,7 @@ import {
   Settings,
   User
 } from "lucide-react";
+import { NavLink } from "react-router-dom";
 import {
   Sidebar as SidebarContainer,
   SidebarContent,
@@ -21,21 +22,16 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-interface SidebarProps {
-  activeView: string;
-  onNavigate: (view: string) => void;
-}
-
 const menuItems = [
-  { id: "dashboard", title: "Dashboard", icon: Home },
-  { id: "library", title: "Mes Quiz", icon: BookOpen },
-  { id: "live", title: "Session Live", icon: Play },
-  { id: "history", title: "Historique", icon: BarChart3 },
-  { id: "settings", title: "Paramètres", icon: Settings },
-  { id: "profile", title: "Profil", icon: User },
+  { id: "dashboard", title: "Dashboard", icon: Home, path: "/" },
+  { id: "library", title: "Mes Quiz", icon: BookOpen, path: "/library" },
+  { id: "live", title: "Session Live", icon: Play, path: "/live" },
+  { id: "history", title: "Historique", icon: BarChart3, path: "/history" },
+  { id: "settings", title: "Paramètres", icon: Settings, path: "/settings" },
+  { id: "profile", title: "Profil", icon: User, path: "/profile" },
 ];
 
-export function Sidebar({ activeView, onNavigate }: SidebarProps) {
+export function Sidebar() {
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
 
@@ -66,18 +62,20 @@ export function Sidebar({ activeView, onNavigate }: SidebarProps) {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.id}>
-                  <SidebarMenuButton 
-                    asChild
-                    className={`w-full px-3 py-2 rounded-lg transition-all duration-200 ${
-                      activeView === item.id
-                        ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg"
-                        : "hover:bg-slate-100 text-slate-700"
-                    }`}
-                  >
-                    <button onClick={() => onNavigate(item.id)}>
+                  <SidebarMenuButton asChild>
+                    <NavLink 
+                      to={item.path}
+                      className={({ isActive }) => 
+                        `w-full px-3 py-2 rounded-lg transition-all duration-200 flex items-center ${
+                          isActive
+                            ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg"
+                            : "hover:bg-slate-100 text-slate-700"
+                        }`
+                      }
+                    >
                       <item.icon className="w-5 h-5 mr-3" />
                       {!isCollapsed && <span className="font-medium">{item.title}</span>}
-                    </button>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
