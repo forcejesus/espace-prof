@@ -4,14 +4,16 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import { Header } from "@/components/Header";
 import DashboardPage from "./pages/Dashboard";
-import QuizLibraryPage from "./pages/QuizLibrary";
+import MesJeuxPage from "./pages/MesJeux";
+import PlanificationPage from "./pages/Planification";
+import MonComptePage from "./pages/MonCompte";
 import QuizCreatorPage from "./pages/QuizCreator";
 import LiveSessionPage from "./pages/LiveSession";
 import SessionHistoryPage from "./pages/SessionHistory";
-import SettingsPage from "./pages/Settings";
-import ProfilePage from "./pages/Profile";
+import HistoriquePlanificationPage from "./pages/HistoriquePlanification";
+import GroupeApprenantPage from "./pages/GroupeApprenant";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -25,16 +27,23 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Index />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="library" element={<QuizLibraryPage />} />
-            <Route path="creator" element={<QuizCreatorPage />} />
-            <Route path="live" element={<LiveSessionPage />} />
-            <Route path="history" element={<SessionHistoryPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-            <Route path="profile" element={<ProfilePage />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
+          <Route path="/*" element={
+            <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
+              <Header />
+              <Routes>
+                <Route path="/" element={<DashboardPage />} />
+                <Route path="/mes-jeux" element={<MesJeuxPage />} />
+                <Route path="/planification" element={<PlanificationPage />} />
+                <Route path="/mon-compte" element={<MonComptePage />} />
+                <Route path="/creer-quiz" element={<QuizCreatorPage />} />
+                <Route path="/session-live" element={<LiveSessionPage />} />
+                <Route path="/historique-session" element={<SessionHistoryPage />} />
+                <Route path="/historique-planification" element={<HistoriquePlanificationPage />} />
+                <Route path="/groupe-apprenant" element={<GroupeApprenantPage />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </div>
+          } />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
