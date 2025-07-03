@@ -89,10 +89,6 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
       <div className="bg-white shadow-akili-sm border-b border-akili-grey-400 px-s24 py-s16">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-h2-black text-akili-purple-500">Université AKILI</h1>
-              <p className="text-body1-medium text-akili-grey-700">Espace Éducateur</p>
-            </div>
             <div className="relative w-96">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-5 h-5" />
               <Input

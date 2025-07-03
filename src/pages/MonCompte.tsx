@@ -16,16 +16,46 @@ const MonComptePage = () => {
           <p className="text-body1-medium text-akili-grey-700">Gérez vos informations personnelles et préférences</p>
         </div>
 
+        {/* Statistiques en premier et en valeur */}
+        <Card className="bg-white shadow-akili-lg border-0 mb-s32 animate-fade-in-up">
+          <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-t-lg">
+            <CardTitle className="flex items-center space-x-2">
+              <School className="w-6 h-6 text-white" />
+              <span className="text-h4-bold text-white">Mes Statistiques</span>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-s32">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-s20">
+              <div className="text-center p-s24 bg-gradient-to-br from-purple-500 to-purple-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
+                <div className="text-h2-black mb-s8">24</div>
+                <div className="text-body2-medium">Jeux créés</div>
+              </div>
+              <div className="text-center p-s24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
+                <div className="text-h2-black mb-s8">156</div>
+                <div className="text-body2-medium">Sessions menées</div>
+              </div>
+              <div className="text-center p-s24 bg-gradient-to-br from-green-500 to-green-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
+                <div className="text-h2-black mb-s8">432</div>
+                <div className="text-body2-medium">Apprenants touchés</div>
+              </div>
+              <div className="text-center p-s24 bg-gradient-to-br from-teal-500 to-teal-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
+                <div className="text-h2-black mb-s8">4.8</div>
+                <div className="text-body2-medium">Note moyenne</div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-s24">
           {/* Informations Personnelles */}
-          <Card className="bg-white shadow-akili-sm border-0">
+          <Card className="bg-white shadow-akili-sm border-0 animate-slide-in-left animate-delay-200">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <User className="w-5 h-5 text-akili-purple-500" />
                 <span className="text-h5-bold text-akili-grey-800">Informations Personnelles</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-s16">
+            <CardContent className="space-y-s20">
               <div className="space-y-s8">
                 <Label htmlFor="nom" className="text-body2-bold text-akili-grey-800">Nom complet</Label>
                 <Input id="nom" defaultValue="Marie Dubois" className="border-akili-grey-400 focus:border-akili-purple-500" />
@@ -42,14 +72,14 @@ const MonComptePage = () => {
                 <Label htmlFor="fonction" className="text-body2-bold text-akili-grey-800">Fonction</Label>
                 <Input id="fonction" defaultValue="Professeure des écoles" className="border-akili-grey-400 focus:border-akili-purple-500" />
               </div>
-              <Button className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold mt-s16">
+              <Button className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold mt-s20">
                 Mettre à jour
               </Button>
             </CardContent>
           </Card>
 
           {/* Préférences */}
-          <Card className="bg-white shadow-akili-sm border-0">
+          <Card className="bg-white shadow-akili-sm border-0 animate-slide-in-left animate-delay-300">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Settings className="w-5 h-5 text-akili-purple-500" />
@@ -57,21 +87,21 @@ const MonComptePage = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-s24">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between py-s8">
                 <div className="space-y-s4">
                   <Label className="text-body2-bold text-akili-grey-800">Notifications par email</Label>
                   <p className="text-body3-medium text-akili-grey-600">Recevoir les notifications importantes</p>
                 </div>
                 <Switch defaultChecked />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between py-s8">
                 <div className="space-y-s4">
                   <Label className="text-body2-bold text-akili-grey-800">Rapports automatiques</Label>
                   <p className="text-body3-medium text-akili-grey-600">Rapport hebdomadaire d'activité</p>
                 </div>
                 <Switch defaultChecked />
               </div>
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between py-s8">
                 <div className="space-y-s4">
                   <Label className="text-body2-bold text-akili-grey-800">Mode sombre</Label>
                   <p className="text-body3-medium text-akili-grey-600">Interface en mode sombre</p>
@@ -81,53 +111,32 @@ const MonComptePage = () => {
             </CardContent>
           </Card>
 
-          {/* Statistiques */}
-          <Card className="bg-white shadow-akili-sm border-0">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <School className="w-5 h-5 text-akili-purple-500" />
-                <span className="text-h5-bold text-akili-grey-800">Mes Statistiques</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-s16">
-              <div className="grid grid-cols-2 gap-s16">
-                <div className="text-center p-s16 bg-akili-purple-500 rounded-akili-lg text-white">
-                  <div className="text-h3-black">24</div>
-                  <div className="text-body3-medium">Jeux créés</div>
-                </div>
-                <div className="text-center p-s16 bg-akili-blue-500 rounded-akili-lg text-white">
-                  <div className="text-h3-black">156</div>
-                  <div className="text-body3-medium">Sessions menées</div>
-                </div>
-                <div className="text-center p-s16 bg-akili-green-500 rounded-akili-lg text-white">
-                  <div className="text-h3-black">432</div>
-                  <div className="text-body3-medium">Apprenants touchés</div>
-                </div>
-                <div className="text-center p-s16 bg-akili-teal-500 rounded-akili-lg text-white">
-                  <div className="text-h3-black">4.8</div>
-                  <div className="text-body3-medium">Note moyenne</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
           {/* Sécurité */}
-          <Card className="bg-white shadow-akili-sm border-0">
+          <Card className="bg-white shadow-akili-sm border-0 lg:col-span-2 animate-fade-in-up animate-delay-400">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Shield className="w-5 h-5 text-akili-purple-500" />
                 <span className="text-h5-bold text-akili-grey-800">Sécurité</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-s12">
-              <Button variant="outline" className="w-full border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
-                Changer le mot de passe
+            <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-s16">
+              <Button variant="outline" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 p-s16 h-auto">
+                <div className="text-center">
+                  <div className="font-akili-bold mb-s4">Changer le mot de passe</div>
+                  <div className="text-body4-medium text-akili-grey-600">Mettre à jour votre sécurité</div>
+                </div>
               </Button>
-              <Button variant="outline" className="w-full border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
-                Authentification à deux facteurs
+              <Button variant="outline" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 p-s16 h-auto">
+                <div className="text-center">
+                  <div className="font-akili-bold mb-s4">Authentification 2FA</div>
+                  <div className="text-body4-medium text-akili-grey-600">Sécurité renforcée</div>
+                </div>
               </Button>
-              <Button variant="outline" className="w-full border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
-                Sessions actives
+              <Button variant="outline" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 p-s16 h-auto">
+                <div className="text-center">
+                  <div className="font-akili-bold mb-s4">Sessions actives</div>
+                  <div className="text-body4-medium text-akili-grey-600">Gérer vos connexions</div>
+                </div>
               </Button>
             </CardContent>
           </Card>

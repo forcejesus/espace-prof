@@ -106,51 +106,62 @@ const PlanificationPage = () => {
           </div>
         </div>
 
-        {/* Liste des Planifications */}
+        {/* Liste des Planifications avec animations */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-s24">
-          {filteredPlanifications.map((plan) => (
-            <Card key={plan.id} className="bg-white shadow-akili-sm border-0 hover:shadow-akili-md transition-all duration-fast">
-              <CardHeader className="pb-s16">
+          {filteredPlanifications.map((plan, index) => (
+            <Card key={plan.id} className={`bg-white shadow-akili-lg border-0 hover:shadow-akili-intense transition-all duration-fast transform hover:-translate-y-1 animate-fade-in-up animate-delay-${(index + 1) * 100}`}>
+              <CardHeader className="pb-s20 bg-gradient-to-r from-orange-50 to-orange-100 rounded-t-lg">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <CardTitle className="text-h5-bold text-akili-grey-800 mb-s8">
+                    <CardTitle className="text-h5-bold text-akili-grey-800 mb-s12">
                       {plan.title}
                     </CardTitle>
-                    <div className="flex items-center space-x-2 text-body3-medium text-akili-grey-600">
+                    <div className="flex items-center space-x-2 text-body3-medium text-akili-grey-600 mb-s8">
                       <Gamepad2 className="w-4 h-4 text-akili-purple-500" />
-                      <span>{plan.game}</span>
+                      <span className="font-akili-medium">Jeu: {plan.game}</span>
+                    </div>
+                    <div className="text-body3-medium text-akili-grey-600">
+                      Groupe: <span className="font-akili-bold text-akili-grey-800">{plan.group}</span>
                     </div>
                   </div>
-                  <Badge className={`${getStatusColor(plan.status)} font-akili-bold`}>
+                  <Badge className={`${getStatusColor(plan.status)} font-akili-bold px-s12 py-s4`}>
                     {plan.status}
                   </Badge>
                 </div>
               </CardHeader>
               
-              <CardContent className="space-y-s16">
-                <div className="grid grid-cols-2 gap-s16 text-body3-medium">
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="w-4 h-4 text-akili-purple-500" />
-                    <span className="text-akili-grey-700">{plan.date}</span>
+              <CardContent className="space-y-s20 p-s24">
+                <div className="grid grid-cols-2 gap-s20 text-body3-medium">
+                  <div className="flex items-center space-x-s8 p-s12 bg-purple-50 rounded-akili-lg">
+                    <Calendar className="w-5 h-5 text-akili-purple-500" />
+                    <div>
+                      <div className="font-akili-bold text-akili-grey-800">{plan.date}</div>
+                      <div className="text-body4-medium text-akili-grey-600">Date</div>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Clock className="w-4 h-4 text-akili-blue-500" />
-                    <span className="text-akili-grey-700">{plan.time} ({plan.duration})</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Users className="w-4 h-4 text-akili-green-500" />
-                    <span className="text-akili-grey-700">{plan.participants} participants</span>
-                  </div>
-                  <div className="text-body3-bold text-akili-grey-800">
-                    {plan.group}
+                  <div className="flex items-center space-x-s8 p-s12 bg-blue-50 rounded-akili-lg">
+                    <Clock className="w-5 h-5 text-akili-blue-500" />
+                    <div>
+                      <div className="font-akili-bold text-akili-grey-800">{plan.time}</div>
+                      <div className="text-body4-medium text-akili-grey-600">{plan.duration}</div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="flex space-x-s12 pt-s16">
-                  <Button variant="outline" size="sm" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
+                <div className="flex items-center justify-center p-s16 bg-green-50 rounded-akili-lg">
+                  <Users className="w-5 h-5 text-akili-green-500 mr-s8" />
+                  <span className="font-akili-bold text-akili-grey-800">{plan.participants} participants</span>
+                </div>
+
+                <div className="flex space-x-s12 pt-s16 border-t border-akili-grey-400">
+                  <Button variant="outline" size="sm" className="flex-1 border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 py-s12">
                     Modifier
                   </Button>
-                  <Button size="sm" className="bg-akili-green-500 hover:bg-akili-green-700 text-white font-akili-bold">
+                  <Button 
+                    size="sm" 
+                    className="flex-1 text-white font-akili-bold py-s12"
+                    style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
+                  >
                     Démarrer
                   </Button>
                 </div>
