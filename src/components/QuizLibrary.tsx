@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Plus, Search, Filter, Play, Edit, Trash2, Users, Clock, BookOpen, MoreVertical, MoreHorizontal } from "lucide-react";
+import { Plus, Search, Filter, Play, Edit, Trash2, Users, Clock, BookOpen, MoreVertical, MoreHorizontal, Grid3X3, List, Star, Trophy, Target, Brain, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -59,12 +59,12 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
   ];
 
   const folders = [
-    { name: "Histoire", color: "bg-purple-500", count: 8 },
-    { name: "Mathématiques", color: "bg-blue-500", count: 12 },
-    { name: "Sciences", color: "bg-indigo-500", count: 6 },
-    { name: "Français", color: "bg-purple-600", count: 4 },
-    { name: "Géographie", color: "bg-blue-600", count: 3 },
-    { name: "Arts", color: "bg-indigo-600", count: 2 }
+    { name: "Histoire", color: "bg-akili-purple-500", count: 8, icon: BookOpen },
+    { name: "Mathématiques", color: "bg-akili-blue-500", count: 12, icon: Trophy },
+    { name: "Sciences", color: "bg-akili-green-500", count: 6, icon: Star },
+    { name: "Français", color: "bg-akili-orange-500", count: 4, icon: BookOpen },
+    { name: "Géographie", color: "bg-akili-teal-500", count: 3, icon: Target },
+    { name: "Arts", color: "bg-akili-yellow-500", count: 2, icon: Star }
   ];
 
   const filteredQuizzes = quizzes.filter(quiz => {
@@ -84,27 +84,27 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--colors-grey-200)' }}>
       {/* Header avec barre de recherche */}
-      <div className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+      <div className="bg-white shadow-akili-sm border-b border-akili-grey-400 px-s24 py-s16">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Université AKILI</h1>
-              <p className="text-gray-600">Espace Éducateur</p>
+              <h1 className="text-h2-black text-akili-purple-500">Université AKILI</h1>
+              <p className="text-body1-medium text-akili-grey-700">Espace Éducateur</p>
             </div>
             <div className="relative w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-5 h-5" />
               <Input
                 placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-gray-200 focus:border-purple-300 focus:ring-purple-300"
+                className="pl-10 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
               />
             </div>
             <div className="flex items-center space-x-2">
               <Select value={filterSubject} onValueChange={setFilterSubject}>
-                <SelectTrigger className="w-48 border-gray-200">
+                <SelectTrigger className="w-48 border-akili-grey-400">
                   <SelectValue placeholder="Trier par: Plus récent" />
                 </SelectTrigger>
                 <SelectContent>
@@ -115,7 +115,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
               </Select>
               <Button 
                 onClick={() => setIsCreateDialogOpen(true)}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold px-6"
+                className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s24"
               >
                 Créer
               </Button>
@@ -124,23 +124,23 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
         {/* Dossiers */}
-        <div className="space-y-4">
+        <div className="space-y-s16">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Dossiers (6) <Button variant="link" className="text-green-600 p-0 ml-2">Créer nouveau</Button></h2>
+            <h2 className="text-h4-bold text-akili-grey-800">Dossiers (6) <Button variant="link" className="text-akili-green-500 p-0 ml-2">Créer nouveau</Button></h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-s16">
             {folders.map((folder, index) => (
-              <Card key={index} className="bg-white hover:shadow-md transition-all duration-300 cursor-pointer border-0 shadow-sm">
-                <CardContent className="p-4">
+              <Card key={index} className="bg-white hover:shadow-akili-md transition-all duration-fast cursor-pointer border-0 shadow-akili-sm">
+                <CardContent className="p-s16">
                   <div className="flex items-center space-x-3">
-                    <div className={`w-8 h-8 rounded-lg ${folder.color} flex items-center justify-center`}>
-                      <div className="w-4 h-4 bg-white rounded-sm opacity-80"></div>
+                    <div className={`w-8 h-8 rounded-akili-md ${folder.color} flex items-center justify-center`}>
+                      <folder.icon className="w-4 h-4 text-white" />
                     </div>
-                    <span className="font-medium text-gray-900">{folder.name}</span>
+                    <span className="font-akili-medium text-akili-grey-800">{folder.name}</span>
                     <Button variant="ghost" size="sm" className="ml-auto p-1">
-                      <MoreHorizontal className="w-4 h-4 text-gray-400" />
+                      <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
                     </Button>
                   </div>
                 </CardContent>
@@ -150,32 +150,22 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
         </div>
 
         {/* Jeux */}
-        <div className="space-y-4">
+        <div className="space-y-s16">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-gray-900">Kahoots (5) <Button variant="link" className="text-green-600 p-0 ml-2">Créer nouveau</Button></h2>
+            <h2 className="text-h4-bold text-akili-grey-800">Jeux (5) <Button variant="link" className="text-akili-green-500 p-0 ml-2">Créer nouveau</Button></h2>
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm" className="border-gray-200">
-                <div className="w-4 h-4 grid grid-cols-2 gap-0.5">
-                  <div className="bg-gray-400 rounded-sm"></div>
-                  <div className="bg-gray-400 rounded-sm"></div>
-                  <div className="bg-gray-400 rounded-sm"></div>
-                  <div className="bg-gray-400 rounded-sm"></div>
-                </div>
+              <Button variant="outline" size="sm" className="border-akili-grey-400">
+                <Grid3X3 className="w-4 h-4 text-akili-grey-600" />
               </Button>
-              <Button variant="outline" size="sm" className="border-gray-200">
-                <div className="w-4 h-4 flex flex-col gap-0.5">
-                  <div className="bg-gray-400 h-0.5 rounded"></div>
-                  <div className="bg-gray-400 h-0.5 rounded"></div>
-                  <div className="bg-gray-400 h-0.5 rounded"></div>
-                  <div className="bg-gray-400 h-0.5 rounded"></div>
-                </div>
+              <Button variant="outline" size="sm" className="border-akili-grey-400">
+                <List className="w-4 h-4 text-akili-grey-600" />
               </Button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-s24">
             {filteredQuizzes.map((quiz) => (
-              <Card key={quiz.id} className="group hover:shadow-md transition-all duration-300 border-0 shadow-sm bg-white overflow-hidden">
+              <Card key={quiz.id} className="group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white overflow-hidden">
                 <div className="relative">
                   <img 
                     src={quiz.image} 
@@ -198,7 +188,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                           <Play className="w-4 h-4 mr-2" />
                           Lancer
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
+                        <DropdownMenuItem className="text-akili-red-500">
                           <Trash2 className="w-4 h-4 mr-2" />
                           Supprimer
                         </DropdownMenuItem>
@@ -206,33 +196,33 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                     </DropdownMenu>
                   </div>
                   <div className="absolute bottom-3 left-3">
-                    <span className="text-white text-sm font-medium bg-black/20 px-2 py-1 rounded">
+                    <span className="text-white text-body3-medium bg-black/20 px-s8 py-s4 rounded-akili-sm">
                       {quiz.questions} Questions
                     </span>
                   </div>
                 </div>
                 
-                <CardContent className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                <CardContent className="p-s16">
+                  <h3 className="font-akili-bold text-akili-grey-800 mb-s8 line-clamp-2">
                     {quiz.title}
                   </h3>
                   
-                  <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+                  <div className="flex items-center justify-between text-body3-medium text-akili-grey-600 mb-s12">
                     <span>Par AKILI</span>
                     <span>Créé {quiz.lastPlayed}</span>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                      <span className="text-sm text-gray-600">Pas visible</span>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
-                      <span className="text-sm text-gray-600">Marqué</span>
+                      <div className="w-2 h-2 bg-akili-grey-500 rounded-full"></div>
+                      <span className="text-body4-medium text-akili-grey-600">Pas visible</span>
+                      <div className="w-2 h-2 bg-akili-grey-500 rounded-full"></div>
+                      <span className="text-body4-medium text-akili-grey-600">Marqué</span>
                     </div>
                     <Button 
                       size="sm"
                       onClick={() => onNavigate("session-live")}
-                      className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4"
+                      className="bg-akili-green-500 hover:bg-akili-green-700 text-white font-akili-bold px-s16"
                     >
                       Jouer
                     </Button>
@@ -244,21 +234,21 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
         </div>
 
         {filteredQuizzes.length === 0 && (
-          <div className="text-center py-12">
-            <BookOpen className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-600 mb-2">Aucun quiz trouvé</h3>
-            <p className="text-gray-500 mb-4">
+          <div className="text-center py-s48">
+            <Brain className="w-16 h-16 text-akili-grey-500 mx-auto mb-s16" />
+            <h3 className="text-h5-medium text-akili-grey-700 mb-s8">Aucun jeu trouvé</h3>
+            <p className="text-body2-medium text-akili-grey-600 mb-s16">
               {searchTerm || filterSubject !== "all" 
                 ? "Essayez de modifier vos critères de recherche"
-                : "Commencez par créer votre premier quiz"
+                : "Commencez par créer votre premier jeu"
               }
             </p>
             <Button 
               onClick={() => setIsCreateDialogOpen(true)}
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+              className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Créer un Quiz
+              Créer un Jeu
             </Button>
           </div>
         )}
@@ -268,24 +258,24 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-gray-900">Créer un Nouveau Quiz</DialogTitle>
+            <DialogTitle className="text-akili-grey-800">Créer un Nouveau Jeu</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-s16">
             <div>
-              <Label htmlFor="game-name" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="game-name" className="text-body2-medium text-akili-grey-700">
                 Nom du Jeu *
               </Label>
               <Input
                 id="game-name"
                 value={newGameName}
                 onChange={(e) => setNewGameName(e.target.value)}
-                placeholder="Ex: Quiz de Géographie"
-                className="mt-1 border-gray-200 focus:border-purple-300 focus:ring-purple-300"
+                placeholder="Ex: Jeu de Géographie"
+                className="mt-1 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
               />
             </div>
             
             <div>
-              <Label htmlFor="game-image" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="game-image" className="text-body2-medium text-akili-grey-700">
                 URL de l'Image
               </Label>
               <Input
@@ -293,7 +283,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                 value={newGameImage}
                 onChange={(e) => setNewGameImage(e.target.value)}
                 placeholder="https://example.com/image.jpg"
-                className="mt-1 border-gray-200 focus:border-purple-300 focus:ring-purple-300"
+                className="mt-1 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
               />
             </div>
 
@@ -302,7 +292,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                 <img 
                   src={newGameImage} 
                   alt="Aperçu"
-                  className="w-full h-32 object-cover rounded-lg border border-gray-200"
+                  className="w-full h-32 object-cover rounded-akili-md border border-akili-grey-400"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
                   }}
@@ -314,16 +304,16 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
               <Button 
                 variant="outline" 
                 onClick={() => setIsCreateDialogOpen(false)}
-                className="border-gray-200 text-gray-600 hover:bg-gray-50"
+                className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
               >
                 Annuler
               </Button>
               <Button 
                 onClick={handleCreateGame}
                 disabled={!newGameName.trim()}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+                className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white"
               >
-                Créer le Quiz
+                Créer le Jeu
               </Button>
             </div>
           </div>
