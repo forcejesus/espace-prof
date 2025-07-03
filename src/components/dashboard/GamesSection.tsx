@@ -13,7 +13,7 @@ interface GamesSectionProps {
 }
 
 export function GamesSection({ onNavigate, searchTerm, filterSubject }: GamesSectionProps) {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [localSearch, setLocalSearch] = useState("");
   const [sortBy, setSortBy] = useState("recent");
   const games = [
@@ -121,144 +121,66 @@ export function GamesSection({ onNavigate, searchTerm, filterSubject }: GamesSec
               Créer nouveau
             </Button>
             
-            <div className="flex space-x-s4">
-              <Button 
-                variant={viewMode === 'grid' ? 'default' : 'outline'} 
-                size="sm" 
-                className={viewMode === 'grid' ? 'bg-akili-purple-500 text-white' : 'border-akili-grey-400'}
-                onClick={() => setViewMode('grid')}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </Button>
-              <Button 
-                variant={viewMode === 'list' ? 'default' : 'outline'} 
-                size="sm" 
-                className={viewMode === 'list' ? 'bg-akili-purple-500 text-white' : 'border-akili-grey-400'}
-                onClick={() => setViewMode('list')}
-              >
-                <List className="w-4 h-4" />
-              </Button>
-            </div>
           </div>
         </div>
       </div>
 
-      {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-s24">
-          {filteredGames.map((game, index) => (
-            <Card key={game.id} className={`group hover:shadow-akili-lg transition-all duration-fast border-0 shadow-akili-md bg-white overflow-hidden transform hover:-translate-y-1 animate-scale-in animate-delay-${(index % 3 + 1) * 100}`}>
-              <div className="relative">
+      <div className="space-y-s16">
+        {filteredGames.map((game, index) => (
+          <Card key={game.id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-slide-in-left animate-delay-${(index % 5 + 1) * 100}`}>
+            <CardContent className="p-s20">
+              <div className="flex items-center space-x-s20">
                 <img 
                   src={game.image} 
                   alt={game.title}
-                  className="w-full h-40 object-cover"
+                  className="w-20 h-20 object-cover rounded-akili-lg flex-shrink-0"
                 />
-                <div className="absolute top-s12 right-s12 bg-white rounded-full p-s8 shadow-akili-md">
-                  <Button variant="ghost" size="sm" className="p-1 h-auto">
-                    <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
-                  </Button>
-                </div>
-                <div className="absolute bottom-s12 left-s12">
-                  <Badge className="bg-black/20 text-white font-akili-bold backdrop-blur-sm">
-                    {game.questions} Questions
-                  </Badge>
+                
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold truncate">
+                        {game.title}
+                      </h3>
+                      <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
+                        <span className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-s4" />
+                          Créé {game.lastPlayed}
+                        </span>
+                        <span>{game.questions} questions</span>
+                        <span>{game.plays} lectures</span>
+                      </div>
+                      <div className="flex items-center space-x-s8">
+                        <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
+                          {game.subject}
+                        </Badge>
+                        <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
+                          {game.difficulty}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-s8 flex-shrink-0">
+                      <Button variant="ghost" size="sm" className="p-2">
+                        <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
+                      </Button>
+                      <Button 
+                        size="sm"
+                        onClick={() => onNavigate("session-live")}
+                        className="text-white font-akili-bold px-s20"
+                        style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
+                      >
+                        <Play className="w-4 h-4 mr-s8" />
+                        Jouer
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-              <CardContent className="p-s20">
-                <div className="space-y-s16">
-                  <div>
-                    <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold leading-tight">
-                      {game.title}
-                    </h3>
-                    <div className="flex items-center justify-between text-body3-medium text-akili-grey-600">
-                      <span className="font-akili-medium">Par AKILI</span>
-                      <span>Créé {game.lastPlayed}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-s12 border-t border-akili-grey-400">
-                    <div className="flex items-center space-x-s12">
-                      <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
-                        {game.subject}
-                      </Badge>
-                      <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
-                        {game.difficulty}
-                      </Badge>
-                    </div>
-                    <Button 
-                      size="sm"
-                      onClick={() => onNavigate("session-live")}
-                      className="text-white font-akili-bold px-s20"
-                      style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
-                    >
-                      <Play className="w-4 h-4 mr-s8" />
-                      Jouer
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        <div className="space-y-s16">
-          {filteredGames.map((game, index) => (
-            <Card key={game.id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-slide-in-left animate-delay-${(index % 5 + 1) * 100}`}>
-              <CardContent className="p-s20">
-                <div className="flex items-center space-x-s20">
-                  <img 
-                    src={game.image} 
-                    alt={game.title}
-                    className="w-20 h-20 object-cover rounded-akili-lg flex-shrink-0"
-                  />
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold truncate">
-                          {game.title}
-                        </h3>
-                        <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
-                          <span className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-s4" />
-                            Créé {game.lastPlayed}
-                          </span>
-                          <span>{game.questions} questions</span>
-                          <span>{game.plays} lectures</span>
-                        </div>
-                        <div className="flex items-center space-x-s8">
-                          <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
-                            {game.subject}
-                          </Badge>
-                          <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
-                            {game.difficulty}
-                          </Badge>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center space-x-s8 flex-shrink-0">
-                        <Button variant="ghost" size="sm" className="p-2">
-                          <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
-                        </Button>
-                        <Button 
-                          size="sm"
-                          onClick={() => onNavigate("session-live")}
-                          className="text-white font-akili-bold px-s20"
-                          style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
-                        >
-                          <Play className="w-4 h-4 mr-s8" />
-                          Jouer
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

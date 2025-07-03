@@ -270,7 +270,7 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--fontFamily-primaryFamily) !important;
-    background: linear-gradient(135deg, #fef9f5 0%, #fff7ed 50%, #fef2e2 100%);
+    background: linear-gradient(135deg, #fafafa 0%, #f8fafc 50%, #f1f5f9 100%);
     color: var(--colors-grey-800);
     min-height: 100vh;
   }

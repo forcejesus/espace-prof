@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { StatsCards } from "./dashboard/StatsCards";
-import { FoldersSection } from "./dashboard/FoldersSection";
 import { QuickActions } from "./dashboard/QuickActions";
 import { GamesSection } from "./dashboard/GamesSection";
 
@@ -26,8 +25,6 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         />
         
         <StatsCards />
-        
-        <FoldersSection />
         
         <QuickActions onNavigate={onNavigate} />
         

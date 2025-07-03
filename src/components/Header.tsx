@@ -1,8 +1,9 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, GamepadIcon, Calendar, User, Menu, X } from "lucide-react";
+import { LayoutDashboard, GamepadIcon, Calendar, User, Menu, X, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export function Header() {
   const location = useLocation();
@@ -62,6 +63,25 @@ export function Header() {
                 {item.title}
               </Link>
             ))}
+            
+            {/* Dropdown Menu Paramètres */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-orange-600 p-2">
+                  <Settings className="w-5 h-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <Settings className="w-4 h-4 mr-2" />
+                  Mes paramètres
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-red-600">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Se déconnecter
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
 
           {/* Menu Mobile */}

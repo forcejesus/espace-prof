@@ -85,148 +85,126 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--colors-grey-200)' }}>
-      {/* Header avec barre de recherche */}
-      <div className="bg-white shadow-akili-sm border-b border-akili-grey-400 px-s24 py-s16">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div className="relative w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-5 h-5" />
-              <Input
-                placeholder="Rechercher..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
-              />
-            </div>
-            <div className="flex items-center space-x-2">
+      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
+        {/* Header avec filtres avancés */}
+        <div className="space-y-s20 animate-fade-in-up animate-delay-300">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
+            <h2 className="text-h3-bold text-akili-grey-800">Mes Jeux ({filteredQuizzes.length})</h2>
+            
+            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-s12">
+              {/* Recherche locale */}
+              <div className="relative">
+                <Search className="absolute left-s12 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-4 h-4" />
+                <Input
+                  placeholder="Rechercher un jeu..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-s36 w-72 border-akili-grey-400 focus:border-akili-purple-500"
+                />
+              </div>
+              
+              {/* Filtres */}
               <Select value={filterSubject} onValueChange={setFilterSubject}>
                 <SelectTrigger className="w-48 border-akili-grey-400">
-                  <SelectValue placeholder="Trier par: Plus récent" />
+                  <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
+                  <SelectValue placeholder="Trier par matière" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Toutes matières</SelectItem>
-                  <SelectItem value="recent">Plus récent</SelectItem>
-                  <SelectItem value="popular">Plus populaire</SelectItem>
+                  <SelectItem value="Histoire">Histoire</SelectItem>
+                  <SelectItem value="Mathématiques">Mathématiques</SelectItem>
+                  <SelectItem value="Sciences">Sciences</SelectItem>
+                  <SelectItem value="Français">Français</SelectItem>
+                  <SelectItem value="Géographie">Géographie</SelectItem>
                 </SelectContent>
               </Select>
+              
               <Button 
-                onClick={() => setIsCreateDialogOpen(true)}
-                className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s24"
+                variant="link" 
+                className="text-akili-green-500 p-0 font-akili-bold"
+                onClick={() => onNavigate("creer-quiz")}
               >
-                Créer
+                <Plus className="w-4 h-4 mr-s8" />
+                Créer nouveau
               </Button>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
-        {/* Dossiers */}
+        {/* Jeux en mode liste */}
         <div className="space-y-s16">
-          <div className="flex items-center justify-between">
-            <h2 className="text-h4-bold text-akili-grey-800">Dossiers (6) <Button variant="link" className="text-akili-green-500 p-0 ml-2">Créer nouveau</Button></h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-s16">
-            {folders.map((folder, index) => (
-              <Card key={index} className="bg-white hover:shadow-akili-md transition-all duration-fast cursor-pointer border-0 shadow-akili-sm">
-                <CardContent className="p-s16">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-8 h-8 rounded-akili-md ${folder.color} flex items-center justify-center`}>
-                      <folder.icon className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="font-akili-medium text-akili-grey-800">{folder.name}</span>
-                    <Button variant="ghost" size="sm" className="ml-auto p-1">
-                      <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Jeux */}
-        <div className="space-y-s16">
-          <div className="flex items-center justify-between">
-            <h2 className="text-h4-bold text-akili-grey-800">Jeux (5) <Button variant="link" className="text-akili-green-500 p-0 ml-2">Créer nouveau</Button></h2>
-            <div className="flex space-x-2">
-              <Button variant="outline" size="sm" className="border-akili-grey-400">
-                <Grid3X3 className="w-4 h-4 text-akili-grey-600" />
-              </Button>
-              <Button variant="outline" size="sm" className="border-akili-grey-400">
-                <List className="w-4 h-4 text-akili-grey-600" />
-              </Button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-s24">
-            {filteredQuizzes.map((quiz) => (
-              <Card key={quiz.id} className="group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white overflow-hidden">
-                <div className="relative">
+          {filteredQuizzes.map((quiz, index) => (
+            <Card key={quiz.id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-slide-in-left animate-delay-${(index % 5 + 1) * 100}`}>
+              <CardContent className="p-s20">
+                <div className="flex items-center space-x-s20">
                   <img 
                     src={quiz.image} 
                     alt={quiz.title}
-                    className="w-full h-32 object-cover"
+                    className="w-20 h-20 object-cover rounded-akili-lg flex-shrink-0"
                   />
-                  <div className="absolute top-3 right-3">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="bg-white/80 hover:bg-white rounded-full p-1">
-                          <MoreHorizontal className="w-4 h-4" />
+                  
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold truncate">
+                          {quiz.title}
+                        </h3>
+                        <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
+                          <span className="flex items-center">
+                            <Clock className="w-4 h-4 mr-s4" />
+                            Créé {quiz.lastPlayed}
+                          </span>
+                          <span>{quiz.questions} questions</span>
+                          <span>{quiz.plays} lectures</span>
+                        </div>
+                        <div className="flex items-center space-x-s8">
+                          <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
+                            {quiz.subject}
+                          </Badge>
+                          <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
+                            {quiz.difficulty}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-s8 flex-shrink-0">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="sm" className="p-2">
+                              <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => onEditQuiz(quiz)}>
+                              <Edit className="w-4 h-4 mr-2" />
+                              Modifier
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => onNavigate("session-live")}>
+                              <Play className="w-4 h-4 mr-2" />
+                              Lancer
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-akili-red-500">
+                              <Trash2 className="w-4 h-4 mr-2" />
+                              Supprimer
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        <Button 
+                          size="sm"
+                          onClick={() => onNavigate("session-live")}
+                          className="text-white font-akili-bold px-s20"
+                          style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
+                        >
+                          <Play className="w-4 h-4 mr-s8" />
+                          Jouer
                         </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem onClick={() => onEditQuiz(quiz)}>
-                          <Edit className="w-4 h-4 mr-2" />
-                          Modifier
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => onNavigate("session-live")}>
-                          <Play className="w-4 h-4 mr-2" />
-                          Lancer
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="text-akili-red-500">
-                          <Trash2 className="w-4 h-4 mr-2" />
-                          Supprimer
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                  <div className="absolute bottom-3 left-3">
-                    <span className="text-white text-body3-medium bg-black/20 px-s8 py-s4 rounded-akili-sm">
-                      {quiz.questions} Questions
-                    </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                
-                <CardContent className="p-s16">
-                  <h3 className="font-akili-bold text-akili-grey-800 mb-s8 line-clamp-2">
-                    {quiz.title}
-                  </h3>
-                  
-                  <div className="flex items-center justify-between text-body3-medium text-akili-grey-600 mb-s12">
-                    <span>Par AKILI</span>
-                    <span>Créé {quiz.lastPlayed}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-akili-grey-500 rounded-full"></div>
-                      <span className="text-body4-medium text-akili-grey-600">Pas visible</span>
-                      <div className="w-2 h-2 bg-akili-grey-500 rounded-full"></div>
-                      <span className="text-body4-medium text-akili-grey-600">Marqué</span>
-                    </div>
-                    <Button 
-                      size="sm"
-                      onClick={() => onNavigate("session-live")}
-                      className="bg-akili-green-500 hover:bg-akili-green-700 text-white font-akili-bold px-s16"
-                    >
-                      Jouer
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
         {filteredQuizzes.length === 0 && (
