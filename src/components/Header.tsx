@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Gamepad2, Calendar, User, Menu, X } from "lucide-react";
+import { LayoutDashboard, GamepadIcon, Calendar, User, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -12,9 +12,14 @@ export function Header() {
 
   const menuItems = [
     {
+      title: "Tableau de Bord",
+      href: "/",
+      icon: LayoutDashboard,
+    },
+    {
       title: "Mes Jeux",
       href: "/mes-jeux",
-      icon: Gamepad2,
+      icon: GamepadIcon,
     },
     {
       title: "Planification",
@@ -29,31 +34,31 @@ export function Header() {
   ];
 
   return (
-    <header className="bg-white border-b-2 shadow-md sticky top-0 z-50" style={{ borderBottomColor: '#f97316' }}>
+    <header className="bg-white border-b-2 shadow-lg sticky top-0 z-50" style={{ borderBottomColor: '#f97316' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <div>
-              <h1 className="text-2xl font-bold" style={{ color: '#f97316' }}>AKILI</h1>
-              <p className="text-xs text-gray-600 font-medium">Espace Éducateur</p>
+            <div className="text-center">
+              <h1 className="text-3xl font-black tracking-tight" style={{ color: '#f97316' }}>AKILI</h1>
+              <p className="text-xs text-gray-700 font-semibold uppercase tracking-wide">Espace Éducateur</p>
             </div>
           </Link>
 
           {/* Navigation Desktop */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-2">
             {menuItems.map((item) => (
               <Link
                 key={item.title}
                 to={item.href}
-                className={`flex items-center px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                className={`flex items-center px-5 py-3 rounded-xl text-sm font-bold transition-all duration-300 shadow-sm ${
                   isActive(item.href)
-                    ? "text-white shadow-lg"
-                    : "text-gray-700 hover:bg-orange-50"
+                    ? "text-white shadow-lg transform scale-105"
+                    : "text-gray-700 hover:bg-orange-50 hover:text-orange-600 hover:shadow-md"
                 }`}
-                style={isActive(item.href) ? { background: '#f97316' } : {}}
+                style={isActive(item.href) ? { background: 'linear-gradient(135deg, #f97316, #ea580c)' } : {}}
               >
-                <item.icon className="w-4 h-4 mr-2" />
+                <item.icon className="w-5 h-5 mr-3" />
                 {item.title}
               </Link>
             ))}
@@ -65,9 +70,9 @@ export function Header() {
               variant="ghost"
               size="sm"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-700"
+              className="text-gray-700 hover:text-orange-600"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </Button>
           </div>
         </div>
@@ -81,14 +86,14 @@ export function Header() {
                   key={item.title}
                   to={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`flex items-center px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                  className={`flex items-center px-5 py-4 rounded-xl text-sm font-bold transition-all duration-300 ${
                     isActive(item.href)
                       ? "text-white shadow-lg"
-                      : "text-gray-700 hover:bg-orange-50"
+                      : "text-gray-700 hover:bg-orange-50 hover:text-orange-600"
                   }`}
-                  style={isActive(item.href) ? { background: '#f97316' } : {}}
+                  style={isActive(item.href) ? { background: 'linear-gradient(135deg, #f97316, #ea580c)' } : {}}
                 >
-                  <item.icon className="w-4 h-4 mr-3" />
+                  <item.icon className="w-5 h-5 mr-3" />
                   {item.title}
                 </Link>
               ))}
