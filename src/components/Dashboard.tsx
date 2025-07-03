@@ -1,3 +1,4 @@
+
 import { Gamepad2, Calendar, Users, TrendingUp, Award, ArrowRight, Play, History, UserPlus, Filter, Search, Plus, MoreHorizontal, Folder, Grid3X3, List, Star, BookOpen, Trophy, Target, Brain, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -47,11 +48,11 @@ export function Dashboard({ onNavigate }: DashboardProps) {
 
   const quickActions = [
     {
-      title: "Nouveau Jeu",
+      title: "Nouveau Jeux",
       description: "Créez un nouveau jeu éducatif",
       icon: Zap,
       iconColor: "text-white",
-      iconBg: "bg-akili-purple-500",
+      iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
       onClick: () => onNavigate("creer-quiz")
     },
     {
@@ -59,23 +60,23 @@ export function Dashboard({ onNavigate }: DashboardProps) {
       description: "Organisez une session de jeu",
       icon: Target,
       iconColor: "text-white",
-      iconBg: "bg-akili-blue-500",
+      iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
       onClick: () => onNavigate("planification")
     },
     {
-      title: "Historique",
-      description: "Consultez vos planifications",
+      title: "Historique des Planifications",
+      description: "Consultez vos planifications passées",
       icon: History,
       iconColor: "text-white",
-      iconBg: "bg-akili-teal-500",
+      iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
       onClick: () => onNavigate("historique-planification")
     },
     {
-      title: "Groupes",
-      description: "Gérez vos groupes et apprenants",
+      title: "Gestion des Apprenants",
+      description: "Gérez vos apprenants et groupes",
       icon: UserPlus,
       iconColor: "text-white",
-      iconBg: "bg-akili-green-500",
+      iconBg: "bg-gradient-to-br from-orange-500 to-orange-600",
       onClick: () => onNavigate("groupe-apprenant")
     }
   ];
@@ -110,6 +111,26 @@ export function Dashboard({ onNavigate }: DashboardProps) {
       questions: 20,
       plays: 89,
       lastPlayed: "Il y a 1 semaine"
+    },
+    {
+      id: 4,
+      title: "Français - Grammaire",
+      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
+      subject: "Français",
+      difficulty: "Facile",
+      questions: 12,
+      plays: 178,
+      lastPlayed: "Il y a 3 jours"
+    },
+    {
+      id: 5,
+      title: "Géographie - Capitales du Monde",
+      image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=400&h=300&fit=crop",
+      subject: "Géographie",
+      difficulty: "Intermédiaire",
+      questions: 25,
+      plays: 134,
+      lastPlayed: "Il y a 1 jour"
     }
   ];
 
@@ -131,10 +152,17 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
       <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
-        {/* Header simple sans barre de recherche secondaire */}
+        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-h2-black text-akili-purple-500">Tableau de Bord</h1>
+            <h1 className="text-h2-black" style={{ 
+              background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
+              Tableau de Bord
+            </h1>
             <p className="text-body1-medium text-akili-grey-700">Bienvenue dans votre espace éducateur</p>
           </div>
           <div className="flex items-center space-x-s16">
@@ -159,7 +187,8 @@ export function Dashboard({ onNavigate }: DashboardProps) {
             </Select>
             <Button 
               onClick={() => onNavigate("creer-quiz")}
-              className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s24"
+              className="text-white font-akili-bold px-s24"
+              style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
             >
               Créer
             </Button>
@@ -169,41 +198,52 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         {/* Statistiques */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-s24">
           {stats.map((stat, index) => (
-            <Card key={index} className="bg-white shadow-akili-sm border-0 hover:shadow-akili-md transition-all duration-fast">
+            <Card key={index} className="bg-white shadow-akili-lg border-0 hover:shadow-akili-intense transition-all duration-fast transform hover:-translate-y-1">
               <CardContent className="p-s24">
-                <div className="flex items-center justify-between mb-s16">
-                  <div className={`w-12 h-12 rounded-akili-lg ${stat.bgColor} flex items-center justify-center`}>
-                    <stat.icon className="w-6 h-6 text-white" />
+                <div className="flex items-center justify-between mb-s20">
+                  <div className={`w-14 h-14 rounded-akili-xl ${stat.bgColor} flex items-center justify-center shadow-akili-md`}>
+                    <stat.icon className="w-7 h-7 text-white" />
                   </div>
                   <div className="text-right">
-                    <p className="text-h3-black text-akili-grey-800">{stat.value}</p>
-                    <p className="text-body3-medium text-akili-grey-600">{stat.change}</p>
+                    <p className="text-h2-black text-akili-grey-800 mb-s4">{stat.value}</p>
+                    <p className="text-body3-medium text-akili-green-500 font-akili-bold">{stat.change}</p>
                   </div>
                 </div>
-                <h3 className="text-h5-bold text-akili-grey-800 mb-s4">{stat.title}</h3>
-                {stat.subtitle && (
-                  <p className="text-body4-medium text-akili-grey-600">{stat.subtitle}</p>
-                )}
+                <div>
+                  <h3 className="text-h4-bold text-akili-grey-800 mb-s8">{stat.title}</h3>
+                  {stat.subtitle && (
+                    <p className="text-body3-medium text-akili-grey-600">{stat.subtitle}</p>
+                  )}
+                </div>
               </CardContent>
             </Card>
           ))}
         </div>
 
         {/* Dossiers */}
-        <div className="space-y-s16">
+        <div className="space-y-s20">
           <div className="flex items-center justify-between">
-            <h2 className="text-h4-bold text-akili-grey-800">Dossiers (6) <Button variant="link" className="text-akili-green-500 p-0 ml-2">Créer nouveau</Button></h2>
+            <h2 className="text-h3-bold text-akili-grey-800">Dossiers ({folders.length})</h2>
+            <Button variant="link" className="text-akili-green-500 p-0 font-akili-bold">
+              <Plus className="w-4 h-4 mr-s8" />
+              Créer nouveau
+            </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-s16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-s20">
             {folders.map((folder, index) => (
-              <Card key={index} className="bg-white hover:shadow-akili-md transition-all duration-fast cursor-pointer border-0 shadow-akili-sm">
-                <CardContent className="p-s16">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-8 h-8 rounded-akili-md ${folder.color} flex items-center justify-center`}>
-                      <folder.icon className="w-4 h-4 text-white" />
+              <Card key={index} className="bg-white hover:shadow-akili-lg transition-all duration-fast cursor-pointer border-0 shadow-akili-md transform hover:-translate-y-1">
+                <CardContent className="p-s20">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-s12">
+                      <div className={`w-10 h-10 rounded-akili-lg ${folder.color} flex items-center justify-center shadow-akili-sm`}>
+                        <folder.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <div>
+                        <span className="font-akili-bold text-akili-grey-800">{folder.name}</span>
+                        <p className="text-body4-medium text-akili-grey-600">{folder.count} jeux</p>
+                      </div>
                     </div>
-                    <span className="font-akili-medium text-akili-grey-800">{folder.name}</span>
-                    <Button variant="ghost" size="sm" className="ml-auto p-1">
+                    <Button variant="ghost" size="sm" className="p-1">
                       <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
                     </Button>
                   </div>
@@ -214,19 +254,19 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         </div>
 
         {/* Actions rapides */}
-        <div className="space-y-s16">
-          <h2 className="text-h4-bold text-akili-grey-800">Actions Rapides</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-s16">
+        <div className="space-y-s20">
+          <h2 className="text-h3-bold text-akili-grey-800">Actions Rapides</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-s20">
             {quickActions.map((action, index) => (
-              <Card key={index} className="group cursor-pointer hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white" onClick={action.onClick}>
-                <CardContent className="p-s24">
-                  <div className="flex flex-col items-center text-center space-y-s16">
-                    <div className={`w-16 h-16 rounded-akili-xl ${action.iconBg} flex items-center justify-center shadow-akili-md group-hover:scale-105 transition-transform duration-fast`}>
-                      <action.icon className={`w-8 h-8 ${action.iconColor}`} />
+              <Card key={index} className="group cursor-pointer hover:shadow-akili-lg transition-all duration-fast border-0 shadow-akili-md bg-white transform hover:-translate-y-2" onClick={action.onClick}>
+                <CardContent className="p-s28">
+                  <div className="flex flex-col items-center text-center space-y-s20">
+                    <div className={`w-20 h-20 rounded-akili-xl ${action.iconBg} flex items-center justify-center shadow-akili-lg group-hover:scale-110 transition-transform duration-fast`}>
+                      <action.icon className={`w-10 h-10 ${action.iconColor}`} />
                     </div>
                     <div>
-                      <h3 className="font-akili-bold text-akili-grey-800 mb-s8">{action.title}</h3>
-                      <p className="text-body3-medium text-akili-grey-600">{action.description}</p>
+                      <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold">{action.title}</h3>
+                      <p className="text-body3-medium text-akili-grey-600 leading-relaxed">{action.description}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -236,64 +276,77 @@ export function Dashboard({ onNavigate }: DashboardProps) {
         </div>
 
         {/* Jeux récents */}
-        <div className="space-y-s16">
+        <div className="space-y-s20">
           <div className="flex items-center justify-between">
-            <h2 className="text-h4-bold text-akili-grey-800">Jeux (5) <Button variant="link" className="text-akili-green-500 p-0 ml-2">Créer nouveau</Button></h2>
-            <div className="flex space-x-2">
-              <Button variant="outline" size="sm" className="border-akili-grey-400">
-                <Grid3X3 className="w-4 h-4 text-akili-grey-600" />
+            <h2 className="text-h3-bold text-akili-grey-800">Mes Jeux ({games.length})</h2>
+            <div className="flex items-center space-x-s12">
+              <Button variant="link" className="text-akili-green-500 p-0 font-akili-bold">
+                <Plus className="w-4 h-4 mr-s8" />
+                Créer nouveau
               </Button>
-              <Button variant="outline" size="sm" className="border-akili-grey-400">
-                <List className="w-4 h-4 text-akili-grey-600" />
-              </Button>
+              <div className="flex space-x-s8">
+                <Button variant="outline" size="sm" className="border-akili-grey-400">
+                  <Grid3X3 className="w-4 h-4 text-akili-grey-600" />
+                </Button>
+                <Button variant="outline" size="sm" className="border-akili-grey-400">
+                  <List className="w-4 h-4 text-akili-grey-600" />
+                </Button>
+              </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-s24">
             {filteredGames.map((game) => (
-              <Card key={game.id} className="group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white overflow-hidden">
+              <Card key={game.id} className="group hover:shadow-akili-lg transition-all duration-fast border-0 shadow-akili-md bg-white overflow-hidden transform hover:-translate-y-1">
                 <div className="relative">
                   <img 
                     src={game.image} 
                     alt={game.title}
-                    className="w-full h-32 object-cover"
+                    className="w-full h-40 object-cover"
                   />
-                  <div className="absolute top-3 right-3 bg-white rounded-full p-1 shadow-akili-sm">
+                  <div className="absolute top-s12 right-s12 bg-white rounded-full p-s8 shadow-akili-md">
                     <Button variant="ghost" size="sm" className="p-1 h-auto">
                       <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
                     </Button>
                   </div>
-                  <div className="absolute bottom-3 left-3">
-                    <span className="text-white text-body3-medium bg-black/20 px-s8 py-s4 rounded-akili-sm">
+                  <div className="absolute bottom-s12 left-s12">
+                    <Badge className="bg-black/20 text-white font-akili-bold backdrop-blur-sm">
                       {game.questions} Questions
-                    </span>
+                    </Badge>
                   </div>
                 </div>
                 
-                <CardContent className="p-s16">
-                  <h3 className="font-akili-bold text-akili-grey-800 mb-s8 line-clamp-2">
-                    {game.title}
-                  </h3>
-                  
-                  <div className="flex items-center justify-between text-body3-medium text-akili-grey-600 mb-s12">
-                    <span>Par AKILI</span>
-                    <span>Créé {game.lastPlayed}</span>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-akili-grey-500 rounded-full"></div>
-                      <span className="text-body4-medium text-akili-grey-600">Pas visible</span>
-                      <div className="w-2 h-2 bg-akili-grey-500 rounded-full"></div>
-                      <span className="text-body4-medium text-akili-grey-600">Marqué</span>
+                <CardContent className="p-s20">
+                  <div className="space-y-s16">
+                    <div>
+                      <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold leading-tight">
+                        {game.title}
+                      </h3>
+                      <div className="flex items-center justify-between text-body3-medium text-akili-grey-600">
+                        <span className="font-akili-medium">Par AKILI</span>
+                        <span>Créé {game.lastPlayed}</span>
+                      </div>
                     </div>
-                    <Button 
-                      size="sm"
-                      onClick={() => onNavigate("session-live")}
-                      className="bg-akili-green-500 hover:bg-akili-green-700 text-white font-akili-bold px-s16"
-                    >
-                      Jouer
-                    </Button>
+
+                    <div className="flex items-center justify-between pt-s12 border-t border-akili-grey-400">
+                      <div className="flex items-center space-x-s12">
+                        <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
+                          {game.subject}
+                        </Badge>
+                        <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
+                          {game.difficulty}
+                        </Badge>
+                      </div>
+                      <Button 
+                        size="sm"
+                        onClick={() => onNavigate("session-live")}
+                        className="text-white font-akili-bold px-s20"
+                        style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
+                      >
+                        <Play className="w-4 h-4 mr-s8" />
+                        Jouer
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
