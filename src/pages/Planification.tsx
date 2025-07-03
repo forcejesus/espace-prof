@@ -68,16 +68,16 @@ const PlanificationPage = () => {
   });
 
   return (
-    <div className="p-4 md:p-8 space-y-8 font-mono">
+    <div className="p-4 md:p-8 space-y-8 font-sans">
       {/* Header */}
-      <div className="bg-gradient-to-r from-violet-500 to-violet-600 rounded-2xl p-8 shadow-xl">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 shadow-xl">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
             <Calendar className="w-8 h-8 text-white" />
           </div>
           <div>
             <h1 className="text-3xl font-bold text-white">Planification des Sessions</h1>
-            <p className="text-violet-100">Organisez et gérez vos sessions de jeu</p>
+            <p className="text-orange-100">Organisez et gérez vos sessions de jeu</p>
           </div>
         </div>
       </div>
@@ -86,17 +86,17 @@ const PlanificationPage = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center space-x-4 flex-1">
           <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-violet-400 w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 w-4 h-4" />
             <Input
               placeholder="Rechercher une planification..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 border-violet-200 focus:border-violet-500 focus:ring-violet-500"
+              className="pl-10 border-orange-200 focus:border-orange-500 focus:ring-orange-500"
             />
           </div>
           <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-40 border-violet-200 focus:border-violet-500">
-              <Filter className="w-4 h-4 mr-2 text-violet-500" />
+            <SelectTrigger className="w-40 border-orange-200 focus:border-orange-500">
+              <Filter className="w-4 h-4 mr-2 text-orange-500" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -108,7 +108,7 @@ const PlanificationPage = () => {
           </Select>
         </div>
 
-        <Button className="bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 text-white shadow-lg">
+        <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg">
           <Plus className="w-4 h-4 mr-2" />
           Nouvelle Planification
         </Button>
@@ -117,7 +117,7 @@ const PlanificationPage = () => {
       {/* Liste des Planifications */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {filteredPlanifications.map((plan) => (
-          <Card key={plan.id} className="border-2 border-violet-200 hover:shadow-xl transition-all duration-300">
+          <Card key={plan.id} className="border-2 border-orange-200 hover:shadow-xl transition-all duration-300">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="flex-1">
@@ -125,7 +125,7 @@ const PlanificationPage = () => {
                     {plan.title}
                   </CardTitle>
                   <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Gamepad2 className="w-4 h-4 text-violet-500" />
+                    <Gamepad2 className="w-4 h-4 text-orange-500" />
                     <span>{plan.game}</span>
                   </div>
                 </div>
@@ -138,15 +138,15 @@ const PlanificationPage = () => {
             <CardContent className="space-y-4">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center space-x-2">
-                  <Calendar className="w-4 h-4 text-violet-500" />
+                  <Calendar className="w-4 h-4 text-orange-500" />
                   <span>{plan.date}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-violet-500" />
+                  <Clock className="w-4 h-4 text-orange-500" />
                   <span>{plan.time} ({plan.duration})</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4 text-violet-500" />
+                  <Users className="w-4 h-4 text-orange-500" />
                   <span>{plan.participants} participants</span>
                 </div>
                 <div className="text-sm font-medium text-gray-700">
@@ -155,10 +155,10 @@ const PlanificationPage = () => {
               </div>
 
               <div className="flex space-x-2 pt-4">
-                <Button variant="outline" size="sm" className="border-violet-300 text-violet-700 hover:bg-violet-50">
+                <Button variant="outline" size="sm" className="border-orange-300 text-orange-700 hover:bg-orange-50">
                   Modifier
                 </Button>
-                <Button size="sm" className="bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 text-white">
+                <Button size="sm" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white">
                   Démarrer
                 </Button>
               </div>

@@ -44,44 +44,44 @@ const HistoriquePlanificationPage = () => {
   ];
 
   return (
-    <div className="p-4 md:p-8 space-y-8 font-mono">
+    <div className="p-4 md:p-8 space-y-8 font-sans">
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-2xl p-8 shadow-xl">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 shadow-xl">
         <div className="flex items-center space-x-4">
           <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
             <History className="w-8 h-8 text-white" />
           </div>
           <div>
             <h1 className="text-3xl font-bold text-white">Historique des Planifications</h1>
-            <p className="text-indigo-100">Consultez les résultats de vos sessions passées</p>
+            <p className="text-orange-100">Consultez les résultats de vos sessions passées</p>
           </div>
         </div>
       </div>
 
       {/* Statistiques globales */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <Card className="border-2 border-indigo-200">
+        <Card className="border-2 border-orange-200">
           <CardContent className="p-6 text-center">
-            <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <Calendar className="w-6 h-6 text-indigo-600" />
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <Calendar className="w-6 h-6 text-orange-600" />
             </div>
             <div className="text-2xl font-bold text-gray-900">47</div>
             <div className="text-sm text-gray-600">Sessions totales</div>
           </CardContent>
         </Card>
-        <Card className="border-2 border-green-200">
+        <Card className="border-2 border-orange-200">
           <CardContent className="p-6 text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <Users className="w-6 h-6 text-green-600" />
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <Users className="w-6 h-6 text-orange-600" />
             </div>
             <div className="text-2xl font-bold text-gray-900">1,248</div>
             <div className="text-sm text-gray-600">Participations</div>
           </CardContent>
         </Card>
-        <Card className="border-2 border-purple-200">
+        <Card className="border-2 border-orange-200">
           <CardContent className="p-6 text-center">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <TrendingUp className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3">
+              <TrendingUp className="w-6 h-6 text-orange-600" />
             </div>
             <div className="text-2xl font-bold text-gray-900">89%</div>
             <div className="text-sm text-gray-600">Taux de réussite</div>
@@ -101,17 +101,17 @@ const HistoriquePlanificationPage = () => {
       {/* Filtres */}
       <div className="flex flex-col md:flex-row md:items-center gap-4">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-indigo-400 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 w-4 h-4" />
           <Input
             placeholder="Rechercher dans l'historique..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 border-indigo-200 focus:border-indigo-500 focus:ring-indigo-500"
+            className="pl-10 border-orange-200 focus:border-orange-500 focus:ring-orange-500"
           />
         </div>
         <Select value={filterPeriod} onValueChange={setFilterPeriod}>
-          <SelectTrigger className="w-40 border-indigo-200 focus:border-indigo-500">
-            <Filter className="w-4 h-4 mr-2 text-indigo-500" />
+          <SelectTrigger className="w-40 border-orange-200 focus:border-orange-500">
+            <Filter className="w-4 h-4 mr-2 text-orange-500" />
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -126,7 +126,7 @@ const HistoriquePlanificationPage = () => {
       {/* Liste de l'historique */}
       <div className="space-y-4">
         {historique.map((session) => (
-          <Card key={session.id} className="border-2 border-indigo-200 hover:shadow-lg transition-all duration-300">
+          <Card key={session.id} className="border-2 border-orange-200 hover:shadow-lg transition-all duration-300">
             <CardContent className="p-6">
               <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
                 <div className="flex-1">
@@ -148,7 +148,7 @@ const HistoriquePlanificationPage = () => {
                     <div className="text-xs text-gray-600">Durée</div>
                   </div>
                   <div>
-                    <div className="text-lg font-bold text-purple-600">{session.score}/5</div>
+                    <div className="text-lg font-bold text-orange-600">{session.score}/5</div>
                     <div className="text-xs text-gray-600">Score</div>
                   </div>
                 </div>

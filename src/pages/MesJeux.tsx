@@ -16,7 +16,11 @@ const MesJeuxPage = () => {
     navigate("/creer-quiz", { state: { quiz } });
   };
 
-  return <QuizLibrary onNavigate={handleNavigate} onEditQuiz={handleEditQuiz} />;
+  return (
+    <div className="font-sans">
+      <QuizLibrary onNavigate={handleNavigate} onEditQuiz={handleEditQuiz} />
+    </div>
+  );
 };
 
 export default MesJeuxPage;

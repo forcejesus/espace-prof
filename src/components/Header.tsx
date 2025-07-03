@@ -29,17 +29,14 @@ export function Header() {
   ];
 
   return (
-    <header className="bg-white border-b shadow-md sticky top-0 z-50" style={{ borderBottomColor: '#f97316' }}>
+    <header className="bg-white border-b-2 shadow-md sticky top-0 z-50" style={{ borderBottomColor: '#f97316' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: '#f97316' }}>
-              <Gamepad2 className="w-6 h-6 text-white" />
-            </div>
+          <Link to="/" className="flex items-center">
             <div>
-              <h1 className="text-xl font-bold text-gray-900">AKILI</h1>
-              <p className="text-xs text-gray-600">Plateforme Éducative</p>
+              <h1 className="text-2xl font-bold" style={{ color: '#f97316' }}>AKILI</h1>
+              <p className="text-xs text-gray-600 font-medium">Espace Éducateur</p>
             </div>
           </Link>
 
