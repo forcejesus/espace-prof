@@ -26,9 +26,9 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				primary: {
-					DEFAULT: '#ea580c',
+					DEFAULT: '#f97316',
 					light: '#fb923c',
-					dark: '#c2410c',
+					dark: '#ea580c',
 					foreground: '#ffffff'
 				},
 				secondary: {
@@ -59,16 +59,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
-				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -76,9 +66,12 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			boxShadow: {
-				soft: "0 4px 20px rgba(234, 88, 12, 0.08)",
-				card: "0 8px 30px rgba(234, 88, 12, 0.12)",
-				intense: "0 10px 40px rgba(234, 88, 12, 0.15)"
+				soft: "0 4px 20px rgba(249, 115, 22, 0.08)",
+				card: "0 8px 30px rgba(249, 115, 22, 0.12)",
+				intense: "0 10px 40px rgba(249, 115, 22, 0.15)"
+			},
+			fontFamily: {
+				sans: ['Inter', 'system-ui', 'sans-serif'],
 			},
 			keyframes: {
 				'accordion-down': {

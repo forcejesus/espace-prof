@@ -5,18 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
 
 interface QuizLibraryProps {
   onNavigate: (view: string) => void;
@@ -75,91 +67,23 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
 
   const handleCreateGame = () => {
     if (newGameName.trim()) {
-      // Logic to create new game with name and image
       console.log("Creating game:", { name: newGameName, image: newGameImage });
       setIsCreateDialogOpen(false);
       setNewGameName("");
       setNewGameImage("");
-      onNavigate("creator");
+      onNavigate("creer-quiz");
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
-      {/* Header avec Menu */}
-      <header className="bg-white border-b border-orange-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                  <BookOpen className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold text-orange-900">AKILI</h1>
-                  <p className="text-sm text-orange-600">Mes Quiz</p>
-                </div>
-              </div>
-            </div>
-
-            <Menubar className="border-orange-200">
-              <MenubarMenu>
-                <MenubarTrigger className="text-orange-800 hover:bg-orange-50">
-                  Fichier
-                </MenubarTrigger>
-                <MenubarContent>
-                  <MenubarItem onClick={() => setIsCreateDialogOpen(true)}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    Nouveau Quiz
-                  </MenubarItem>
-                  <MenubarSeparator />
-                  <MenubarItem onClick={() => onNavigate("dashboard")}>
-                    Tableau de Bord
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-
-              <MenubarMenu>
-                <MenubarTrigger className="text-orange-800 hover:bg-orange-50">
-                  Session
-                </MenubarTrigger>
-                <MenubarContent>
-                  <MenubarItem onClick={() => onNavigate("live")}>
-                    <Play className="w-4 h-4 mr-2" />
-                    Session Live
-                  </MenubarItem>
-                  <MenubarItem onClick={() => onNavigate("history")}>
-                    <Clock className="w-4 h-4 mr-2" />
-                    Historique
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-
-              <MenubarMenu>
-                <MenubarTrigger className="text-orange-800 hover:bg-orange-50">
-                  Outils
-                </MenubarTrigger>
-                <MenubarContent>
-                  <MenubarItem onClick={() => onNavigate("settings")}>
-                    Paramètres
-                  </MenubarItem>
-                  <MenubarItem onClick={() => onNavigate("profile")}>
-                    Profil
-                  </MenubarItem>
-                </MenubarContent>
-              </MenubarMenu>
-            </Menubar>
-          </div>
-        </div>
-      </header>
-
       {/* Contenu Principal */}
       <main className="max-w-7xl mx-auto px-6 py-8">
         {/* Actions et Recherche */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
           <div className="flex items-center space-x-4 flex-1">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 w-4 h-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4" style={{ color: '#f97316' }} />
               <Input
                 placeholder="Rechercher un quiz..."
                 value={searchTerm}
@@ -169,7 +93,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
             </div>
             <Select value={filterSubject} onValueChange={setFilterSubject}>
               <SelectTrigger className="w-40 border-orange-200 focus:border-orange-500">
-                <Filter className="w-4 h-4 mr-2 text-orange-500" />
+                <Filter className="w-4 h-4 mr-2" style={{ color: '#f97316' }} />
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -184,7 +108,8 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
 
           <Button 
             onClick={() => setIsCreateDialogOpen(true)}
-            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg"
+            className="text-white shadow-lg hover:opacity-90"
+            style={{ background: '#f97316' }}
           >
             <Plus className="w-4 h-4 mr-2" />
             Créer un Quiz
@@ -213,7 +138,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                         <Edit className="w-4 h-4 mr-2" />
                         Modifier
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onNavigate("live")}>
+                      <DropdownMenuItem onClick={() => onNavigate("session-live")}>
                         <Play className="w-4 h-4 mr-2" />
                         Lancer
                       </DropdownMenuItem>
@@ -224,7 +149,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
-                <Badge className="absolute bottom-3 left-3 bg-orange-500 text-white">
+                <Badge className="absolute bottom-3 left-3 text-white" style={{ background: '#f97316' }}>
                   {quiz.subject}
                 </Badge>
               </div>
@@ -237,11 +162,11 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                 <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
                   <div className="flex items-center space-x-4">
                     <span className="flex items-center">
-                      <Users className="w-4 h-4 mr-1 text-orange-500" />
+                      <Users className="w-4 h-4 mr-1" style={{ color: '#f97316' }} />
                       {quiz.questions}
                     </span>
                     <span className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1 text-orange-500" />
+                      <Clock className="w-4 h-4 mr-1" style={{ color: '#f97316' }} />
                       {quiz.estimatedDuration}
                     </span>
                   </div>
@@ -266,8 +191,9 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                     </Button>
                     <Button 
                       size="sm"
-                      onClick={() => onNavigate("live")}
-                      className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                      onClick={() => onNavigate("session-live")}
+                      className="text-white hover:opacity-90"
+                      style={{ background: '#f97316' }}
                     >
                       <Play className="w-4 h-4" />
                     </Button>
@@ -290,7 +216,8 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
             </p>
             <Button 
               onClick={() => setIsCreateDialogOpen(true)}
-              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+              className="text-white hover:opacity-90"
+              style={{ background: '#f97316' }}
             >
               <Plus className="w-4 h-4 mr-2" />
               Créer un Quiz
@@ -356,7 +283,8 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
               <Button 
                 onClick={handleCreateGame}
                 disabled={!newGameName.trim()}
-                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white"
+                className="text-white hover:opacity-90"
+                style={{ background: '#f97316' }}
               >
                 Créer le Quiz
               </Button>
