@@ -9,11 +9,7 @@ const DashboardPage = () => {
     navigate(`/${view}`);
   };
 
-  return (
-    <div className="font-sans" style={{ fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
-      <Dashboard onNavigate={handleNavigate} />
-    </div>
-  );
+  return <Dashboard onNavigate={handleNavigate} />;
 };
 
 export default DashboardPage;
