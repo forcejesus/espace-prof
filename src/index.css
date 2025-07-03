@@ -1,72 +1,260 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* Système de design AKILI - Variables CSS personnalisées */
 @layer base {
   :root {
+    /* Espacement */
+    --spacing-s0: 0;
+    --spacing-s2: 2px;
+    --spacing-s4: 4px;
+    --spacing-s8: 8px;
+    --spacing-s12: 12px;
+    --spacing-s14: 14px;
+    --spacing-s16: 16px;
+    --spacing-s20: 20px;
+    --spacing-s24: 24px;
+    --spacing-s28: 28px;
+    --spacing-s32: 32px;
+    --spacing-s40: 40px;
+    --spacing-s44: 44px;
+    --spacing-s48: 48px;
+    --spacing-s56: 56px;
+    --spacing-s64: 64px;
+    --spacing-s72: 72px;
+    --spacing-s80: 80px;
+
+    /* Border Radius */
+    --borderRadius-sm: 4px;
+    --borderRadius-md: 8px;
+    --borderRadius-lg: 12px;
+    --borderRadius-xl: 16px;
+
+    /* Couleurs */
+    --colors-white: #fff;
+    --colors-black: #000;
+    --colors-transparent: rgba(0,0,0,0);
+    --colors-background-300: #fff;
+    --colors-background-500: #f2f2f2;
+    --colors-grey-0: #fff;
+    --colors-grey-200: #fafafa;
+    --colors-grey-300: #f2f2f2;
+    --colors-grey-400: #e9e9e9;
+    --colors-grey-500: #cccccc;
+    --colors-grey-600: #b2b2b2;
+    --colors-grey-700: #6E6E6E;
+    --colors-grey-800: #333333;
+    --colors-purple-300: #864cbf;
+    --colors-purple-500: #46178f;
+    --colors-purple-700: #25076b;
+    --colors-yellow-300: #ffc00a;
+    --colors-yellow-500: #ffa602;
+    --colors-yellow-700: #d89e00;
+    --colors-orange-300: #f5a23d;
+    --colors-orange-500: #eb670f;
+    --colors-orange-700: #db3c00;
+    --colors-red-300: #FF3355;
+    --colors-red-500: #e21b3c;
+    --colors-red-700: #c60929;
+    --colors-green-300: #66bf39;
+    --colors-green-500: #26890c;
+    --colors-green-700: #106b03;
+    --colors-teal-300: #33CCCC;
+    --colors-teal-500: #0aa3a3;
+    --colors-teal-700: #028282;
+    --colors-blue-300: #45a3e5;
+    --colors-blue-500: #1368ce;
+    --colors-blue-700: #0542b9;
+    --colors-business-300: #1368ce;
+    --colors-business-500: #1150b2;
+    --colors-business-700: #083c8f;
+    --colors-accessPass-gold-500: #B78D00;
+    --colors-accessPass-gold-700: #947100;
+    --colors-accessPass-purple-500: #1B0250;
+    --colors-accessPass-purple-700: #0D0128;
+    --colors-accessPass-gradient: linear-gradient(180deg, #000000 0%, #1A0150 100%);
+    --colors-status-success: #26890c;
+    --colors-status-warning: #eb670f;
+    --colors-status-error: #e21b3c;
+    --colors-upsell-main: #028282;
+
+    /* Police */
+    --fontFamily-primaryFamily: "Montserrat", "Noto Sans Arabic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Tailles de police */
+    --fontSize-5xl: 3rem;
+    --fontSize-4xl: 2.5rem;
+    --fontSize-3xl: 2rem;
+    --fontSize-2xl: 1.5rem;
+    --fontSize-xl: 1.25rem;
+    --fontSize-lg: 1rem;
+    --fontSize-md: .875rem;
+    --fontSize-sm: .75rem;
+    --fontSize-xs: .6875rem;
+
+    /* Poids de police */
+    --fontWeight-medium: 500;
+    --fontWeight-bold: 700;
+    --fontWeight-black: 900;
+
+    /* Hauteur de ligne */
+    --lineHeight-5xl: 3.5rem;
+    --lineHeight-4xl: 3rem;
+    --lineHeight-3xl: 2.5rem;
+    --lineHeight-2xl: 2rem;
+    --lineHeight-xl: 1.5rem;
+    --lineHeight-lg: 1.25rem;
+    --lineHeight-md: 1.25rem;
+    --lineHeight-sm: 1rem;
+    --lineHeight-xs: .875rem;
+
+    /* Vitesses d'animation */
+    --speeds-veryFast: .2s;
+    --speeds-fast: .5s;
+    --speeds-mediumFast: .75s;
+    --speeds-medium: 1s;
+    --speeds-mediumSlow: 2.5s;
+    --speeds-slow: 4s;
+    --speeds-testSlow: 40s;
+
+    /* Ombres */
+    --boxShadow-sm: 0 1px 2px 0 rgba(0, 0, 0, .15);
+    --boxShadow-md: 0 2px 4px 0 rgba(0, 0, 0, .15);
+    --boxShadow-lg: 0 4px 8px 0 rgba(0, 0, 0, .2);
+    --boxShadow-innerSm: inset 0 -2px 0 0 rgba(0, 0, 0, .15);
+    --boxShadow-innerMd: inset 0 -4px 0 0 rgba(0, 0, 0, .15);
+    --boxShadow-upperSm: 0 -1px 2px 0 rgba(0, 0, 0, .15);
+    --boxShadow-upperMd: 0 -2px 4px 0 rgba(0, 0, 0, .15);
+
+    /* Ombres de base */
+    --baseShadows-shadow05: rgba(0, 0, 0, .05);
+    --baseShadows-shadow10: rgba(0, 0, 0, .1);
+    --baseShadows-shadow15: rgba(0, 0, 0, .15);
+    --baseShadows-shadow20: rgba(0, 0, 0, .2);
+    --baseShadows-shadow25: rgba(0, 0, 0, .25);
+    --baseShadows-shadow30: rgba(0, 0, 0, .3);
+    --baseShadows-shadow35: rgba(0, 0, 0, .35);
+    --baseShadows-shadow40: rgba(0, 0, 0, .4);
+    --baseShadows-shadow50: rgba(0, 0, 0, .5);
+    --baseShadows-shadow55: rgba(0, 0, 0, .55);
+    --baseShadows-shadow60: rgba(0, 0, 0, .6);
+    --baseShadows-shadow70: rgba(0, 0, 0, .7);
+    --baseShadows-shadow75: rgba(0, 0, 0, .75);
+    --baseShadows-shadow80: rgba(0, 0, 0, .8);
+
+    /* Typographie */
+    --typography-h1Black-fontSize: 3rem;
+    --typography-h1Black-lineHeight: 3.5rem;
+    --typography-h1Black-fontWeight: 900;
+    --typography-h1Bold-fontSize: 3rem;
+    --typography-h1Bold-lineHeight: 3.5rem;
+    --typography-h1Bold-fontWeight: 700;
+    --typography-h2Black-fontSize: 2.5rem;
+    --typography-h2Black-lineHeight: 3rem;
+    --typography-h2Black-fontWeight: 900;
+    --typography-h2Bold-fontSize: 2.5rem;
+    --typography-h2Bold-lineHeight: 3rem;
+    --typography-h2Bold-fontWeight: 700;
+    --typography-h2Medium-fontSize: 2.5rem;
+    --typography-h2Medium-lineHeight: 3rem;
+    --typography-h2Medium-fontWeight: 500;
+    --typography-h3Black-fontSize: 2rem;
+    --typography-h3Black-lineHeight: 2.5rem;
+    --typography-h3Black-fontWeight: 900;
+    --typography-h3Bold-fontSize: 2rem;
+    --typography-h3Bold-lineHeight: 2.5rem;
+    --typography-h3Bold-fontWeight: 700;
+    --typography-h3Medium-fontSize: 2rem;
+    --typography-h3Medium-lineHeight: 2.5rem;
+    --typography-h3Medium-fontWeight: 500;
+    --typography-h4Black-fontSize: 1.5rem;
+    --typography-h4Black-lineHeight: 2rem;
+    --typography-h4Black-fontWeight: 900;
+    --typography-h4Bold-fontSize: 1.5rem;
+    --typography-h4Bold-lineHeight: 2rem;
+    --typography-h4Bold-fontWeight: 700;
+    --typography-h4Medium-fontSize: 1.5rem;
+    --typography-h4Medium-lineHeight: 2rem;
+    --typography-h4Medium-fontWeight: 500;
+    --typography-h5Black-fontSize: 1.25rem;
+    --typography-h5Black-lineHeight: 1.5rem;
+    --typography-h5Black-fontWeight: 900;
+    --typography-h5Bold-fontSize: 1.25rem;
+    --typography-h5Bold-lineHeight: 1.5rem;
+    --typography-h5Bold-fontWeight: 700;
+    --typography-h5Medium-fontSize: 1.25rem;
+    --typography-h5Medium-lineHeight: 1.5rem;
+    --typography-h5Medium-fontWeight: 500;
+    --typography-body1Bold-fontSize: 1rem;
+    --typography-body1Bold-lineHeight: 1.25rem;
+    --typography-body1Bold-fontWeight: 700;
+    --typography-body1Medium-fontSize: 1rem;
+    --typography-body1Medium-lineHeight: 1.25rem;
+    --typography-body1Medium-fontWeight: 500;
+    --typography-body2Bold-fontSize: .875rem;
+    --typography-body2Bold-lineHeight: 1.25rem;
+    --typography-body2Bold-fontWeight: 700;
+    --typography-body2Medium-fontSize: .875rem;
+    --typography-body2Medium-lineHeight: 1.25rem;
+    --typography-body2Medium-fontWeight: 500;
+    --typography-body3Bold-fontSize: .75rem;
+    --typography-body3Bold-lineHeight: 1rem;
+    --typography-body3Bold-fontWeight: 700;
+    --typography-body3Medium-fontSize: .75rem;
+    --typography-body3Medium-lineHeight: 1rem;
+    --typography-body3Medium-fontWeight: 500;
+    --typography-body4Bold-fontSize: .6875rem;
+    --typography-body4Bold-lineHeight: .875rem;
+    --typography-body4Bold-fontWeight: 700;
+    --typography-body4Medium-fontSize: .6875rem;
+    --typography-body4Medium-lineHeight: .875rem;
+    --typography-body4Medium-fontWeight: 500;
+
+    /* Variables Shadcn/UI pour la compatibilité */
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-
     --radius: 0.5rem;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
@@ -76,50 +264,224 @@ All colors MUST be HSL.
 @layer base {
   * {
     @apply border-border;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: var(--fontFamily-primaryFamily) !important;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: var(--fontFamily-primaryFamily) !important;
+    background-color: var(--colors-background-300);
+    color: var(--colors-grey-800);
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: var(--fontFamily-primaryFamily) !important;
   }
   
   p, span, div, button, input, textarea, label {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: var(--fontFamily-primaryFamily) !important;
   }
+
+  /* Classes utilitaires pour la typographie */
+  .text-h1-black {
+    font-size: var(--typography-h1Black-fontSize);
+    line-height: var(--typography-h1Black-lineHeight);
+    font-weight: var(--typography-h1Black-fontWeight);
+  }
+
+  .text-h1-bold {
+    font-size: var(--typography-h1Bold-fontSize);
+    line-height: var(--typography-h1Bold-lineHeight);
+    font-weight: var(--typography-h1Bold-fontWeight);
+  }
+
+  .text-h2-black {
+    font-size: var(--typography-h2Black-fontSize);
+    line-height: var(--typography-h2Black-lineHeight);
+    font-weight: var(--typography-h2Black-fontWeight);
+  }
+
+  .text-h2-bold {
+    font-size: var(--typography-h2Bold-fontSize);
+    line-height: var(--typography-h2Bold-lineHeight);
+    font-weight: var(--typography-h2Bold-fontWeight);
+  }
+
+  .text-h3-black {
+    font-size: var(--typography-h3Black-fontSize);
+    line-height: var(--typography-h3Black-lineHeight);
+    font-weight: var(--typography-h3Black-fontWeight);
+  }
+
+  .text-h3-bold {
+    font-size: var(--typography-h3Bold-fontSize);
+    line-height: var(--typography-h3Bold-lineHeight);
+    font-weight: var(--typography-h3Bold-fontWeight);
+  }
+
+  .text-h4-black {
+    font-size: var(--typography-h4Black-fontSize);
+    line-height: var(--typography-h4Black-lineHeight);
+    font-weight: var(--typography-h4Black-fontWeight);
+  }
+
+  .text-h4-bold {
+    font-size: var(--typography-h4Bold-fontSize);
+    line-height: var(--typography-h4Bold-lineHeight);
+    font-weight: var(--typography-h4Bold-fontWeight);
+  }
+
+  .text-h5-black {
+    font-size: var(--typography-h5Black-fontSize);
+    line-height: var(--typography-h5Black-lineHeight);
+    font-weight: var(--typography-h5Black-fontWeight);
+  }
+
+  .text-h5-bold {
+    font-size: var(--typography-h5Bold-fontSize);
+    line-height: var(--typography-h5Bold-lineHeight);
+    font-weight: var(--typography-h5Bold-fontWeight);
+  }
+
+  .text-body1-bold {
+    font-size: var(--typography-body1Bold-fontSize);
+    line-height: var(--typography-body1Bold-lineHeight);
+    font-weight: var(--typography-body1Bold-fontWeight);
+  }
+
+  .text-body1-medium {
+    font-size: var(--typography-body1Medium-fontSize);
+    line-height: var(--typography-body1Medium-lineHeight);
+    font-weight: var(--typography-body1Medium-fontWeight);
+  }
+
+  .text-body2-bold {
+    font-size: var(--typography-body2Bold-fontSize);
+    line-height: var(--typography-body2Bold-lineHeight);
+    font-weight: var(--typography-body2Bold-fontWeight);
+  }
+
+  .text-body2-medium {
+    font-size: var(--typography-body2Medium-fontSize);
+    line-height: var(--typography-body2Medium-lineHeight);
+    font-weight: var(--typography-body2Medium-fontWeight);
+  }
+
+  .text-body3-bold {
+    font-size: var(--typography-body3Bold-fontSize);
+    line-height: var(--typography-body3Bold-lineHeight);
+    font-weight: var(--typography-body3Bold-fontWeight);
+  }
+
+  .text-body3-medium {
+    font-size: var(--typography-body3Medium-fontSize);
+    line-height: var(--typography-body3Medium-lineHeight);
+    font-weight: var(--typography-body3Medium-fontWeight);
+  }
+
+  /* Classes utilitaires pour les couleurs */
+  .bg-purple-300 { background-color: var(--colors-purple-300); }
+  .bg-purple-500 { background-color: var(--colors-purple-500); }
+  .bg-purple-700 { background-color: var(--colors-purple-700); }
+  .bg-blue-300 { background-color: var(--colors-blue-300); }
+  .bg-blue-500 { background-color: var(--colors-blue-500); }
+  .bg-blue-700 { background-color: var(--colors-blue-700); }
+  .bg-green-300 { background-color: var(--colors-green-300); }
+  .bg-green-500 { background-color: var(--colors-green-500); }
+  .bg-green-700 { background-color: var(--colors-green-700); }
+  .bg-orange-300 { background-color: var(--colors-orange-300); }
+  .bg-orange-500 { background-color: var(--colors-orange-500); }
+  .bg-orange-700 { background-color: var(--colors-orange-700); }
+  .bg-yellow-300 { background-color: var(--colors-yellow-300); }
+  .bg-yellow-500 { background-color: var(--colors-yellow-500); }
+  .bg-yellow-700 { background-color: var(--colors-yellow-700); }
+  .bg-red-300 { background-color: var(--colors-red-300); }
+  .bg-red-500 { background-color: var(--colors-red-500); }
+  .bg-red-700 { background-color: var(--colors-red-700); }
+  .bg-teal-300 { background-color: var(--colors-teal-300); }
+  .bg-teal-500 { background-color: var(--colors-teal-500); }
+  .bg-teal-700 { background-color: var(--colors-teal-700); }
+
+  .text-purple-300 { color: var(--colors-purple-300); }
+  .text-purple-500 { color: var(--colors-purple-500); }
+  .text-purple-700 { color: var(--colors-purple-700); }
+  .text-blue-300 { color: var(--colors-blue-300); }
+  .text-blue-500 { color: var(--colors-blue-500); }
+  .text-blue-700 { color: var(--colors-blue-700); }
+  .text-green-300 { color: var(--colors-green-300); }
+  .text-green-500 { color: var(--colors-green-500); }
+  .text-green-700 { color: var(--colors-green-700); }
+  .text-orange-300 { color: var(--colors-orange-300); }
+  .text-orange-500 { color: var(--colors-orange-500); }
+  .text-orange-700 { color: var(--colors-orange-700); }
+  .text-white { color: var(--colors-white); }
+  .text-grey-700 { color: var(--colors-grey-700); }
+  .text-grey-800 { color: var(--colors-grey-800); }
+
+  /* Classes utilitaires pour les espacements */
+  .p-s8 { padding: var(--spacing-s8); }
+  .p-s16 { padding: var(--spacing-s16); }
+  .p-s24 { padding: var(--spacing-s24); }
+  .p-s32 { padding: var(--spacing-s32); }
+  .m-s8 { margin: var(--spacing-s8); }
+  .m-s16 { margin: var(--spacing-s16); }
+  .m-s24 { margin: var(--spacing-s24); }
+  .m-s32 { margin: var(--spacing-s32); }
+
+  /* Classes utilitaires pour les bordures */
+  .rounded-sm { border-radius: var(--borderRadius-sm); }
+  .rounded-md { border-radius: var(--borderRadius-md); }
+  .rounded-lg { border-radius: var(--borderRadius-lg); }
+  .rounded-xl { border-radius: var(--borderRadius-xl); }
+
+  /* Classes utilitaires pour les ombres */
+  .shadow-sm { box-shadow: var(--boxShadow-sm); }
+  .shadow-md { box-shadow: var(--boxShadow-md); }
+  .shadow-lg { box-shadow: var(--boxShadow-lg); }
 }
 
 @layer components {
-  /* Effets hover principaux */
-  .hover-lift {
-    @apply hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+  /* Classes de composants spécifiques AKILI */
+  .akili-card {
+    background-color: var(--colors-white);
+    border-radius: var(--borderRadius-lg);
+    box-shadow: var(--boxShadow-sm);
+    padding: var(--spacing-s24);
+    transition: all var(--speeds-fast) ease;
   }
 
-  .icon-scale {
-    @apply transition-transform duration-300;
+  .akili-card:hover {
+    box-shadow: var(--boxShadow-md);
+    transform: translateY(-2px);
   }
 
-  .group:hover .icon-scale {
-    @apply scale-110;
+  .akili-button-primary {
+    background-color: var(--colors-purple-500);
+    color: var(--colors-white);
+    border-radius: var(--borderRadius-md);
+    padding: var(--spacing-s12) var(--spacing-s24);
+    font-weight: var(--fontWeight-bold);
+    transition: all var(--speeds-fast) ease;
   }
 
-  .arrow-slide {
-    @apply transition-all duration-300;
+  .akili-button-primary:hover {
+    background-color: var(--colors-purple-700);
+    transform: translateY(-1px);
+    box-shadow: var(--boxShadow-md);
   }
 
-  .group:hover .arrow-slide {
-    @apply translate-x-2;
+  .akili-input {
+    border: 1px solid var(--colors-grey-400);
+    border-radius: var(--borderRadius-md);
+    padding: var(--spacing-s12) var(--spacing-s16);
+    font-size: var(--fontSize-md);
+    background-color: var(--colors-white);
+    transition: all var(--speeds-fast) ease;
   }
 
-  .stat-card {
-    @apply bg-white border border-orange-200 rounded-xl p-4 md:p-6 hover-lift;
-  }
-
-  .action-card {
-    @apply bg-white border border-orange-100 rounded-xl p-4 md:p-6 hover-lift cursor-pointer;
+  .akili-input:focus {
+    outline: none;
+    border-color: var(--colors-purple-500);
+    box-shadow: 0 0 0 3px rgba(70, 23, 143, 0.1);
   }
 }
