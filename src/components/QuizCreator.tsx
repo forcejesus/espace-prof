@@ -87,69 +87,71 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   };
 
   return (
-    <div className="p-6 space-y-6 bg-gradient-to-br from-orange-50 to-orange-100 min-h-screen">
-      {/* En-tête */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="ghost"
-            onClick={() => onNavigate("library")}
-            className="text-orange-700 hover:bg-orange-100 border border-orange-200"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour
-          </Button>
-          <div>
-            <h1 className="text-2xl font-bold text-orange-900">
-              {quiz ? "Modifier le Quiz" : "Créer un Nouveau Quiz"}
-            </h1>
-            <p className="text-orange-700">Étape {currentStep} sur 3</p>
+    <div className="min-h-screen" style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
+      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
+        {/* En-tête */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-s16">
+            <Button
+              variant="ghost"
+              onClick={() => onNavigate("mes-jeux")}
+              className="text-akili-grey-700 hover:bg-akili-grey-200 border border-akili-grey-400"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Retour
+            </Button>
+            <div>
+              <h1 className="text-h2-black text-akili-purple-500">
+                {quiz ? "Modifier le Jeu" : "Créer un Nouveau Jeu"}
+              </h1>
+              <p className="text-body1-medium text-akili-grey-700">Étape {currentStep} sur 3</p>
+            </div>
+          </div>
+          
+          <div className="flex space-x-s12">
+            <Button variant="outline" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
+              <Save className="w-4 h-4 mr-2" />
+              Enregistrer
+            </Button>
+            {currentStep === 3 && (
+              <Button 
+                onClick={() => onNavigate("session-live")}
+                className="bg-akili-green-500 hover:bg-akili-green-700 text-white font-akili-bold"
+              >
+                <Play className="w-4 h-4 mr-2" />
+                Lancer une Session
+              </Button>
+            )}
           </div>
         </div>
-        
-        <div className="flex space-x-3">
-          <Button variant="outline" className="border-orange-300 text-orange-700 hover:bg-orange-50">
-            <Save className="w-4 h-4 mr-2" />
-            Enregistrer
-          </Button>
-          {currentStep === 3 && (
-            <Button 
-              onClick={() => onNavigate("live")}
-              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white"
+
+        <StepIndicator steps={steps} currentStep={currentStep} />
+
+        {/* Contenu de l'étape */}
+        <div className="max-w-4xl mx-auto">
+          {renderStepContent()}
+        </div>
+
+        {/* Navigation */}
+        <div className="flex justify-center space-x-s16">
+          {currentStep > 1 && (
+            <Button
+              variant="outline"
+              onClick={() => setCurrentStep(currentStep - 1)}
+              className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
             >
-              <Play className="w-4 h-4 mr-2" />
-              Lancer une Session
+              Précédent
+            </Button>
+          )}
+          {currentStep < 3 && (
+            <Button
+              onClick={() => setCurrentStep(currentStep + 1)}
+              className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s32"
+            >
+              Suivant
             </Button>
           )}
         </div>
-      </div>
-
-      <StepIndicator steps={steps} currentStep={currentStep} />
-
-      {/* Contenu de l'étape */}
-      <div className="max-w-4xl mx-auto">
-        {renderStepContent()}
-      </div>
-
-      {/* Navigation */}
-      <div className="flex justify-center space-x-4">
-        {currentStep > 1 && (
-          <Button
-            variant="outline"
-            onClick={() => setCurrentStep(currentStep - 1)}
-            className="border-orange-300 text-orange-700 hover:bg-orange-50"
-          >
-            Précédent
-          </Button>
-        )}
-        {currentStep < 3 && (
-          <Button
-            onClick={() => setCurrentStep(currentStep + 1)}
-            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-8"
-          >
-            Suivant
-          </Button>
-        )}
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const PlanificationPage = () => {
   const planifications = [
     {
       id: 1,
-      title: "Quiz Histoire - Révolution Française",
+      title: "Jeu Histoire - Révolution Française",
       game: "Histoire de France - Révolution",
       date: "2024-01-15",
       time: "14:00",
@@ -50,13 +50,13 @@ const PlanificationPage = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Programmé":
-        return "bg-blue-100 text-blue-800";
+        return "bg-akili-blue-500 text-white";
       case "En cours":
-        return "bg-green-100 text-green-800";
+        return "bg-akili-green-500 text-white";
       case "Terminé":
-        return "bg-gray-100 text-gray-800";
+        return "bg-akili-grey-500 text-white";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "bg-akili-grey-500 text-white";
     }
   };
 
@@ -68,103 +68,96 @@ const PlanificationPage = () => {
   });
 
   return (
-    <div className="p-4 md:p-8 space-y-8 font-sans">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 shadow-xl">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-            <Calendar className="w-8 h-8 text-white" />
-          </div>
+    <div className="min-h-screen" style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
+      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
+        {/* Header avec actions */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
           <div>
-            <h1 className="text-3xl font-bold text-white">Planification des Sessions</h1>
-            <p className="text-orange-100">Organisez et gérez vos sessions de jeu</p>
+            <h1 className="text-h2-black text-akili-purple-500 mb-s8">Planification des Sessions</h1>
+            <p className="text-body1-medium text-akili-grey-700">Organisez et gérez vos sessions de jeu</p>
+          </div>
+          
+          <div className="flex items-center space-x-s16">
+            <div className="relative">
+              <Search className="absolute left-s12 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-5 h-5" />
+              <Input
+                placeholder="Rechercher une planification..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-s40 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300 w-96"
+              />
+            </div>
+            <Select value={filterStatus} onValueChange={setFilterStatus}>
+              <SelectTrigger className="w-48 border-akili-grey-400">
+                <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
+                <SelectValue placeholder="Filtrer par statut" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tous statuts</SelectItem>
+                <SelectItem value="Programmé">Programmé</SelectItem>
+                <SelectItem value="En cours">En cours</SelectItem>
+                <SelectItem value="Terminé">Terminé</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s24">
+              <Plus className="w-4 h-4 mr-2" />
+              Nouvelle Planification
+            </Button>
           </div>
         </div>
-      </div>
 
-      {/* Actions et Filtres */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center space-x-4 flex-1">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 w-4 h-4" />
-            <Input
-              placeholder="Rechercher une planification..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 border-orange-200 focus:border-orange-500 focus:ring-orange-500"
-            />
-          </div>
-          <Select value={filterStatus} onValueChange={setFilterStatus}>
-            <SelectTrigger className="w-40 border-orange-200 focus:border-orange-500">
-              <Filter className="w-4 h-4 mr-2 text-orange-500" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Tous statuts</SelectItem>
-              <SelectItem value="Programmé">Programmé</SelectItem>
-              <SelectItem value="En cours">En cours</SelectItem>
-              <SelectItem value="Terminé">Terminé</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg">
-          <Plus className="w-4 h-4 mr-2" />
-          Nouvelle Planification
-        </Button>
-      </div>
-
-      {/* Liste des Planifications */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {filteredPlanifications.map((plan) => (
-          <Card key={plan.id} className="border-2 border-orange-200 hover:shadow-xl transition-all duration-300">
-            <CardHeader>
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <CardTitle className="text-lg font-bold text-gray-900 mb-2">
-                    {plan.title}
-                  </CardTitle>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                    <Gamepad2 className="w-4 h-4 text-orange-500" />
-                    <span>{plan.game}</span>
+        {/* Liste des Planifications */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-s24">
+          {filteredPlanifications.map((plan) => (
+            <Card key={plan.id} className="bg-white shadow-akili-sm border-0 hover:shadow-akili-md transition-all duration-fast">
+              <CardHeader className="pb-s16">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <CardTitle className="text-h5-bold text-akili-grey-800 mb-s8">
+                      {plan.title}
+                    </CardTitle>
+                    <div className="flex items-center space-x-2 text-body3-medium text-akili-grey-600">
+                      <Gamepad2 className="w-4 h-4 text-akili-purple-500" />
+                      <span>{plan.game}</span>
+                    </div>
+                  </div>
+                  <Badge className={`${getStatusColor(plan.status)} font-akili-bold`}>
+                    {plan.status}
+                  </Badge>
+                </div>
+              </CardHeader>
+              
+              <CardContent className="space-y-s16">
+                <div className="grid grid-cols-2 gap-s16 text-body3-medium">
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="w-4 h-4 text-akili-purple-500" />
+                    <span className="text-akili-grey-700">{plan.date}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="w-4 h-4 text-akili-blue-500" />
+                    <span className="text-akili-grey-700">{plan.time} ({plan.duration})</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="w-4 h-4 text-akili-green-500" />
+                    <span className="text-akili-grey-700">{plan.participants} participants</span>
+                  </div>
+                  <div className="text-body3-bold text-akili-grey-800">
+                    {plan.group}
                   </div>
                 </div>
-                <Badge className={getStatusColor(plan.status)}>
-                  {plan.status}
-                </Badge>
-              </div>
-            </CardHeader>
-            
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center space-x-2">
-                  <Calendar className="w-4 h-4 text-orange-500" />
-                  <span>{plan.date}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4 text-orange-500" />
-                  <span>{plan.time} ({plan.duration})</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Users className="w-4 h-4 text-orange-500" />
-                  <span>{plan.participants} participants</span>
-                </div>
-                <div className="text-sm font-medium text-gray-700">
-                  {plan.group}
-                </div>
-              </div>
 
-              <div className="flex space-x-2 pt-4">
-                <Button variant="outline" size="sm" className="border-orange-300 text-orange-700 hover:bg-orange-50">
-                  Modifier
-                </Button>
-                <Button size="sm" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white">
-                  Démarrer
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+                <div className="flex space-x-s12 pt-s16">
+                  <Button variant="outline" size="sm" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
+                    Modifier
+                  </Button>
+                  <Button size="sm" className="bg-akili-green-500 hover:bg-akili-green-700 text-white font-akili-bold">
+                    Démarrer
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-
 import { Gamepad2, Calendar, Users, TrendingUp, Award, ArrowRight, Play, History, UserPlus, Filter, Search, Plus, MoreHorizontal, Folder, Grid3X3, List, Star, BookOpen, Trophy, Target, Brain, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -130,47 +129,43 @@ export function Dashboard({ onNavigate }: DashboardProps) {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--colors-grey-200)' }}>
-      {/* Header avec barre de recherche */}
-      <div className="bg-white shadow-sm border-b border-gray-200 px-s24 py-s16">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-h2-black text-akili-purple-500">Université AKILI</h1>
-              <p className="text-body1-medium text-akili-grey-700">Espace Éducateur</p>
-            </div>
+    <div className="min-h-screen" style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
+      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
+        {/* Header simple sans barre de recherche secondaire */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-h2-black text-akili-purple-500">Tableau de Bord</h1>
+            <p className="text-body1-medium text-akili-grey-700">Bienvenue dans votre espace éducateur</p>
+          </div>
+          <div className="flex items-center space-x-s16">
             <div className="relative w-96">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-5 h-5" />
+              <Search className="absolute left-s12 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-5 h-5" />
               <Input
                 placeholder="Rechercher..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
+                className="pl-s40 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
               />
             </div>
-            <div className="flex items-center space-x-2">
-              <Select value={filterSubject} onValueChange={setFilterSubject}>
-                <SelectTrigger className="w-48 border-akili-grey-400">
-                  <SelectValue placeholder="Trier par: Plus récent" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Toutes matières</SelectItem>
-                  <SelectItem value="recent">Plus récent</SelectItem>
-                  <SelectItem value="popular">Plus populaire</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button 
-                onClick={() => onNavigate("creer-quiz")}
-                className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s24"
-              >
-                Créer
-              </Button>
-            </div>
+            <Select value={filterSubject} onValueChange={setFilterSubject}>
+              <SelectTrigger className="w-48 border-akili-grey-400">
+                <SelectValue placeholder="Trier par: Plus récent" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Toutes matières</SelectItem>
+                <SelectItem value="recent">Plus récent</SelectItem>
+                <SelectItem value="popular">Plus populaire</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button 
+              onClick={() => onNavigate("creer-quiz")}
+              className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white font-akili-bold px-s24"
+            >
+              Créer
+            </Button>
           </div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
         {/* Statistiques */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-s24">
           {stats.map((stat, index) => (
