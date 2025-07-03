@@ -25,22 +25,34 @@ const MonComptePage = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-s32">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-s20">
-              <div className="text-center p-s24 bg-gradient-to-br from-purple-500 to-purple-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
-                <div className="text-h2-black mb-s8">24</div>
-                <div className="text-body2-medium">Jeux créés</div>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-s24">
+              <div className="text-center p-s32 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl text-white shadow-2xl hover:scale-110 transition-all duration-500 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="text-5xl font-black mb-s12 transform group-hover:scale-110 transition-transform duration-300">24</div>
+                  <div className="text-h5-bold uppercase tracking-wider">Jeux créés</div>
+                </div>
               </div>
-              <div className="text-center p-s24 bg-gradient-to-br from-blue-500 to-blue-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
-                <div className="text-h2-black mb-s8">156</div>
-                <div className="text-body2-medium">Sessions menées</div>
+              <div className="text-center p-s32 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl text-white shadow-2xl hover:scale-110 transition-all duration-500 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="text-5xl font-black mb-s12 transform group-hover:scale-110 transition-transform duration-300">156</div>
+                  <div className="text-h5-bold uppercase tracking-wider">Sessions menées</div>
+                </div>
               </div>
-              <div className="text-center p-s24 bg-gradient-to-br from-green-500 to-green-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
-                <div className="text-h2-black mb-s8">432</div>
-                <div className="text-body2-medium">Apprenants touchés</div>
+              <div className="text-center p-s32 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl text-white shadow-2xl hover:scale-110 transition-all duration-500 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="text-5xl font-black mb-s12 transform group-hover:scale-110 transition-transform duration-300">432</div>
+                  <div className="text-h5-bold uppercase tracking-wider">Apprenants touchés</div>
+                </div>
               </div>
-              <div className="text-center p-s24 bg-gradient-to-br from-teal-500 to-teal-600 rounded-akili-xl text-white shadow-akili-lg hover:scale-105 transition-transform duration-300">
-                <div className="text-h2-black mb-s8">4.8</div>
-                <div className="text-body2-medium">Note moyenne</div>
+              <div className="text-center p-s32 bg-gradient-to-br from-teal-500 to-teal-600 rounded-2xl text-white shadow-2xl hover:scale-110 transition-all duration-500 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="text-5xl font-black mb-s12 transform group-hover:scale-110 transition-transform duration-300">4.8</div>
+                  <div className="text-h5-bold uppercase tracking-wider">Note moyenne</div>
+                </div>
               </div>
             </div>
           </CardContent>

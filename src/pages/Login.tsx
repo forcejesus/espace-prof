@@ -15,7 +15,7 @@ export default function Login() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/");
+    navigate("/dashboard");
   };
 
   return (
@@ -27,11 +27,14 @@ export default function Login() {
       <div className="w-full max-w-md space-y-8 relative z-10">
         {/* Logo et titre */}
         <div className="text-center mb-8">
-          <div className="mb-4">
-            <h1 className="text-4xl font-bold text-orange-500 mb-2">AKILI</h1>
-            <p className="text-sm text-gray-600 font-medium">Espace Éducateur</p>
+          <div className="mb-6 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 rounded-full blur-2xl opacity-30 scale-110"></div>
+            <h1 className="text-6xl font-black bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 bg-clip-text text-transparent mb-3 relative z-10 animate-fade-in-up">
+              AKILI
+            </h1>
+            <p className="text-lg text-orange-600 font-semibold relative z-10">Espace Éducateur</p>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Good to see you again</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Ravi de vous revoir</h2>
         </div>
 
         {/* Carte de connexion */}
@@ -40,14 +43,14 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-700 font-medium">
-                  Your email
+                  Votre email
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="e.g. elon@tesla.com"
+                    placeholder="ex. marie@ecole.fr"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 h-12 border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-lg"
@@ -58,14 +61,14 @@ export default function Login() {
 
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-gray-700 font-medium">
-                  Your password
+                  Votre mot de passe
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="e.g. ilovemangools123"
+                    placeholder="Votre mot de passe"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10 pr-10 h-12 border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-lg"
@@ -87,20 +90,12 @@ export default function Login() {
 
               <Button
                 type="submit"
-                className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 h-12 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 h-12 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
               >
-                Sign in
+                Se connecter
               </Button>
             </form>
 
-            <div className="mt-6 flex justify-between text-sm">
-              <button className="text-blue-600 hover:text-blue-800 font-medium underline">
-                Don't have an account?
-              </button>
-              <button className="text-blue-600 hover:text-blue-800 font-medium underline">
-                Forgot password?
-              </button>
-            </div>
           </CardContent>
         </Card>
 

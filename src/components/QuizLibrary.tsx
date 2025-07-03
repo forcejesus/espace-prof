@@ -168,27 +168,22 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                       </div>
                       
                       <div className="flex items-center space-x-s8 flex-shrink-0">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="sm" className="p-2">
-                              <MoreHorizontal className="w-4 h-4 text-akili-grey-600" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => onEditQuiz(quiz)}>
-                              <Edit className="w-4 h-4 mr-2" />
-                              Modifier
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => onNavigate("session-live")}>
-                              <Play className="w-4 h-4 mr-2" />
-                              Lancer
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-akili-red-500">
-                              <Trash2 className="w-4 h-4 mr-2" />
-                              Supprimer
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => onEditQuiz(quiz)}
+                          className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 px-s16"
+                        >
+                          Modifier
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => onNavigate("planification")}
+                          className="border-akili-blue-500 text-akili-blue-500 hover:bg-akili-blue-100 px-s16"
+                        >
+                          Planifications
+                        </Button>
                         <Button 
                           size="sm"
                           onClick={() => onNavigate("session-live")}
