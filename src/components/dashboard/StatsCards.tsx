@@ -37,8 +37,8 @@ export function StatsCards() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-s24">
       {stats.map((stat, index) => (
-        <Card key={index} className={`${stat.bgGradient} border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 rounded-3xl overflow-hidden h-[200px]`}>
-          <CardContent className="p-s32 h-full flex flex-col justify-center items-center text-center text-white relative">
+        <Card key={index} className={`${stat.bgGradient} border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 rounded-3xl overflow-hidden h-[280px]`}>
+          <CardContent className="p-s40 h-full flex flex-col justify-center items-center text-center text-white relative">
             {/* Icon */}
             <div className="mb-s20">
               <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
