@@ -47,14 +47,14 @@ export function StatsCards() {
             </div>
             
             {/* Main content */}
-            <div className="space-y-s12">
+            <div className="space-y-s16">
               {/* Title */}
-              <h3 className="text-lg font-semibold text-white/90 leading-tight">
+              <h3 className="text-lg font-bold text-white leading-tight">
                 {stat.title}
               </h3>
               
               {/* Value */}
-              <p className="text-4xl font-bold text-white mb-s8">
+              <p className="text-4xl font-bold text-white">
                 {stat.value}
               </p>
               
@@ -64,11 +64,6 @@ export function StatsCards() {
                   {stat.subtitle}
                 </p>
               )}
-              
-              {/* Change indicator */}
-              <div className="inline-flex items-center px-s16 py-s6 bg-white/20 backdrop-blur-sm text-white text-sm font-medium rounded-full">
-                {stat.change}
-              </div>
             </div>
             
             {/* Decorative elements */}
