@@ -34,28 +34,48 @@ export function StatsCards() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-s24">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-s32">
       {stats.map((stat, index) => (
-        <Card key={index} className={`bg-white/95 backdrop-blur-lg shadow-2xl border-0 hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 animate-fade-in-up animate-delay-${(index + 1) * 100} rounded-2xl overflow-hidden`}>
-          <CardContent className="p-s40 text-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
-            <div className="relative z-10 flex flex-col items-center space-y-s20">
-              <div className={`w-24 h-24 rounded-full ${stat.bgColor} flex items-center justify-center shadow-2xl transform transition-transform duration-300 hover:scale-110 relative`}>
-                <div className="absolute inset-0 rounded-full bg-white/20 animate-pulse"></div>
-                <stat.icon className="w-12 h-12 text-white relative z-10" />
+        <Card key={index} className="group bg-white/95 backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 rounded-3xl overflow-hidden">
+          <CardContent className="p-s40 relative">
+            {/* Background gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-akili-grey-50/80 via-white/60 to-akili-grey-100/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            {/* Content */}
+            <div className="relative z-10 flex flex-col items-center text-center space-y-s24">
+              {/* Icon circle */}
+              <div className="relative">
+                <div className={`w-20 h-20 rounded-2xl ${stat.bgColor} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
+                  <stat.icon className="w-10 h-10 text-white" />
+                </div>
+                {/* Subtle pulse effect */}
+                <div className={`absolute inset-0 w-20 h-20 rounded-2xl ${stat.bgColor} opacity-20 animate-ping`}></div>
               </div>
               
-              <div className="text-center space-y-s12">
-                <p className="text-h1-bold text-akili-grey-800 mb-s8 transform transition-transform duration-300 hover:scale-105">{stat.value}</p>
-                <h3 className="text-h5-bold text-akili-grey-800 mb-s12">{stat.title}</h3>
-                <div className="flex items-center justify-center">
-                  <div className="bg-gradient-to-r from-green-500 to-green-600 text-white px-s16 py-s8 rounded-full text-body4-bold shadow-lg">
-                    {stat.change}
-                  </div>
+              {/* Stats content */}
+              <div className="space-y-s16">
+                {/* Main value */}
+                <div className="space-y-s8">
+                  <p className="text-4xl font-bold text-akili-grey-900 group-hover:text-akili-grey-800 transition-colors duration-200">
+                    {stat.value}
+                  </p>
+                  <h3 className="text-lg font-semibold text-akili-grey-700">
+                    {stat.title}
+                  </h3>
                 </div>
                 
+                {/* Change indicator */}
+                <div className="inline-flex items-center px-s20 py-s8 bg-gradient-to-r from-green-500/90 to-green-600/90 text-white text-sm font-medium rounded-full shadow-md">
+                  {stat.change}
+                </div>
+                
+                {/* Subtitle if exists */}
                 {stat.subtitle && (
-                  <p className="text-body4-medium text-akili-grey-600 leading-relaxed mt-s12 bg-akili-grey-200/50 p-s12 rounded-akili-lg">{stat.subtitle}</p>
+                  <div className="mt-s20 pt-s16 border-t border-akili-grey-200/60">
+                    <p className="text-sm text-akili-grey-600 leading-relaxed bg-akili-grey-100/30 px-s16 py-s12 rounded-xl">
+                      {stat.subtitle}
+                    </p>
+                  </div>
                 )}
               </div>
             </div>
