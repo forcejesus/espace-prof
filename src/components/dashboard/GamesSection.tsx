@@ -6,78 +6,109 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+interface Game {
+  _id: string;
+  titre: string;
+  image: string | null;
+  createdBy: {
+    _id: string;
+    nom: string;
+    prenom: string;
+    matricule: string;
+    genre: string;
+    statut: string;
+    phone: string;
+    email: string;
+    adresse: string;
+    role: string;
+    pays?: {
+      _id: string;
+      libelle: string;
+    };
+  } | null;
+  ecole: {
+    _id: string;
+    libelle: string;
+    ville: string;
+    telephone: string;
+  } | null;
+  date: string;
+}
+
 interface GamesSectionProps {
   onNavigate: (view: string) => void;
   searchTerm: string;
   filterSubject: string;
+  games?: Game[];
 }
 
-export function GamesSection({ onNavigate, searchTerm, filterSubject }: GamesSectionProps) {
+export function GamesSection({ onNavigate, searchTerm, filterSubject, games = [] }: GamesSectionProps) {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [localSearch, setLocalSearch] = useState("");
   const [sortBy, setSortBy] = useState("recent");
-  const games = [
+
+  // Fonction utilitaire pour formater la date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) return "Il y a 1 jour";
+    if (diffDays < 7) return `Il y a ${diffDays} jours`;
+    if (diffDays < 30) return `Il y a ${Math.ceil(diffDays / 7)} semaine${Math.ceil(diffDays / 7) > 1 ? 's' : ''}`;
+    return `Il y a ${Math.ceil(diffDays / 30)} mois`;
+  };
+
+  // Fonction pour obtenir une image par défaut si null
+  const getGameImage = (image: string | null, titre: string) => {
+    if (image && image.startsWith('public/uploads/')) {
+      // Adapter le chemin de l'image selon votre configuration backend
+      return `${image.replace('public/', '/')}`;
+    }
+    // Image par défaut basée sur le titre ou aléatoire
+    return `https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop&q=80`;
+  };
+
+  // Données par défaut si aucune donnée n'est fournie
+  const defaultGames: Game[] = [
     {
-      id: 1,
-      title: "Histoire de France - Révolution",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop",
-      subject: "Histoire",
-      difficulty: "Intermédiaire",
-      questions: 15,
-      plays: 245,
-      lastPlayed: "Il y a 2 jours"
-    },
-    {
-      id: 2,
-      title: "Mathématiques - Géométrie",
-      image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=400&h=300&fit=crop",
-      subject: "Mathématiques",
-      difficulty: "Facile",
-      questions: 10,
-      plays: 156,
-      lastPlayed: "Il y a 5 jours"
-    },
-    {
-      id: 3,
-      title: "Sciences - Le Système Solaire",
-      image: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=300&fit=crop",
-      subject: "Sciences",
-      difficulty: "Difficile",
-      questions: 20,
-      plays: 89,
-      lastPlayed: "Il y a 1 semaine"
-    },
-    {
-      id: 4,
-      title: "Français - Grammaire",
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400&h=300&fit=crop",
-      subject: "Français",
-      difficulty: "Facile",
-      questions: 12,
-      plays: 178,
-      lastPlayed: "Il y a 3 jours"
-    },
-    {
-      id: 5,
-      title: "Géographie - Capitales du Monde",
-      image: "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=400&h=300&fit=crop",
-      subject: "Géographie",
-      difficulty: "Intermédiaire",
-      questions: 25,
-      plays: 134,
-      lastPlayed: "Il y a 1 jour"
+      _id: "1",
+      titre: "Jeu de démonstration",
+      image: null,
+      createdBy: {
+        _id: "1",
+        nom: "Utilisateur",
+        prenom: "Demo",
+        matricule: "DEMO-001",
+        genre: "Masculin",
+        statut: "actif",
+        phone: "000000000",
+        email: "demo@example.com",
+        adresse: "Adresse demo",
+        role: "enseignant"
+      },
+      ecole: {
+        _id: "1",
+        libelle: "École Demo",
+        ville: "Ville Demo",
+        telephone: "000000000"
+      },
+      date: new Date().toISOString()
     }
   ];
 
-  const filteredGames = games.filter(game => {
+  const gamesToDisplay = games.length > 0 ? games : defaultGames;
+
+  const filteredGames = gamesToDisplay.filter(game => {
     const searchFilter = localSearch || searchTerm;
-    const matchesSearch = game.title.toLowerCase().includes(searchFilter.toLowerCase());
-    const matchesSubject = filterSubject === "all" || game.subject === filterSubject;
+    const matchesSearch = game.titre.toLowerCase().includes(searchFilter.toLowerCase());
+    // Pour le filtrage par matière, on peut extraire de l'école ou utiliser une logique différente
+    const matchesSubject = filterSubject === "all" || true; // À adapter selon vos besoins
     return matchesSearch && matchesSubject;
   }).sort((a, b) => {
-    if (sortBy === "recent") return b.id - a.id;
-    if (sortBy === "popular") return b.plays - a.plays;
-    if (sortBy === "questions") return b.questions - a.questions;
+    if (sortBy === "recent") return new Date(b.date).getTime() - new Date(a.date).getTime();
+    if (sortBy === "alphabetical") return a.titre.localeCompare(b.titre);
     return 0;
   });
 
@@ -99,17 +130,16 @@ export function GamesSection({ onNavigate, searchTerm, filterSubject }: GamesSec
           </div>
           
           {/* Filtres */}
-          <Select value={sortBy} onValueChange={setSortBy}>
-            <SelectTrigger className="w-48 border-akili-grey-400">
-              <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="recent">Plus récent</SelectItem>
-              <SelectItem value="popular">Plus populaire</SelectItem>
-              <SelectItem value="questions">Plus de questions</SelectItem>
-            </SelectContent>
-          </Select>
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-48 border-akili-grey-400">
+                <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="recent">Plus récent</SelectItem>
+                <SelectItem value="alphabetical">Alphabétique</SelectItem>
+              </SelectContent>
+            </Select>
           
           <div className="flex items-center space-x-s8">
             <Button 
@@ -127,36 +157,44 @@ export function GamesSection({ onNavigate, searchTerm, filterSubject }: GamesSec
 
       <div className="space-y-s16">
         {filteredGames.map((game, index) => (
-          <Card key={game.id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-slide-in-left animate-delay-${(index % 5 + 1) * 100}`}>
+          <Card key={game._id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-slide-in-left animate-delay-${(index % 5 + 1) * 100}`}>
             <CardContent className="p-s20">
               <div className="flex items-center space-x-s20">
                 <img 
-                  src={game.image} 
-                  alt={game.title}
+                  src={getGameImage(game.image, game.titre)} 
+                  alt={game.titre}
                   className="w-20 h-20 object-cover rounded-akili-lg flex-shrink-0"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop&q=80';
+                  }}
                 />
                 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold truncate">
-                        {game.title}
+                        {game.titre}
                       </h3>
                       <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
                         <span className="flex items-center">
                           <Calendar className="w-4 h-4 mr-s4" />
-                          Créé {game.lastPlayed}
+                          Créé {formatDate(game.date)}
                         </span>
-                        <span>{game.questions} questions</span>
-                        <span>{game.plays} lectures</span>
+                        {game.createdBy && (
+                          <span>Par {game.createdBy.prenom} {game.createdBy.nom}</span>
+                        )}
                       </div>
                       <div className="flex items-center space-x-s8">
-                        <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
-                          {game.subject}
-                        </Badge>
-                        <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
-                          {game.difficulty}
-                        </Badge>
+                        {game.ecole && (
+                          <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
+                            {game.ecole.libelle}
+                          </Badge>
+                        )}
+                        {game.createdBy && (
+                          <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
+                            {game.createdBy.role}
+                          </Badge>
+                        )}
                       </div>
                     </div>
                     

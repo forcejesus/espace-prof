@@ -32,6 +32,7 @@ export function Dashboard({ onNavigate }: DashboardProps) {
           onNavigate={onNavigate}
           searchTerm={searchTerm}
           filterSubject={filterSubject}
+          games={[]} // Pour l'instant, tableau vide. Plus tard, vous passerez les vraies données ici
         />
       </div>
     </div>
