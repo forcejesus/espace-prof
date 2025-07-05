@@ -160,30 +160,21 @@ export function GamesSection({ onNavigate, searchTerm, filterSubject }: GamesSec
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-s8 flex-shrink-0">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 px-s16"
-                      >
-                        Modifier
-                      </Button>
+                    <div className="flex items-center space-x-s12 flex-shrink-0">
                       <Button 
                         variant="outline" 
                         size="sm" 
                         onClick={() => onNavigate("planification")}
-                        className="border-akili-blue-500 text-akili-blue-500 hover:bg-akili-blue-100 px-s16"
+                        className="border-emerald-500 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-600 px-s20 py-s8 rounded-lg font-medium transition-all duration-300"
                       >
-                        Planifications
+                        Planifier le jeu
                       </Button>
                       <Button 
                         size="sm"
-                        onClick={() => onNavigate("session-live")}
-                        className="text-white font-akili-bold px-s20"
-                        style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
+                        onClick={() => onNavigate("creer-quiz")}
+                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium px-s20 py-s8 rounded-lg transition-all duration-300"
                       >
-                        <Play className="w-4 h-4 mr-s8" />
-                        Jouer
+                        Modification
                       </Button>
                     </div>
                   </div>
