@@ -1,11 +1,11 @@
-
 import { useState } from "react";
-import { ArrowLeft, Save, Play } from "lucide-react";
+import { ArrowLeft, Save, Play, Plus, Settings, Eye, Share, FileText, Users, MoreHorizontal, Edit, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { QuizInfoStep } from "./quiz-creator/QuizInfoStep";
-import { QuestionsStep } from "./quiz-creator/QuestionsStep";
-import { PreviewStep } from "./quiz-creator/PreviewStep";
-import { StepIndicator } from "./quiz-creator/StepIndicator";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 
 interface QuizCreatorProps {
   quiz?: any;
@@ -13,185 +13,343 @@ interface QuizCreatorProps {
 }
 
 export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [quizData, setQuizData] = useState({
-    title: quiz?.title || "",
-    description: quiz?.description || "",
-    subject: quiz?.subject || "",
-    difficulty: quiz?.difficulty || "Facile",
-    estimatedDuration: quiz?.estimatedDuration || "",
-    questions: quiz?.questions || []
-  });
-
+  const { toast } = useToast();
+  const [quizTitle, setQuizTitle] = useState(quiz?.title || "Nouveau Quiz");
+  const [activeTab, setActiveTab] = useState("build");
+  const [startScreenTitle, setStartScreenTitle] = useState("Bienvenue à votre Quiz");
   const [questions, setQuestions] = useState([
     {
       id: 1,
-      type: "CHOIX_UNIQUE",
-      question: "Quelle est la capitale de la France ?",
-      options: ["Paris", "Lyon", "Marseille", "Toulouse"],
-      correctAnswers: [0],
-      timeLimit: 30,
-      points: 100
+      type: "text",
+      question: "Quelle est votre matière préférée ?",
+      options: []
     },
     {
       id: 2,
-      type: "CHOIX_MULTIPLE",
-      question: "Quelles sont les couleurs du drapeau français ?",
-      options: ["Bleu", "Rouge", "Vert", "Blanc"],
-      correctAnswers: [0, 1, 3],
-      timeLimit: 30,
-      points: 150
+      type: "text", 
+      question: "Quel est votre niveau d'étude ?",
+      options: []
     },
     {
       id: 3,
-      type: "VRAI_FAUX",
-      question: "La France est le plus grand pays d'Europe.",
-      correctAnswer: "false",
-      timeLimit: 20,
-      points: 50
+      type: "text",
+      question: "Combien d'heures étudiez-vous par jour ?",
+      options: []
     }
   ]);
 
-  const steps = [
-    { number: 1, title: "Informations", completed: currentStep > 1 },
-    { number: 2, title: "Questions", completed: currentStep > 2 },
-    { number: 3, title: "Aperçu", completed: currentStep > 3 },
-  ];
+  const addQuestion = () => {
+    const newQuestion = {
+      id: questions.length + 1,
+      type: "text",
+      question: "Nouvelle question...",
+      options: []
+    };
+    setQuestions([...questions, newQuestion]);
+  };
 
-  const renderStepContent = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <QuizInfoStep 
-            quizData={quizData} 
-            setQuizData={setQuizData} 
-          />
-        );
-      case 2:
-        return (
-          <QuestionsStep 
-            questions={questions} 
-            setQuestions={setQuestions} 
-          />
-        );
-      case 3:
-        return (
-          <PreviewStep 
-            quizData={quizData} 
-            questions={questions} 
-          />
-        );
-      default:
-        return null;
-    }
+  const updateQuestion = (id: number, field: string, value: string) => {
+    setQuestions(questions.map(q => 
+      q.id === id ? { ...q, [field]: value } : q
+    ));
+  };
+
+  const deleteQuestion = (id: number) => {
+    setQuestions(questions.filter(q => q.id !== id));
+  };
+
+  const handleSave = () => {
+    toast({
+      title: "Quiz sauvegardé",
+      description: "Votre quiz a été sauvegardé avec succès.",
+    });
+  };
+
+  const handlePublish = () => {
+    toast({
+      title: "Quiz publié",
+      description: "Votre quiz est maintenant disponible pour vos apprenants.",
+    });
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(248, 250, 252)' }}>
-      <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32 animate-fade-in-up">
-        {/* En-tête amélioré */}
-        <div className="bg-gradient-to-r from-white/95 to-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-s40 border border-white/20 animate-slide-in-left relative overflow-hidden">
-          {/* Effet de brillance de fond */}
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-blue-500/5"></div>
-          <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-orange-400/10 to-transparent rounded-full"></div>
-          
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center space-x-s24">
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 onClick={() => onNavigate("mes-jeux")}
-                className="text-akili-grey-700 hover:bg-white/80 border border-akili-grey-300 rounded-xl px-s20 py-s12 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm shadow-lg hover:shadow-xl"
+                className="text-gray-600 hover:text-gray-900"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Retour
               </Button>
-              <div className="space-y-s8">
-                <h1 className="text-h1-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  {quiz ? "✨ Modifier le Jeu" : "🎮 Créer un Nouveau Jeu"}
-                </h1>
-                <div className="flex items-center space-x-s12">
-                  <p className="text-body1-medium text-akili-grey-600">Étape {currentStep} sur 3</p>
-                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                  <p className="text-body2-medium text-akili-grey-500 italic">Donnez vie à votre imagination</p>
+              <div className="h-6 w-px bg-gray-300"></div>
+              <Input
+                value={quizTitle}
+                onChange={(e) => setQuizTitle(e.target.value)}
+                className="text-xl font-semibold border-none shadow-none p-0 h-auto bg-transparent focus-visible:ring-0"
+              />
+              <Edit className="w-4 h-4 text-gray-400" />
+            </div>
+            
+            <div className="flex items-center space-x-3">
+              <Button variant="outline" onClick={handleSave}>
+                <Save className="w-4 h-4 mr-2" />
+                Sauvegarder
+              </Button>
+              <Button 
+                onClick={handlePublish}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Publier
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="h-auto p-0 bg-transparent">
+              <TabsTrigger 
+                value="build" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none px-6 py-4"
+              >
+                Construire
+              </TabsTrigger>
+              <TabsTrigger 
+                value="design" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none px-6 py-4"
+              >
+                Design
+              </TabsTrigger>
+              <TabsTrigger 
+                value="configure" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none px-6 py-4"
+              >
+                Configurer
+              </TabsTrigger>
+              <TabsTrigger 
+                value="share" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none px-6 py-4"
+              >
+                Partager
+              </TabsTrigger>
+              <TabsTrigger 
+                value="reports" 
+                className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-blue-600 data-[state=active]:text-blue-600 rounded-none px-6 py-4"
+              >
+                Rapports
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]">
+          {/* Left Panel - Builder */}
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Bienvenue au Constructeur de Contenu</h3>
+              <p className="text-gray-600 mb-6">Glissez-déposez les éléments de construction de contenu pour créer votre contenu.</p>
+              
+              {/* Start Screen */}
+              <div className="mb-8">
+                <div className="flex items-center space-x-2 mb-4">
+                  <FileText className="w-5 h-5 text-gray-500" />
+                  <span className="font-medium text-gray-700">Écran de Démarrage:</span>
+                </div>
+                <Card className="border-dashed border-2 border-blue-200 bg-blue-50/30">
+                  <CardContent className="p-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                        <FileText className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <span className="text-sm text-gray-700">Page de Couverture</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Content Elements */}
+              <div className="mb-8">
+                <div className="flex items-center space-x-2 mb-4">
+                  <Settings className="w-5 h-5 text-gray-500" />
+                  <span className="font-medium text-gray-700">Éléments de Contenu:</span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <Card className="cursor-pointer hover:bg-gray-50 transition-colors">
+                    <CardContent className="p-4 text-center">
+                      <FileText className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                      <span className="text-sm font-medium">Questions Texte</span>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="cursor-pointer hover:bg-gray-50 transition-colors">
+                    <CardContent className="p-4 text-center">
+                      <Eye className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                      <span className="text-sm font-medium">Questions Image</span>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="cursor-pointer hover:bg-gray-50 transition-colors">
+                    <CardContent className="p-4 text-center">
+                      <Settings className="w-8 h-8 text-purple-600 mx-auto mb-2" />
+                      <span className="text-sm font-medium">Champs de Formulaire</span>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="cursor-pointer hover:bg-gray-50 transition-colors">
+                    <CardContent className="p-4 text-center">
+                      <FileText className="w-8 h-8 text-orange-600 mx-auto mb-2" />
+                      <span className="text-sm font-medium">Texte</span>
+                    </CardContent>
+                  </Card>
                 </div>
               </div>
-            </div>
-            
-            <div className="flex items-center space-x-s16">
-              <Button 
-                variant="outline" 
-                className="border-2 border-emerald-200 text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl px-s20 py-s12 rounded-xl backdrop-blur-sm"
-              >
-                <Save className="w-5 h-5 mr-2" />
-                Enregistrer
-              </Button>
-              {currentStep === 3 && (
+
+              {/* Results */}
+              <div>
+                <div className="flex items-center space-x-2 mb-4">
+                  <FileText className="w-5 h-5 text-gray-500" />
+                  <span className="font-medium text-gray-700">Résultats:</span>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <Card className="cursor-pointer hover:bg-gray-50 transition-colors">
+                    <CardContent className="p-4 text-center">
+                      <FileText className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                      <span className="text-sm font-medium">Générateur de Résultats</span>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="cursor-pointer hover:bg-gray-50 transition-colors">
+                    <CardContent className="p-4 text-center">
+                      <Share className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                      <span className="text-sm font-medium">Redirection URL</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+
+              <div className="mt-8">
                 <Button 
-                  onClick={() => onNavigate("session-live")}
-                  className="bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 hover:from-emerald-600 hover:via-green-600 hover:to-teal-600 text-white font-akili-bold transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl px-s24 py-s12 rounded-xl"
+                  onClick={addQuestion}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                 >
-                  <Play className="w-5 h-5 mr-2" />
-                  🚀 Lancer une Session
+                  Commencer maintenant
                 </Button>
-              )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Indicateur d'étapes amélioré */}
-        <div className="animate-scale-in animate-delay-200">
-          <StepIndicator steps={steps} currentStep={currentStep} />
-        </div>
-
-        {/* Contenu de l'étape avec design amélioré */}
-        <div className="max-w-5xl mx-auto animate-fade-in-up animate-delay-300">
-          <div className="bg-gradient-to-br from-white/98 to-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 overflow-hidden relative">
-            {/* Fond décoratif */}
-            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500"></div>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-orange-400/5 to-transparent rounded-full"></div>
+          {/* Right Panel - Preview */}
+          <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">{quizTitle}</h3>
+            </div>
             
-            <div className="p-s48 relative z-10">
-              {renderStepContent()}
+            <div className="p-6 h-full overflow-y-auto">
+              {/* Start Screen Preview */}
+              <Card className="mb-6 border-dashed border-2 border-blue-200 bg-blue-50/30">
+                <CardContent className="p-6">
+                  <h4 className="text-xl font-semibold text-gray-800 mb-4">Écran de Démarrage</h4>
+                  <div className="flex items-center space-x-3 p-4 bg-white rounded-lg border">
+                    <FileText className="w-5 h-5 text-blue-600" />
+                    <Input
+                      value={startScreenTitle}
+                      onChange={(e) => setStartScreenTitle(e.target.value)}
+                      className="border-none shadow-none p-0 text-lg font-medium bg-transparent focus-visible:ring-0"
+                      placeholder="Titre de l'écran de démarrage..."
+                    />
+                    <div className="flex space-x-2">
+                      <Button variant="ghost" size="sm">
+                        <Edit className="w-4 h-4" />
+                      </Button>
+                      <Button variant="ghost" size="sm">
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Content Elements Preview */}
+              <Card className="border-dashed border-2 border-gray-200">
+                <CardContent className="p-6">
+                  <h4 className="text-xl font-semibold text-gray-800 mb-6">Éléments de Contenu</h4>
+                  
+                  <div className="space-y-4">
+                    {questions.map((question, index) => (
+                      <Card key={question.id} className="bg-white border">
+                        <CardContent className="p-4">
+                          <div className="flex items-start space-x-4">
+                            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                              <span className="text-sm font-medium text-blue-600">{index + 1}</span>
+                            </div>
+                            
+                            <div className="flex-1">
+                              <div className="flex items-center space-x-2 mb-2">
+                                <Eye className="w-4 h-4 text-gray-500" />
+                                <Input
+                                  value={question.question}
+                                  onChange={(e) => updateQuestion(question.id, 'question', e.target.value)}
+                                  className="border-none shadow-none p-0 font-medium bg-transparent focus-visible:ring-0"
+                                />
+                              </div>
+                            </div>
+                            
+                            <div className="flex items-center space-x-2">
+                              <Button variant="ghost" size="sm">
+                                <Eye className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm">
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm">
+                                <Share className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm">
+                                <MoreHorizontal className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => deleteQuestion(question.id)}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                              <Button variant="ghost" size="sm">
+                                <Plus className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                    
+                    <Button
+                      onClick={addQuestion}
+                      variant="outline"
+                      className="w-full border-dashed border-2 border-gray-300 py-6 text-gray-600 hover:text-gray-800 hover:border-gray-400"
+                    >
+                      <Plus className="w-5 h-5 mr-2" />
+                      Ajouter un élément
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
-        </div>
-
-        {/* Navigation améliorée */}
-        <div className="flex justify-center items-center space-x-s24 animate-fade-in-up animate-delay-400">
-          {currentStep > 1 && (
-            <Button
-              variant="outline"
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="border-2 border-akili-grey-300 text-akili-grey-700 hover:bg-akili-grey-100 hover:border-akili-grey-400 px-s40 py-s16 text-body1-bold transform hover:scale-105 transition-all duration-300 rounded-xl shadow-lg hover:shadow-xl backdrop-blur-sm"
-            >
-              ← Précédent
-            </Button>
-          )}
-          
-          {/* Indicateur de progression visuel */}
-          <div className="flex items-center space-x-s8">
-            {[...Array(3)].map((_, index) => (
-              <div
-                key={index}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index < currentStep
-                    ? 'bg-gradient-to-r from-purple-500 to-blue-500 scale-110'
-                    : index === currentStep - 1
-                    ? 'bg-gradient-to-r from-orange-400 to-orange-500 scale-125 animate-pulse'
-                    : 'bg-akili-grey-300'
-                }`}
-              />
-            ))}
-          </div>
-          
-          {currentStep < 3 && (
-            <Button
-              onClick={() => setCurrentStep(currentStep + 1)}
-              className="bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 hover:from-purple-600 hover:via-blue-600 hover:to-indigo-600 text-white font-akili-bold px-s48 py-s16 text-body1-bold transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-3xl rounded-xl"
-            >
-              Suivant →
-            </Button>
-          )}
         </div>
       </div>
     </div>
