@@ -88,14 +88,13 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
     
     // Construire le mapping dynamiquement basé sur les types API disponibles
     questionTypes.forEach(type => {
-      if (type.libelle === "VRAI_FAUX" || type.reference === "32") {
-        mapping["VRAI_FAUX"] = type._id;
+      if (type.libelle === "REPONSE_COURTE" || type.reference === "30") {
+        mapping["REPONSE_COURTE"] = type._id;
       } else if (type.libelle === "CHOIX_UNIQUE" || type.reference === "31") {
         mapping["CHOIX_UNIQUE"] = type._id;
-      } else if (type.libelle === "CHOIX_MULTIPLE" || type.reference === "30") {
+        mapping["VRAI_FAUX"] = type._id; // Vrai/Faux utilise CHOIX_UNIQUE
+      } else if (type.libelle === "CHOIX_MULTIPLE" || type.reference === "32") {
         mapping["CHOIX_MULTIPLE"] = type._id;
-      } else if (type.libelle === "REPONSE_COURTE") {
-        mapping["REPONSE_COURTE"] = type._id;
       }
     });
     
@@ -727,10 +726,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                     <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
                       {abstractQuestionTypes.map(type => (
                         <SelectItem key={type.id} value={type.id}>
-                          <div className="flex items-center space-x-2">
-                            <span>{type.label}</span>
-                            <span className="text-xs text-gray-500">- {type.description}</span>
-                          </div>
+                          {type.label}
                         </SelectItem>
                       ))}
                     </SelectContent>
