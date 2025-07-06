@@ -64,7 +64,7 @@ class DashboardService {
     const user = authService.getUser();
     if (!user) throw new Error('Utilisateur non connecté');
 
-    const response = await fetch(`/api/enseignants/${user.id}/dashboard`, {
+    const response = await fetch('http://localhost:3000/api/dashboard', {
       method: 'GET',
       headers: this.getAuthHeaders(),
     });
