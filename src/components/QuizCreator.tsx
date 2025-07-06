@@ -27,6 +27,8 @@ interface Question {
   type_fichier?: string;
   limite_response?: boolean;
   answers: Answer[];
+  // Type abstrait pour l'interface utilisateur
+  abstractType?: "VRAI_FAUX" | "CHOIX_UNIQUE" | "CHOIX_MULTIPLE" | "REPONSE_COURTE";
 }
 
 interface Answer {
@@ -37,6 +39,34 @@ interface Answer {
 
 export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const { toast } = useToast();
+  
+  // Types de questions abstraits pour l'interface utilisateur
+  const abstractQuestionTypes = [
+    { 
+      id: "VRAI_FAUX", 
+      label: "Vrai ou Faux", 
+      description: "Deux réponses possibles : Vrai ou Faux",
+      icon: "ToggleLeft"
+    },
+    { 
+      id: "CHOIX_UNIQUE", 
+      label: "Choix unique", 
+      description: "Une seule réponse correcte parmi plusieurs options",
+      icon: "CheckSquare"
+    },
+    { 
+      id: "CHOIX_MULTIPLE", 
+      label: "Choix multiple", 
+      description: "Plusieurs réponses correctes possibles",
+      icon: "CheckSquare"
+    },
+    { 
+      id: "REPONSE_COURTE", 
+      label: "Réponse courte", 
+      description: "Réponse de type texte libre",
+      icon: "Type"
+    }
+  ];
   
   // États principaux
   const [step, setStep] = useState(1);
@@ -51,6 +81,39 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const [questionTypes, setQuestionTypes] = useState<QuestionType[]>([]);
   const [pointSystems, setPointSystems] = useState<PointSystem[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Mapper les types abstraits vers les vrais types API
+  const mapAbstractTypeToApiType = (abstractType: string): string | null => {
+    const mapping: { [key: string]: string } = {};
+    
+    // Construire le mapping dynamiquement basé sur les types API disponibles
+    questionTypes.forEach(type => {
+      if (type.libelle === "VRAI_FAUX" || type.reference === "32") {
+        mapping["VRAI_FAUX"] = type._id;
+      } else if (type.libelle === "CHOIX_UNIQUE" || type.reference === "31") {
+        mapping["CHOIX_UNIQUE"] = type._id;
+      } else if (type.libelle === "CHOIX_MULTIPLE" || type.reference === "30") {
+        mapping["CHOIX_MULTIPLE"] = type._id;
+      } else if (type.libelle === "REPONSE_COURTE") {
+        mapping["REPONSE_COURTE"] = type._id;
+      }
+    });
+    
+    return mapping[abstractType] || null;
+  };
+
+  // Mapper les types API vers les types abstraits
+  const mapApiTypeToAbstractType = (apiTypeId: string): string => {
+    const type = questionTypes.find(t => t._id === apiTypeId);
+    if (!type) return "VRAI_FAUX";
+    
+    if (type.libelle === "VRAI_FAUX" || type.reference === "32") return "VRAI_FAUX";
+    if (type.libelle === "CHOIX_UNIQUE" || type.reference === "31") return "CHOIX_UNIQUE";
+    if (type.libelle === "CHOIX_MULTIPLE" || type.reference === "30") return "CHOIX_MULTIPLE";
+    if (type.libelle === "REPONSE_COURTE") return "REPONSE_COURTE";
+    
+    return "VRAI_FAUX";
+  };
 
   // Gérer l'upload d'image
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,10 +225,8 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
     console.log('🔍 Question types available:', questionTypes);
     
     const defaultPointSystem = pointSystems.length > 0 ? pointSystems[0] : null;
-    const defaultQuestionType = questionTypes.length > 0 ? questionTypes[0] : null;
     
     console.log('🔍 Default point system:', defaultPointSystem);
-    console.log('🔍 Default question type:', defaultQuestionType);
     
     if (!defaultPointSystem) {
       toast({
@@ -176,35 +237,84 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       return;
     }
     
-    if (!defaultQuestionType) {
+    // Initialiser avec le premier type abstrait (Vrai/Faux)
+    const newQuestion: Question = {
+      id: Date.now().toString(),
+      libelle: "",
+      temps: 30,
+      typeQuestion: "", // Sera défini lors du changement de type
+      point: defaultPointSystem._id,
+      fichier: "",
+      type_fichier: "",
+      limite_response: true,
+      answers: [],
+      abstractType: "VRAI_FAUX" // Type abstrait par défaut
+    };
+    
+    console.log('🔍 New question initialized:', newQuestion);
+    
+    setQuestionCharCount(0);
+    setCurrentQuestion(newQuestion);
+    
+    // Initialiser avec le type Vrai/Faux
+    handleAbstractTypeChange("VRAI_FAUX", newQuestion);
+    setStep(3);
+  };
+
+  // Gérer le changement de type abstrait de question
+  const handleAbstractTypeChange = (abstractType: string, questionToUpdate?: Question) => {
+    const question = questionToUpdate || currentQuestion;
+    if (!question) return;
+    
+    // Mapper le type abstrait vers le type API
+    const apiTypeId = mapAbstractTypeToApiType(abstractType);
+    if (!apiTypeId) {
       toast({
-        title: "Erreur", 
-        description: "Aucun type de question disponible. Veuillez réessayer.",
+        title: "Erreur",
+        description: "Type de question non disponible",
         variant: "destructive"
       });
       return;
     }
     
-    const newQuestion: Question = {
-      id: Date.now().toString(),
-      libelle: "",
-      temps: 30,
-      typeQuestion: defaultQuestionType._id,
-      point: defaultPointSystem._id, // Utilise l'_id du système de points
-      fichier: "",
-      type_fichier: "",
-      limite_response: true,
-      answers: []
+    let defaultAnswers: Answer[] = [];
+    
+    if (abstractType === "VRAI_FAUX") {
+      // Vrai/Faux - 2 réponses fixes
+      defaultAnswers = [
+        { id: "1", reponse_texte: "Vrai", etat: true },
+        { id: "2", reponse_texte: "Faux", etat: false }
+      ];
+    } else if (abstractType === "CHOIX_UNIQUE") {
+      // Choix unique - permet d'ajouter plus de réponses, une seule correcte
+      defaultAnswers = [
+        { id: "1", reponse_texte: "", etat: true },
+        { id: "2", reponse_texte: "", etat: false }
+      ];
+    } else if (abstractType === "CHOIX_MULTIPLE") {
+      // Choix multiple - plusieurs réponses peuvent être correctes
+      defaultAnswers = [
+        { id: "1", reponse_texte: "", etat: false },
+        { id: "2", reponse_texte: "", etat: false },
+        { id: "3", reponse_texte: "", etat: false },
+        { id: "4", reponse_texte: "", etat: false }
+      ];
+    } else if (abstractType === "REPONSE_COURTE") {
+      // Réponse courte - une seule réponse de type texte libre
+      defaultAnswers = [
+        { id: "1", reponse_texte: "", etat: true }
+      ];
+    }
+    
+    const updatedQuestion = {
+      ...question,
+      abstractType: abstractType as "VRAI_FAUX" | "CHOIX_UNIQUE" | "CHOIX_MULTIPLE" | "REPONSE_COURTE",
+      typeQuestion: apiTypeId,
+      answers: defaultAnswers
     };
     
-    console.log('🔍 New question initialized:', newQuestion);
-    
-    setQuestionCharCount(0); // Réinitialiser le compteur
-    setCurrentQuestion(newQuestion);
-    setStep(3);
+    setCurrentQuestion(updatedQuestion);
   };
-
-  // Gérer le changement de type de question
   const handleQuestionTypeChange = (typeId: string) => {
     if (!currentQuestion) return;
     
@@ -275,10 +385,8 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const updateAnswer = (answerId: string, field: string, value: any) => {
     if (!currentQuestion) return;
     
-    const questionType = questionTypes.find(t => t._id === currentQuestion.typeQuestion);
-    
-    // Pour les types CHOIX_UNIQUE (Vrai/Faux et Choix unique), une seule réponse peut être correcte
-    if (field === 'etat' && value && (questionType?.libelle === "VRAI_FAUX" || questionType?.libelle === "CHOIX_UNIQUE" || questionType?.reference === "32" || questionType?.reference === "31")) {
+    // Pour les types VRAI_FAUX et CHOIX_UNIQUE, une seule réponse peut être correcte
+    if (field === 'etat' && value && (currentQuestion.abstractType === "VRAI_FAUX" || currentQuestion.abstractType === "CHOIX_UNIQUE")) {
       setCurrentQuestion({
         ...currentQuestion,
         answers: currentQuestion.answers.map(a => ({
@@ -612,14 +720,17 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="question-type">Type de question</Label>
-                  <Select value={currentQuestion.typeQuestion} onValueChange={handleQuestionTypeChange}>
-                    <SelectTrigger className="mt-2">
+                  <Select value={currentQuestion.abstractType || "VRAI_FAUX"} onValueChange={handleAbstractTypeChange}>
+                    <SelectTrigger className="mt-2 bg-white border-gray-200 z-50">
                       <SelectValue placeholder="Choisir le type" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {questionTypes.map(type => (
-                        <SelectItem key={type._id} value={type._id}>
-                          {type.libelle}
+                    <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                      {abstractQuestionTypes.map(type => (
+                        <SelectItem key={type.id} value={type.id}>
+                          <div className="flex items-center space-x-2">
+                            <span>{type.label}</span>
+                            <span className="text-xs text-gray-500">- {type.description}</span>
+                          </div>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -673,10 +784,8 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                <div>
                  <div className="flex items-center justify-between mb-4">
                    <Label>Réponses</Label>
-                   {/* Bouton ajouter réponse - seulement pour choix unique/multiple et pas vrai/faux */}
-                   {(questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle === "CHOIX_UNIQUE" || 
-                     questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle === "CHOIX_MULTIPLE") && 
-                    questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle !== "VRAI_FAUX" && (
+                   {/* Bouton ajouter réponse - seulement pour choix unique/multiple mais pas vrai/faux */}
+                   {(currentQuestion.abstractType === "CHOIX_UNIQUE" || currentQuestion.abstractType === "CHOIX_MULTIPLE") && (
                      <Button
                        type="button"
                        variant="outline"
@@ -690,7 +799,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                  </div>
                  
                  {/* Interface pour Réponse courte */}
-                 {questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle === "REPONSE_COURTE" ? (
+                 {currentQuestion.abstractType === "REPONSE_COURTE" ? (
                    <div className="space-y-3">
                      <Label className="text-sm font-medium text-gray-700">
                        Saisissez la réponse attendue
@@ -706,10 +815,9 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                    /* Interface pour les autres types */
                    <div className="space-y-3">
                      {currentQuestion.answers.map((answer, index) => {
-                       const questionType = questionTypes.find(t => t._id === currentQuestion.typeQuestion);
-                       const isVraiFaux = questionType?.libelle === "VRAI_FAUX" || questionType?.reference === "32";
-                       const isChoixUnique = questionType?.libelle === "CHOIX_UNIQUE" || questionType?.reference === "31";
-                       const isChoixMultiple = questionType?.libelle === "CHOIX_MULTIPLE" || questionType?.reference === "30";
+                       const isVraiFaux = currentQuestion.abstractType === "VRAI_FAUX";
+                       const isChoixUnique = currentQuestion.abstractType === "CHOIX_UNIQUE";
+                       const isChoixMultiple = currentQuestion.abstractType === "CHOIX_MULTIPLE";
                        
                        return (
                          <div key={answer.id} className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
