@@ -3,12 +3,36 @@ import { authService } from './authService';
 
 // Types pour les jeux
 export interface Game {
-  id: string;
+  _id: string;
   titre: string;
-  image?: string;
-  dateCreation?: string;
-  questions?: Question[];
-  enseignant?: string;
+  image: string | null;
+  createdBy: {
+    _id: string;
+    nom: string;
+    prenom: string;
+    matricule: string;
+    genre: string;
+    statut: string;
+    phone: string;
+    email: string;
+    adresse: string;
+    role: string;
+  } | null;
+  ecole: {
+    _id: string;
+    libelle: string;
+    ville: string;
+    telephone: string;
+  } | null;
+  date: string;
+}
+
+export interface GamesResponse {
+  success: boolean;
+  message: string;
+  data: Game[];
+  total: number;
+  filtrage: string;
 }
 
 export interface Question {
@@ -93,11 +117,8 @@ class GameService {
   }
 
   // Récupérer mes jeux
-  async getMyGames(): Promise<Game[]> {
-    const user = authService.getUser();
-    if (!user) throw new Error('Utilisateur non connecté');
-
-    const response = await fetch(`/api/enseignants/${user.id}/jeux`, {
+  async getMyGames(): Promise<GamesResponse> {
+    const response = await fetch('http://localhost:3000/api/jeux', {
       method: 'GET',
       headers: this.getAuthHeaders(),
     });
@@ -107,7 +128,7 @@ class GameService {
       throw new Error(result.message || 'Erreur lors de la récupération des jeux');
     }
     
-    return result.data;
+    return result;
   }
 
   // Dupliquer un jeu
