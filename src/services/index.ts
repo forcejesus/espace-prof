@@ -1,37 +1,25 @@
-// Export de tous les services
-export { authService } from './authService';
+// Re-export individual services
 export { gameService } from './gameService';
-export { studentService } from './studentService';
-export { dashboardService } from './dashboardService';
-export { planificationService } from './planificationService';
-export { apiClient } from './apiClient';
+export { questionService } from './questionService';  
+export { answerService } from './answerService';
+export { referenceService } from './referenceService';
 
-// Export des types
-export type { LoginRequest, LoginResponse, User } from './authService';
-export type { 
-  Game, 
-  Question, 
-  Answer, 
-  QuestionType, 
-  PointSystem,
-  CreateGameRequest,
-  CreateQuestionRequest,
-  CreateAnswerRequest 
-} from './gameService';
-export type { 
-  Student, 
-  CreateStudentRequest, 
-  CreateStudentsBulkRequest, 
-  Avatar 
-} from './studentService';
-export type { 
-  DashboardData, 
-  UserProfile, 
-  UpdateProfileRequest, 
-  ChangePasswordRequest 
-} from './dashboardService';
-export type { 
-  Planification, 
-  CreatePlanificationRequest, 
-  PlanificationStats 
-} from './planificationService';
+// Re-export all types
+export * from './types';
+
+// Create unified service for backward compatibility
+import { gameService as _gameService } from './gameService';
+import { questionService } from './questionService';
+import { answerService } from './answerService';
+import { referenceService } from './referenceService';
+
+const unifiedGameService = Object.assign(
+  Object.create(Object.getPrototypeOf(_gameService)),
+  _gameService,
+  questionService,
+  answerService,
+  referenceService
+);
+
+// Export unified service as default gameService for backward compatibility
+export { unifiedGameService as gameService };

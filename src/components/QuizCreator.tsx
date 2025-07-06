@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { gameService, QuestionType, PointSystem } from "@/services/gameService";
+import { QuestionType, PointSystem, gameService } from "@/services";
 import { CreatedQuestionsList } from "./quiz-creator/CreatedQuestionsList";
 
 interface QuizCreatorProps {
