@@ -1,15 +1,22 @@
 
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LayoutDashboard, GamepadIcon, Calendar, User, Menu, X, Settings, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { authService } from "@/services/authService";
 
 export function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = () => {
+    authService.logout();
+    navigate('/login');
+  };
 
   const menuItems = [
     {
@@ -76,7 +83,7 @@ export function Header() {
                   <Settings className="w-4 h-4 mr-2" />
                   Mes paramètres
                 </DropdownMenuItem>
-                <DropdownMenuItem className="text-red-600">
+                <DropdownMenuItem className="text-red-600" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 mr-2" />
                   Se déconnecter
                 </DropdownMenuItem>

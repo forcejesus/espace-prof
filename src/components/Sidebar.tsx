@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "./LanguageSelector";
+import { authService } from "@/services/authService";
 
 interface SidebarProps {
   onNavigate?: (view: string) => void; // Optional for backwards compatibility
@@ -160,8 +161,8 @@ export function Sidebar({ onNavigate }: SidebarProps) {
         {/* Section de déconnexion */}
         <button
           onClick={() => {
-            // Logique de déconnexion - peut être modifiée selon vos besoins
-            console.log("Déconnexion...");
+            // Déconnexion propre avec nettoyage du localStorage
+            authService.logout();
             handleNavigation('/login');
           }}
           className="w-full flex items-center space-x-s12 px-s16 py-s12 rounded-lg transition-all duration-200 group text-akili-grey-600 hover:text-red-600 hover:bg-red-50"
