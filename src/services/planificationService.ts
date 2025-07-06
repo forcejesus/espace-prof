@@ -23,6 +23,7 @@ export interface CreatePlanificationRequest {
   heure_fin?: string;
   limite_participant: number;
   jeu: string;
+  statut?: string;
 }
 
 export interface PlanificationStats {

@@ -1,17 +1,19 @@
 
 import { useState, useEffect } from "react";
-import { Plus, Search, Filter, Play, Edit, Trash2, Users, Clock, BookOpen, MoreVertical, MoreHorizontal, Grid3X3, List, Star, Trophy, Target, Brain, Zap } from "lucide-react";
+import { Plus, Search, Filter, Play, Edit, Trash2, Users, Clock, BookOpen, MoreVertical, MoreHorizontal, Grid3X3, List, Star, Trophy, Target, Brain, Zap, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 import { gameService, Game } from "@/services";
+import { planificationService } from "@/services/planificationService";
 
 interface QuizLibraryProps {
   onNavigate: (view: string) => void;
@@ -27,6 +29,16 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isPlanificationDialogOpen, setIsPlanificationDialogOpen] = useState(false);
+  const [selectedGameForPlan, setSelectedGameForPlan] = useState<Game | null>(null);
+  const [planificationData, setPlanificationData] = useState({
+    date_debut: "",
+    date_fin: "",
+    heure_debut: "",
+    heure_fin: "",
+    limite_participant: 100,
+    type: "live"
+  });
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -74,6 +86,54 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
       setNewGameName("");
       setNewGameImage("");
       onNavigate("creer-quiz");
+    }
+  };
+
+  const handleDeleteGame = async (gameId: string) => {
+    try {
+      await gameService.deleteGame(gameId);
+      // Actualiser la liste des jeux après suppression
+      const result = await gameService.getMyGames();
+      setGames(result.data);
+    } catch (err) {
+      console.error('Erreur lors de la suppression du jeu:', err);
+      setError(err instanceof Error ? err.message : 'Erreur lors de la suppression');
+    }
+  };
+
+  const handlePlanifierGame = (game: Game) => {
+    setSelectedGameForPlan(game);
+    setIsPlanificationDialogOpen(true);
+  };
+
+  const handleCreatePlanification = async () => {
+    if (!selectedGameForPlan) return;
+    
+    try {
+      await planificationService.createPlanification({
+        statut: "en attente",
+        date_debut: planificationData.date_debut,
+        date_fin: planificationData.date_fin,
+        heure_debut: planificationData.heure_debut,
+        heure_fin: planificationData.heure_fin,
+        limite_participant: planificationData.limite_participant,
+        type: planificationData.type as 'live' | 'attribuer',
+        jeu: selectedGameForPlan._id
+      });
+      
+      setIsPlanificationDialogOpen(false);
+      setPlanificationData({
+        date_debut: "",
+        date_fin: "",
+        heure_debut: "",
+        heure_fin: "",
+        limite_participant: 100,
+        type: "live"
+      });
+      setSelectedGameForPlan(null);
+    } catch (err) {
+      console.error('Erreur lors de la création de la planification:', err);
+      setError(err instanceof Error ? err.message : 'Erreur lors de la planification');
     }
   };
 
@@ -217,12 +277,40 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                           </Button>
                           <Button 
                             size="sm"
-                            onClick={() => onNavigate("planification")}
+                            onClick={() => handlePlanifierGame(game)}
                             className="flex-1 text-white font-akili-bold"
                             style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
                           >
                             {t('mesJeux.plan')}
                           </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="border-red-500 text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Êtes-vous sûr de vouloir supprimer le jeu "{game.titre}" ? Cette action est irréversible.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Annuler</AlertDialogCancel>
+                                <AlertDialogAction 
+                                  onClick={() => handleDeleteGame(game._id)}
+                                  className="bg-red-600 hover:bg-red-700"
+                                >
+                                  Supprimer
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </div>
                       </div>
                     </CardContent>
@@ -312,6 +400,119 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                 className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white"
               >
                 {t('quizCreator.create')}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog de Planification */}
+      <Dialog open={isPlanificationDialogOpen} onOpenChange={setIsPlanificationDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-akili-grey-800">
+              Planifier le jeu: {selectedGameForPlan?.titre}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-s16">
+            <div className="grid grid-cols-2 gap-s12">
+              <div>
+                <Label htmlFor="date-debut" className="text-body2-medium text-akili-grey-700">
+                  Date début *
+                </Label>
+                <Input
+                  id="date-debut"
+                  type="date"
+                  value={planificationData.date_debut}
+                  onChange={(e) => setPlanificationData(prev => ({...prev, date_debut: e.target.value}))}
+                  className="mt-1 border-akili-grey-400 focus:border-akili-purple-500"
+                />
+              </div>
+              <div>
+                <Label htmlFor="date-fin" className="text-body2-medium text-akili-grey-700">
+                  Date fin *
+                </Label>
+                <Input
+                  id="date-fin"
+                  type="date"
+                  value={planificationData.date_fin}
+                  onChange={(e) => setPlanificationData(prev => ({...prev, date_fin: e.target.value}))}
+                  min={planificationData.date_debut}
+                  className="mt-1 border-akili-grey-400 focus:border-akili-purple-500"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-s12">
+              <div>
+                <Label htmlFor="heure-debut" className="text-body2-medium text-akili-grey-700">
+                  Heure début *
+                </Label>
+                <Input
+                  id="heure-debut"
+                  type="time"
+                  value={planificationData.heure_debut}
+                  onChange={(e) => setPlanificationData(prev => ({...prev, heure_debut: e.target.value}))}
+                  className="mt-1 border-akili-grey-400 focus:border-akili-purple-500"
+                />
+              </div>
+              <div>
+                <Label htmlFor="heure-fin" className="text-body2-medium text-akili-grey-700">
+                  Heure fin *
+                </Label>
+                <Input
+                  id="heure-fin"
+                  type="time"
+                  value={planificationData.heure_fin}
+                  onChange={(e) => setPlanificationData(prev => ({...prev, heure_fin: e.target.value}))}
+                  className="mt-1 border-akili-grey-400 focus:border-akili-purple-500"
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="limite-participant" className="text-body2-medium text-akili-grey-700">
+                Limite participants *
+              </Label>
+              <Input
+                id="limite-participant"
+                type="number"
+                min="1"
+                value={planificationData.limite_participant}
+                onChange={(e) => setPlanificationData(prev => ({...prev, limite_participant: Number(e.target.value)}))}
+                className="mt-1 border-akili-grey-400 focus:border-akili-purple-500"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="type" className="text-body2-medium text-akili-grey-700">
+                Type de planification *
+              </Label>
+              <Select value={planificationData.type} onValueChange={(value) => setPlanificationData(prev => ({...prev, type: value}))}>
+                <SelectTrigger className="mt-1 border-akili-grey-400">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="live">Live</SelectItem>
+                  <SelectItem value="attribuer">Attribuer</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <Button 
+                variant="outline" 
+                onClick={() => setIsPlanificationDialogOpen(false)}
+                className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
+              >
+                Annuler
+              </Button>
+              <Button 
+                onClick={handleCreatePlanification}
+                disabled={!planificationData.date_debut || !planificationData.date_fin || !planificationData.heure_debut || !planificationData.heure_fin}
+                className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white"
+              >
+                Planifier
               </Button>
             </div>
           </div>

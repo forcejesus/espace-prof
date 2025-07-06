@@ -68,6 +68,19 @@ class GameService {
       throw new Error(result.message || "Erreur lors de l'archivage du jeu");
     }
   }
+
+  // Supprimer un jeu
+  async deleteGame(gameId: string): Promise<void> {
+    const response = await fetch(`http://localhost:3000/api/jeux/delete/${gameId}`, {
+      method: 'POST',
+      headers: this.getAuthHeaders(),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || 'Erreur lors de la suppression du jeu');
+    }
+  }
 }
 
 export const gameService = new GameService();
