@@ -13,6 +13,11 @@ interface CreatedQuestion {
   libelle: string;
   temps: number;
   fichier?: string;
+  typeQuestion: {
+    _id: string;
+    libelle: string;
+    reference: string;
+  };
   reponses: Array<{
     _id: string;
     reponse_texte: string;
@@ -72,7 +77,7 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
     });
   };
 
-  const handleSaveAnswer = async (answerId: string) => {
+  const handleSaveAnswer = async (answerId: string, questionId?: string) => {
     try {
       await answerService.updateAnswer(answerId, editData);
       toast.success("Réponse modifiée avec succès");
@@ -81,6 +86,57 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
     } catch (error) {
       toast.error("Erreur lors de la modification de la réponse");
       console.error("Error updating answer:", error);
+    }
+  };
+
+  // Détermine le type abstrait de la question
+  const getAbstractQuestionType = (question: CreatedQuestion): string => {
+    const typeRef = question.typeQuestion?.reference;
+    const typeLabel = question.typeQuestion?.libelle;
+    
+    // Vrai/Faux si c'est CHOIX_UNIQUE avec exactement 2 réponses "Vrai"/"Faux"
+    if ((typeRef === "31" || typeLabel === "CHOIX_UNIQUE") && question.reponses.length === 2) {
+      const hasVraiFaux = question.reponses.some(r => r.reponse_texte === "Vrai") &&
+                          question.reponses.some(r => r.reponse_texte === "Faux");
+      if (hasVraiFaux) return "VRAI_FAUX";
+    }
+    
+    if (typeRef === "31" || typeLabel === "CHOIX_UNIQUE") return "CHOIX_UNIQUE";
+    if (typeRef === "32" || typeLabel === "CHOIX_MULTIPLE") return "CHOIX_MULTIPLE";
+    if (typeRef === "30" || typeLabel === "REPONSE_COURTE") return "REPONSE_COURTE";
+    
+    return "CHOIX_UNIQUE"; // par défaut
+  };
+
+  // Gestion des changements selon le type de question
+  const handleAnswerStateChange = async (answerId: string, newState: boolean, question: CreatedQuestion) => {
+    const abstractType = getAbstractQuestionType(question);
+    
+    if (abstractType === "VRAI_FAUX") {
+      // Pour Vrai/Faux : basculer entre les deux réponses
+      const otherAnswer = question.reponses.find(r => r._id !== answerId);
+      if (otherAnswer) {
+        // Mettre à jour les deux réponses
+        await answerService.updateAnswer(answerId, { etat: newState });
+        await answerService.updateAnswer(otherAnswer._id, { etat: !newState });
+        onQuestionUpdated();
+        toast.success("Réponse modifiée avec succès");
+      }
+    } else if (abstractType === "CHOIX_UNIQUE") {
+      // Pour choix unique : désactiver toutes les autres réponses
+      if (newState) {
+        for (const answer of question.reponses) {
+          const shouldBeTrue = answer._id === answerId;
+          await answerService.updateAnswer(answer._id, { etat: shouldBeTrue });
+        }
+        onQuestionUpdated();
+        toast.success("Réponse modifiée avec succès");
+      }
+    } else if (abstractType === "CHOIX_MULTIPLE") {
+      // Pour choix multiple : modifier seulement cette réponse
+      await answerService.updateAnswer(answerId, { etat: newState });
+      onQuestionUpdated();
+      toast.success("Réponse modifiée avec succès");
     }
   };
 
@@ -238,70 +294,135 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
                 <div>
                   <h4 className="font-medium text-gray-800 mb-2">Réponses:</h4>
                   <div className="space-y-2">
-                    {question.reponses.map((answer) => (
-                      <div key={answer._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        {editingAnswer === answer._id ? (
-                          <div className="flex items-center space-x-4 flex-1">
-                            <Input
-                              value={editData.reponse_texte}
-                              onChange={(e) => setEditData({ ...editData, reponse_texte: e.target.value })}
-                              className="flex-1"
-                            />
-                            <label className="flex items-center space-x-2">
-                              <input
-                                type="checkbox"
-                                checked={editData.etat}
-                                onChange={(e) => setEditData({ ...editData, etat: e.target.checked })}
-                              />
-                              <span className="text-sm">Correcte</span>
-                            </label>
-                            <div className="flex space-x-1">
-                              <Button
-                                size="sm"
-                                onClick={() => handleSaveAnswer(answer._id)}
-                                className="bg-green-500 hover:bg-green-600 text-white"
-                              >
-                                <Save className="w-3 h-3" />
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => setEditingAnswer(null)}
-                              >
-                                <X className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            <div className="flex items-center space-x-3">
-                              <span className="text-gray-700">{answer.reponse_texte}</span>
-                              {answer.etat && (
-                                <Badge className="bg-green-100 text-green-800">Correcte</Badge>
-                              )}
-                            </div>
-                            <div className="flex space-x-1">
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleEditAnswer(answer)}
-                                className="text-blue-600 hover:bg-blue-50"
-                              >
-                                <Pencil className="w-3 h-3" />
-                              </Button>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleDeleteAnswer(answer._id)}
-                                className="text-red-500 hover:bg-red-50"
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    ))}
+                     {question.reponses.map((answer) => {
+                       const abstractType = getAbstractQuestionType(question);
+                       
+                       return (
+                         <div key={answer._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                           {editingAnswer === answer._id ? (
+                             <div className="flex items-center space-x-4 flex-1">
+                               <Input
+                                 value={editData.reponse_texte}
+                                 onChange={(e) => setEditData({ ...editData, reponse_texte: e.target.value })}
+                                 className="flex-1"
+                                 readOnly={abstractType === "VRAI_FAUX"}
+                               />
+                               
+                               {abstractType !== "REPONSE_COURTE" && (
+                                 <label className="flex items-center space-x-2">
+                                   {abstractType === "VRAI_FAUX" || abstractType === "CHOIX_UNIQUE" ? (
+                                     <input
+                                       type="radio"
+                                       name={`edit-question-${question._id}`}
+                                       checked={editData.etat}
+                                       onChange={(e) => setEditData({ ...editData, etat: e.target.checked })}
+                                     />
+                                   ) : (
+                                     <input
+                                       type="checkbox"
+                                       checked={editData.etat}
+                                       onChange={(e) => setEditData({ ...editData, etat: e.target.checked })}
+                                     />
+                                   )}
+                                   <span className="text-sm">Correcte</span>
+                                 </label>
+                               )}
+                               
+                               <div className="flex space-x-1">
+                                 <Button
+                                   size="sm"
+                                   onClick={() => handleSaveAnswer(answer._id, question._id)}
+                                   className="bg-green-500 hover:bg-green-600 text-white"
+                                 >
+                                   <Save className="w-3 h-3" />
+                                 </Button>
+                                 <Button
+                                   size="sm"
+                                   variant="outline"
+                                   onClick={() => setEditingAnswer(null)}
+                                 >
+                                   <X className="w-3 h-3" />
+                                 </Button>
+                               </div>
+                             </div>
+                           ) : (
+                             <>
+                               <div className="flex items-center space-x-3">
+                                 {/* Interface directe de modification selon le type */}
+                                 {abstractType === "REPONSE_COURTE" ? (
+                                   <Input
+                                     value={answer.reponse_texte}
+                                     onChange={(e) => {
+                                       answerService.updateAnswer(answer._id, { reponse_texte: e.target.value })
+                                         .then(() => onQuestionUpdated())
+                                         .catch(err => console.error("Error updating answer:", err));
+                                     }}
+                                     className="flex-1"
+                                     placeholder="Réponse attendue..."
+                                   />
+                                 ) : (
+                                   <>
+                                     {abstractType === "VRAI_FAUX" || abstractType === "CHOIX_UNIQUE" ? (
+                                       <label className="flex items-center space-x-2 cursor-pointer">
+                                         <input
+                                           type="radio"
+                                           name={`question-${question._id}`}
+                                           checked={!!answer.etat}
+                                           onChange={(e) => {
+                                             if (e.target.checked) {
+                                               handleAnswerStateChange(answer._id, true, question);
+                                             }
+                                           }}
+                                         />
+                                         <span className="text-gray-700">{answer.reponse_texte}</span>
+                                       </label>
+                                     ) : (
+                                       <label className="flex items-center space-x-2 cursor-pointer">
+                                         <input
+                                           type="checkbox"
+                                           checked={!!answer.etat}
+                                           onChange={(e) => {
+                                             handleAnswerStateChange(answer._id, e.target.checked, question);
+                                           }}
+                                         />
+                                         <span className="text-gray-700">{answer.reponse_texte}</span>
+                                       </label>
+                                     )}
+                                     
+                                     {answer.etat && (
+                                       <Badge className="bg-green-100 text-green-800">Correcte</Badge>
+                                     )}
+                                   </>
+                                 )}
+                               </div>
+                               
+                               {abstractType !== "REPONSE_COURTE" && (
+                                 <div className="flex space-x-1">
+                                   <Button
+                                     size="sm"
+                                     variant="ghost"
+                                     onClick={() => handleEditAnswer(answer)}
+                                     className="text-blue-600 hover:bg-blue-50"
+                                   >
+                                     <Pencil className="w-3 h-3" />
+                                   </Button>
+                                   {abstractType !== "VRAI_FAUX" && (
+                                     <Button
+                                       size="sm"
+                                       variant="ghost"
+                                       onClick={() => handleDeleteAnswer(answer._id)}
+                                       className="text-red-500 hover:bg-red-50"
+                                     >
+                                       <Trash2 className="w-3 h-3" />
+                                     </Button>
+                                   )}
+                                 </div>
+                               )}
+                             </>
+                           )}
+                         </div>
+                       );
+                     })}
                   </div>
                 </div>
               </div>
