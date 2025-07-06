@@ -59,24 +59,28 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Couleurs AKILI
 				akili: {
 					purple: {
+						100: 'var(--colors-purple-100)',
 						300: 'var(--colors-purple-300)',
 						500: 'var(--colors-purple-500)',
 						700: 'var(--colors-purple-700)',
 					},
 					blue: {
+						100: 'var(--colors-blue-100)',
 						300: 'var(--colors-blue-300)',
 						500: 'var(--colors-blue-500)',
 						700: 'var(--colors-blue-700)',
 					},
 					green: {
+						100: 'var(--colors-green-100)',
 						300: 'var(--colors-green-300)',
 						500: 'var(--colors-green-500)',
 						700: 'var(--colors-green-700)',
 					},
 					orange: {
+						50: '#fff7ed',
+						100: 'var(--colors-orange-100)',
 						300: 'var(--colors-orange-300)',
 						500: 'var(--colors-orange-500)',
 						700: 'var(--colors-orange-700)',
@@ -98,6 +102,7 @@ export default {
 					},
 					grey: {
 						0: 'var(--colors-grey-0)',
+						50: 'var(--colors-grey-50)',
 						200: 'var(--colors-grey-200)',
 						300: 'var(--colors-grey-300)',
 						400: 'var(--colors-grey-400)',

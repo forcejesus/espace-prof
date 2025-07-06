@@ -1,4 +1,4 @@
-import { Brain, Calendar, Users, TrendingUp, Award, Target, ChartBar } from "lucide-react";
+import { Brain, Calendar, Users, TrendingUp, UserPlus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "react-i18next";
@@ -8,44 +8,44 @@ export function StatsCards() {
   
   const stats = [
     { 
-      title: "Total Revenus", 
-      value: "$9,427.64",
-      trend: "+10%",
-      subtitle: "vs mois dernier", 
-      icon: TrendingUp, 
+      title: t('dashboard.stats.totalGames'), 
+      value: "127",
+      trend: "+15%",
+      subtitle: t('dashboard.stats.gamesSubtitle'),
+      icon: Brain, 
       color: "orange",
       bgColor: "bg-white",
       textColor: "text-akili-grey-800",
       valueColor: "text-akili-orange-600"
     },
     { 
-      title: t('dashboard.stats.totalGames'), 
-      value: "57,922", 
+      title: t('dashboard.stats.totalPlanification'), 
+      value: "53", 
       trend: "+8%",
-      subtitle: "vs mois dernier",
-      icon: Brain, 
+      subtitle: t('dashboard.stats.planificationSubtitle'),
+      icon: Calendar, 
       color: "blue",
       bgColor: "bg-white",
       textColor: "text-akili-grey-800",
       valueColor: "text-akili-blue-600"
     },
     { 
-      title: "Planifications Actives", 
-      value: "380", 
+      title: t('dashboard.stats.apprenantEcole'), 
+      value: "2,847", 
       trend: "+12%",
-      subtitle: "sessions en cours",
-      icon: Calendar, 
+      subtitle: t('dashboard.stats.apprenantEcoleSubtitle'),
+      icon: Users, 
       color: "green",
       bgColor: "bg-white",
       textColor: "text-akili-grey-800",
       valueColor: "text-akili-green-600"
     },
     { 
-      title: "Performance", 
-      value: "$2,119.99", 
+      title: t('dashboard.stats.apprenantInvite'), 
+      value: "156", 
       trend: "+24%",
-      subtitle: "résumé mensuel",
-      icon: ChartBar, 
+      subtitle: t('dashboard.stats.apprenantInviteSubtitle'),
+      icon: UserPlus, 
       color: "purple",
       bgColor: "bg-white",
       textColor: "text-akili-grey-800",

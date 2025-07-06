@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { StatsCards } from "./dashboard/StatsCards";
+import { QuickActions } from "./dashboard/QuickActions";
 import { Analytics } from "./dashboard/Analytics";
 import { RecentGames } from "./dashboard/RecentGames";
 import { useTranslation } from "react-i18next";
@@ -109,6 +110,8 @@ export function Dashboard({ onNavigate, games = [] }: DashboardProps) {
       />
       
       <StatsCards />
+      
+      <QuickActions onNavigate={onNavigate} />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-s24">
         <div className="lg:col-span-2">

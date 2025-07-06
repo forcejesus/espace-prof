@@ -13,9 +13,25 @@
     "title": "Dashboard",
     "stats": {
       "totalGames": "Total Games",
-      "activePlayers": "Active Players", 
-      "completionRate": "Completion Rate",
-      "averageScore": "Average Score"
+      "gamesSubtitle": "games created",
+      "totalPlanification": "Total Planning",
+      "planificationSubtitle": "scheduled sessions",
+      "apprenantEcole": "School Students",
+      "apprenantEcoleSubtitle": "enrolled students",
+      "apprenantInvite": "Invited Students",
+      "apprenantInviteSubtitle": "active invites"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "newGame": "New Game",
+      "newGameDesc": "Create a new educational game",
+      "newCategory": "New Category",
+      "newCategoryDesc": "Create a game category",
+      "planGame": "Plan a Game",
+      "planGameDesc": "Organize a game session",
+      "addInvitedStudent": "Add Invited Student",
+      "addInvitedStudentDesc": "Invite a new student",
+      "access": "Access"
     },
     "recentGames": {
       "title": "Recent Games",

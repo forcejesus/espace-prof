@@ -49,7 +49,7 @@ const App = () => {
               <SidebarProvider defaultOpen={true}>
                 <div className="min-h-screen flex w-full bg-akili-grey-50">
                   <Sidebar onNavigate={handleNavigate} />
-                  <SidebarInset className="flex-1">
+                  <SidebarInset className="flex-1 ml-64">
                     <Routes>
                       <Route path="/" element={<DashboardPage />} />
                       <Route path="/dashboard" element={<DashboardPage />} />

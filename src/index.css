@@ -35,10 +35,12 @@
     --borderRadius-lg: 12px;
     --borderRadius-xl: 16px;
 
-    /* Couleurs */
-    --colors-white: #fff;
-    --colors-black: #000;
-    --colors-transparent: rgba(0,0,0,0);
+    /* Couleurs complémentaires */
+    --colors-orange-100: #fed7aa;
+    --colors-blue-100: #dbeafe;
+    --colors-green-100: #dcfce7;
+    --colors-purple-100: #f3e8ff;
+    --colors-grey-50: #f9fafb;
     --colors-background-300: #fff;
     --colors-background-500: #f2f2f2;
     --colors-grey-0: #fff;
