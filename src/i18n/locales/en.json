@@ -95,6 +95,22 @@
       }
     }
   },
+  "login": {
+    "subtitle": "Educator Space",
+    "welcome": "Nice to see you again",
+    "emailLabel": "Your email",
+    "emailPlaceholder": "e.g. marie@school.fr",
+    "passwordLabel": "Your password",
+    "passwordPlaceholder": "Your password",
+    "loginButton": "Sign in",
+    "connecting": "Connecting...",
+    "error": "Error",
+    "fillAllFields": "Please fill in all fields",
+    "successTitle": "Login successful",
+    "successMessage": "Welcome to AKILI educator space",
+    "errorTitle": "Connection error",
+    "errorMessage": "An error occurred"
+  },
   "mesJeux": {
     "title": "My Games",
     "search": "Search for a game...",

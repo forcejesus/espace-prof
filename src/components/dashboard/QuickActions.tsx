@@ -63,15 +63,6 @@ export function QuickActions({ onNavigate }: QuickActionsProps) {
                   <h3 className="font-akili-bold text-akili-grey-800 text-body1-bold">{action.title}</h3>
                   <p className="text-body3-medium text-akili-grey-600">{action.description}</p>
                 </div>
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    action.onClick();
-                  }} 
-                  className="bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 hover:from-akili-orange-600 hover:to-akili-orange-700 text-white font-akili-bold py-s8 px-s16 rounded-lg transition-all duration-300 shadow-akili-sm hover:shadow-akili-md"
-                >
-                  {t('dashboard.quickActions.access')}
-                </button>
               </div>
             </CardContent>
           </Card>

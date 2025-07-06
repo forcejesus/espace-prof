@@ -95,6 +95,22 @@
       }
     }
   },
+  "login": {
+    "subtitle": "Espace Éducateur",
+    "welcome": "Ravi de vous revoir",
+    "emailLabel": "Votre email",
+    "emailPlaceholder": "ex. marie@ecole.fr",
+    "passwordLabel": "Votre mot de passe",
+    "passwordPlaceholder": "Votre mot de passe",
+    "loginButton": "Se connecter",
+    "connecting": "Connexion en cours...",
+    "error": "Erreur",
+    "fillAllFields": "Veuillez remplir tous les champs",
+    "successTitle": "Connexion réussie",
+    "successMessage": "Bienvenue dans l'espace éducateur AKILI",
+    "errorTitle": "Erreur de connexion",
+    "errorMessage": "Une erreur s'est produite"
+  },
   "mesJeux": {
     "title": "Mes Jeux",
     "search": "Rechercher un jeu...",

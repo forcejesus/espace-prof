@@ -8,6 +8,7 @@ import { Eye, EyeOff, User, Lock, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { authService } from "@/services/authService";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,14 +17,15 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!email || !password) {
       toast({
-        title: "Erreur",
-        description: "Veuillez remplir tous les champs",
+        title: t('login.error'),
+        description: t('login.fillAllFields'),
         variant: "destructive",
       });
       return;
@@ -35,15 +37,15 @@ export default function Login() {
       await authService.login({ email, password });
       
       toast({
-        title: "Connexion réussie",
-        description: "Bienvenue dans l'espace éducateur AKILI",
+        title: t('login.successTitle'),
+        description: t('login.successMessage'),
       });
       
       navigate("/dashboard");
     } catch (error) {
       toast({
-        title: "Erreur de connexion",
-        description: error instanceof Error ? error.message : "Une erreur s'est produite",
+        title: t('login.errorTitle'),
+        description: error instanceof Error ? error.message : t('login.errorMessage'),
         variant: "destructive",
       });
     } finally {
@@ -65,9 +67,9 @@ export default function Login() {
             <h1 className="text-6xl font-black bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 bg-clip-text text-transparent mb-3 relative z-10 animate-fade-in-up">
               AKILI
             </h1>
-            <p className="text-lg text-orange-600 font-semibold relative z-10">Espace Éducateur</p>
+            <p className="text-lg text-orange-600 font-semibold relative z-10">{t('login.subtitle')}</p>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Ravi de vous revoir</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">{t('login.welcome')}</h2>
         </div>
 
         {/* Carte de connexion */}
@@ -76,14 +78,14 @@ export default function Login() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-gray-700 font-medium">
-                  Votre email
+                  {t('login.emailLabel')}
                 </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
                     id="email"
                     type="email"
-                    placeholder="ex. marie@ecole.fr"
+                    placeholder={t('login.emailPlaceholder')}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 h-12 border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-lg"
@@ -94,14 +96,14 @@ export default function Login() {
 
               <div className="space-y-2">
                 <Label htmlFor="password" className="text-gray-700 font-medium">
-                  Votre mot de passe
+                  {t('login.passwordLabel')}
                 </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Votre mot de passe"
+                    placeholder={t('login.passwordPlaceholder')}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10 pr-10 h-12 border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-lg"
@@ -129,10 +131,10 @@ export default function Login() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Connexion en cours...
+                    {t('login.connecting')}
                   </>
                 ) : (
-                  "Se connecter"
+                  t('login.loginButton')
                 )}
               </Button>
             </form>
