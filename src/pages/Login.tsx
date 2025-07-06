@@ -4,18 +4,51 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, User, Lock } from "lucide-react";
+import { Eye, EyeOff, User, Lock, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { authService } from "@/services/authService";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/dashboard");
+    
+    if (!email || !password) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez remplir tous les champs",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await authService.login({ email, password });
+      
+      toast({
+        title: "Connexion réussie",
+        description: "Bienvenue dans l'espace éducateur AKILI",
+      });
+      
+      navigate("/dashboard");
+    } catch (error) {
+      toast({
+        title: "Erreur de connexion",
+        description: error instanceof Error ? error.message : "Une erreur s'est produite",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -90,9 +123,17 @@ export default function Login() {
 
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 h-12 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-3 h-12 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:transform-none disabled:hover:shadow-lg"
               >
-                Se connecter
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Connexion en cours...
+                  </>
+                ) : (
+                  "Se connecter"
+                )}
               </Button>
             </form>
 

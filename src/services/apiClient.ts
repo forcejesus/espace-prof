@@ -21,6 +21,15 @@ export class ApiClient {
     return ApiClient.instance;
   }
   
+  // Méthode pour récupérer les headers avec authentification
+  private getAuthHeaders(): HeadersInit {
+    const token = localStorage.getItem('akili-token');
+    return {
+      ...defaultHeaders,
+      ...(token && { Authorization: `Bearer ${token}` }),
+    };
+  }
+
   // Méthode générique pour les requêtes
   private async request<T>(
     url: string,
@@ -33,7 +42,7 @@ export class ApiClient {
       const response = await fetch(url, {
         ...options,
         headers: {
-          ...defaultHeaders,
+          ...this.getAuthHeaders(),
           ...options.headers,
         },
         signal: controller.signal,
@@ -41,11 +50,11 @@ export class ApiClient {
       
       clearTimeout(timeoutId);
       
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-      
       const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || `HTTP ${response.status}: ${response.statusText}`);
+      }
       
       return {
         success: true,
