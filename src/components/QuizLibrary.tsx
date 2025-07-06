@@ -238,7 +238,7 @@ export function QuizLibrary({
                               <Clock className="w-4 h-4 mr-s4" />
                               {formatRelativeDate(game.date)}
                             </span>
-                            <span>0 {t('mesJeux.questions')}</span>
+                            <span>{game.questions?.length || 0} {t('mesJeux.questions')}</span>
                           </div>
                         </div>
                         

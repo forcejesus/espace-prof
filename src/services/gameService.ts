@@ -26,9 +26,9 @@ class GameService {
     return result.data;
   }
 
-  // Récupérer mes jeux
+  // Récupérer mes jeux détaillés
   async getMyGames(): Promise<GamesResponse> {
-    const response = await fetch('http://localhost:3000/api/jeux', {
+    const response = await fetch('http://localhost:3000/api/jeux/detailles', {
       method: 'GET',
       headers: this.getAuthHeaders(),
     });

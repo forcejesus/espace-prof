@@ -21,6 +21,8 @@ export interface Game {
     ville: string;
     telephone: string;
   } | null;
+  questions?: Question[];
+  planification?: any[];
   date: string;
 }
 
