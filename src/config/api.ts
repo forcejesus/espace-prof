@@ -35,7 +35,7 @@ export const getEnvironment = (): 'development' | 'production' => {
 // Configurations par environnement
 const configurations: Record<'development' | 'production', ApiConfig> = {
   development: {
-    baseUrl: 'http://localhost:3001/api', // Votre serveur local NodeJS/Express
+    baseUrl: 'http://localhost:3000/api', // Votre serveur local NodeJS/Express
     timeout: 10000,
     enableLoginRequired: true, // Activer/désactiver la protection des routes
     endpoints: {
