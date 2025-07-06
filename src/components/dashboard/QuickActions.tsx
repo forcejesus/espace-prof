@@ -47,7 +47,7 @@ export function QuickActions({ onNavigate }: QuickActionsProps) {
   return (
     <div className="space-y-s20">
       <h2 className="text-h3-bold text-akili-grey-800">{t('dashboard.quickActions.title')}</h2>
-      <div className="space-y-s12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-s16">
         {quickActions.map((action, index) => (
           <Card 
             key={index} 

@@ -121,10 +121,7 @@ export function Dashboard({
       
       <StatsCards data={dashboardData} loading={loading} error={error} />
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-s24">
-        <QuickActions onNavigate={onNavigate} />
-        <CompletedSessions />
-      </div>
+      <QuickActions onNavigate={onNavigate} />
       
     </div>;
 }
