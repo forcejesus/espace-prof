@@ -80,8 +80,8 @@ export function QuizLibrary({
     backgroundColor: 'var(--colors-grey-200)'
   }}>
       <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
-        {/* Header avec filtres avancés */}
-        <div className="space-y-s20 animate-fade-in-up animate-delay-300">
+        {/* Header avec filtres avancés - Fixe */}
+        <div className="sticky top-0 z-10 bg-grey-200 pb-s20 space-y-s20 animate-fade-in-up animate-delay-300" style={{backgroundColor: 'var(--colors-grey-200)'}}>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
             <h2 className="text-h3-bold text-akili-grey-800">{t('mesJeux.title')} ({filteredQuizzes.length})</h2>
             

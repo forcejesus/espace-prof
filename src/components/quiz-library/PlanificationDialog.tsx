@@ -27,8 +27,11 @@ export function PlanificationDialog({ open, onOpenChange, selectedGame, onError 
   const handleCreatePlanification = async () => {
     if (!selectedGame) return;
     
+    console.log('Début création planification pour:', selectedGame.titre);
+    console.log('Données planification:', planificationData);
+    
     try {
-      await planificationService.createPlanification({
+      const result = await planificationService.createPlanification({
         statut: "en attente",
         date_debut: planificationData.date_debut,
         date_fin: planificationData.date_fin,
@@ -39,6 +42,7 @@ export function PlanificationDialog({ open, onOpenChange, selectedGame, onError 
         jeu: selectedGame._id
       });
       
+      console.log('Planification créée avec succès:', result);
       handleClose();
     } catch (err) {
       console.error('Erreur lors de la création de la planification:', err);
