@@ -33,8 +33,8 @@ class AuthService {
   private readonly USER_KEY = 'akili-user';
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    // Note: L'endpoint est directement /api/login selon la documentation
-    const response = await fetch('/api/login', {
+    // Note: L'endpoint est /api/login-admin selon la documentation
+    const response = await fetch('/api/login-admin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,9 +48,9 @@ class AuthService {
       throw new Error('Erreur de connexion');
     }
     
-    // Vérifier que l'utilisateur a le rôle enseignant
-    if (loginData.user.role !== 'enseignant' && loginData.user.role !== 'super_admin') {
-      throw new Error('Accès refusé. Seuls les enseignants peuvent se connecter à cette application.');
+    // Vérifier que l'utilisateur a le rôle enseignant ou admin
+    if (loginData.user.role !== 'enseignant' && loginData.user.role !== 'super_admin' && loginData.user.role !== 'admin') {
+      throw new Error('Accès refusé. Seuls les enseignants et admins peuvent se connecter à cette application.');
     }
 
     // Sauvegarder le token et les informations utilisateur
