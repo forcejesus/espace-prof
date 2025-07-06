@@ -234,6 +234,79 @@ class GameService {
     
     return result.data;
   }
+
+  // Modifier une question
+  async updateQuestion(questionId: string, questionData: { temps?: number; libelle?: string; fichier?: string }): Promise<Question> {
+    const response = await fetch(`http://localhost:3000/api/questions/update/${questionId}`, {
+      method: 'PUT',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(questionData),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Erreur lors de la modification de la question");
+    }
+    
+    return result.data;
+  }
+
+  // Supprimer une question
+  async deleteQuestion(questionId: string): Promise<void> {
+    const response = await fetch(`http://localhost:3000/api/questions/delete/${questionId}`, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders(),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Erreur lors de la suppression de la question");
+    }
+  }
+
+  // Modifier une réponse
+  async updateAnswer(answerId: string, answerData: { etat?: boolean | number | string; reponse_texte?: string }): Promise<Answer> {
+    const response = await fetch(`http://localhost:3000/api/reponse/update/${answerId}`, {
+      method: 'PUT',
+      headers: this.getAuthHeaders(),
+      body: JSON.stringify(answerData),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Erreur lors de la modification de la réponse");
+    }
+    
+    return result.data;
+  }
+
+  // Supprimer une réponse
+  async deleteAnswer(answerId: string): Promise<void> {
+    const response = await fetch(`http://localhost:3000/api/reponse/delete/${answerId}`, {
+      method: 'DELETE',
+      headers: this.getAuthHeaders(),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Erreur lors de la suppression de la réponse");
+    }
+  }
+
+  // Récupérer les questions d'un jeu
+  async getGameQuestions(gameId: string): Promise<Question[]> {
+    const response = await fetch(`http://localhost:3000/api/questions/jeu/${gameId}`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(),
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.message || "Erreur lors de la récupération des questions");
+    }
+    
+    return result.data;
+  }
 }
 
 export const gameService = new GameService();

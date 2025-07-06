@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { gameService, QuestionType, PointSystem } from "@/services/gameService";
+import { CreatedQuestionsList } from "./quiz-creator/CreatedQuestionsList";
 
 interface QuizCreatorProps {
   quiz?: any;
@@ -74,6 +75,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const [gameImage, setGameImage] = useState(quiz?.image || "");
   const [gameId, setGameId] = useState<string | null>(quiz?._id || null);
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [createdQuestions, setCreatedQuestions] = useState<any[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [questionCharCount, setQuestionCharCount] = useState(0);
   
@@ -179,6 +181,30 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
 
     loadReferences();
   }, []);
+
+  // Charger les questions créées
+  const loadCreatedQuestions = async () => {
+    if (!gameId) return;
+
+    try {
+      const questionsData = await gameService.getGameQuestions(gameId);
+      setCreatedQuestions(questionsData);
+    } catch (error) {
+      console.error('Erreur lors du chargement des questions:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les questions existantes",
+        variant: "destructive"
+      });
+    }
+  };
+
+  // Charger les questions quand on passe à l'étape 2
+  useEffect(() => {
+    if (step === 2 && gameId) {
+      loadCreatedQuestions();
+    }
+  }, [step, gameId]);
 
   // Créer le jeu
   const handleCreateGame = async () => {
@@ -504,6 +530,9 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       setCurrentQuestion(null);
       setStep(2);
       
+      // Recharger les questions créées
+      await loadCreatedQuestions();
+      
       toast({
         title: "Succès",
         description: "Question ajoutée avec succès",
@@ -640,7 +669,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
           </Card>
         )}
 
-        {/* Étape 2: Liste des questions */}
+         {/* Étape 2: Liste des questions */}
         {step === 2 && (
           <div className="space-y-6">
             <Card>
@@ -654,42 +683,14 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                 </div>
               </CardHeader>
               <CardContent>
-                {questions.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500">
-                    <p>Aucune question ajoutée</p>
-                    <p className="text-sm">Cliquez sur "Ajouter une question" pour commencer</p>
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {questions.map((question, index) => (
-                      <Card key={question.id} className="border-l-4 border-l-orange-500">
-                        <CardContent className="p-4">
-                          <div className="flex items-start justify-between">
-                            <div className="flex-1">
-                              <h4 className="font-medium text-gray-900">
-                                Question {index + 1}: {question.libelle}
-                              </h4>
-                              <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
-                                <span className="flex items-center">
-                                  <Clock className="w-4 h-4 mr-1" />
-                                  {question.temps}s
-                                </span>
-                                <Badge variant="secondary">
-                                  {questionTypes.find(t => t._id === question.typeQuestion)?.libelle || 'Type inconnu'}
-                                </Badge>
-                                <span>{question.answers.length} réponses</span>
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
+                <CreatedQuestionsList 
+                  questions={createdQuestions}
+                  onQuestionUpdated={loadCreatedQuestions}
+                />
               </CardContent>
             </Card>
             
-            {questions.length > 0 && (
+            {createdQuestions.length > 0 && (
               <div className="flex justify-end">
                 <Button onClick={finalizeGame} className="bg-green-600 hover:bg-green-700">
                   Terminer le jeu
