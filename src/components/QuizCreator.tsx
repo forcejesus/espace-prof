@@ -481,7 +481,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
           const answerData = {
             reponse_texte: answer.reponse_texte,
             etat: answer.etat,
-            question: questionResult.id
+            question: (questionResult as any)._id // Utiliser _id avec assertion de type
           };
           
           console.log('🔍 Answer data to send:', answerData);
