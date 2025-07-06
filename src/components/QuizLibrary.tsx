@@ -228,7 +228,7 @@ export function QuizLibrary({
                          <p className="text-sm opacity-90">Pas d'image de jeu disponible</p>
                        </CardHeader>}
                      
-                      <CardContent className="p-s20">
+                      <CardContent className="p-s20 my-[15px]">
                         <div className="mb-s16">
                           <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold" title={game.titre}>
                             {game.titre.length > 50 ? `${game.titre.substring(0, 50)}...` : game.titre}
@@ -247,8 +247,8 @@ export function QuizLibrary({
                             {t('mesJeux.modify')}
                           </Button>
                           <Button size="sm" onClick={() => handlePlanifierGame(game)} className="flex-1 text-white font-akili-bold" style={{
-                   background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))'
-                 }}>
+                  background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))'
+                }}>
                             {t('mesJeux.plan')}
                           </Button>
                           
@@ -265,7 +265,7 @@ export function QuizLibrary({
                               </DropdownMenuItem>
                               <AlertDialog>
                                 <AlertDialogTrigger asChild>
-                                  <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="cursor-pointer hover:bg-akili-grey-200 text-red-600">
+                                  <DropdownMenuItem onSelect={e => e.preventDefault()} className="cursor-pointer hover:bg-akili-grey-200 text-red-600">
                                     <Trash2 className="w-4 h-4 mr-2" />
                                     Supprimer
                                   </DropdownMenuItem>
