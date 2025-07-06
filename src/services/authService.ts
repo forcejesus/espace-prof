@@ -33,8 +33,8 @@ class AuthService {
   private readonly USER_KEY = 'akili-user';
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    // Note: L'endpoint est /api/login-admin selon la documentation
-    const response = await fetch('/api/login-admin', {
+    // Note: L'endpoint est /api/login selon la documentation
+    const response = await fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
