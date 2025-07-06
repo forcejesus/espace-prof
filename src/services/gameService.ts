@@ -65,10 +65,12 @@ export interface QuestionType {
 }
 
 export interface PointSystem {
-  id: string;
-  nature: string; // "points", "bonus"  
+  _id: string;
+  nature: string;
   valeur: number;
   description: string;
+  date: string;
+  __v: number;
 }
 
 export interface CreateGameRequest {

@@ -190,7 +190,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       libelle: "",
       temps: 30,
       typeQuestion: defaultQuestionType._id,
-      point: defaultPointSystem.id, // Utilise l'id du système de points
+      point: defaultPointSystem._id, // Utilise l'_id du système de points
       fichier: "",
       type_fichier: "",
       limite_response: true,
@@ -642,40 +642,26 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
               
               <div>
                 <Label htmlFor="point-system">Système de points</Label>
-                <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {pointSystems.map(system => (
-                    <div
-                      key={system.id}
-                      className={`relative p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
-                        currentQuestion.point === system.id
-                          ? 'border-orange-500 bg-orange-50 shadow-md'
-                          : 'border-gray-200 bg-white hover:border-orange-300'
-                      }`}
-                      onClick={() => setCurrentQuestion({...currentQuestion, point: system.id})}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className="font-medium text-gray-900">{system.nature}</h4>
-                        <div className={`w-4 h-4 rounded-full border-2 ${
-                          currentQuestion.point === system.id
-                            ? 'border-orange-500 bg-orange-500'
-                            : 'border-gray-300'
-                        }`}>
-                          {currentQuestion.point === system.id && (
-                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
-                          )}
+                <Select value={currentQuestion.point} onValueChange={(value) => setCurrentQuestion({...currentQuestion, point: value})}>
+                  <SelectTrigger className="mt-2 bg-white border-gray-200 z-50">
+                    <SelectValue placeholder="Choisissez un système de points" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                    {pointSystems.map(system => (
+                      <SelectItem key={system._id} value={system._id}>
+                        <div className="flex items-center justify-between w-full">
+                          <span className="font-medium">{system.nature}</span>
+                          <div className="flex items-center space-x-2 ml-4">
+                            <Badge variant="secondary" className="bg-green-100 text-green-800">
+                              {system.valeur} pts
+                            </Badge>
+                            <span className="text-sm text-gray-500">{system.description}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex items-center justify-between">
-                          <Badge variant="secondary" className="bg-green-100 text-green-800 font-medium">
-                            {system.valeur} points
-                          </Badge>
-                        </div>
-                        <p className="text-sm text-gray-600">{system.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 {pointSystems.length === 0 && (
                   <p className="text-sm text-red-500 mt-2">
                     Aucun système de points disponible
