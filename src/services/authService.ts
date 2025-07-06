@@ -34,11 +34,12 @@ class AuthService {
   private readonly USER_KEY = 'akili-user';
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
+    const fullUrl = 'http://localhost:3000/api/login';
     console.log('🔍 Tentative de connexion avec:', credentials);
-    console.log('🌐 URL complète:', window.location.origin + '/api/login');
+    console.log('🌐 URL complète:', fullUrl);
     
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(fullUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
