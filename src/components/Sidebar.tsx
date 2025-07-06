@@ -1,4 +1,4 @@
-import { Brain, Users, Calendar, Settings, BarChart, Bell } from "lucide-react";
+import { Brain, Users, Calendar, Settings, BarChart, Bell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,7 +13,9 @@ export function Sidebar({ onNavigate }: SidebarProps) {
   
   const handleNavigation = (path: string) => {
     if (onNavigate) {
-      onNavigate(path);
+      // Convertir le path complet en nom de vue pour la compatibilité
+      const viewName = path === "/" ? "" : path.replace("/", "");
+      onNavigate(viewName);
     } else {
       navigate(path);
     }
@@ -121,25 +123,19 @@ export function Sidebar({ onNavigate }: SidebarProps) {
         </nav>
       </div>
       
-      {/* Section d'aide */}
+      {/* Section de déconnexion */}
       <div className="p-s20 border-t border-akili-grey-300">
-        <div className="bg-gradient-to-br from-akili-orange-50 to-akili-orange-100 rounded-lg p-s16">
-          <div className="flex items-center space-x-s12 mb-s12">
-            <div className="w-8 h-8 bg-gradient-to-br from-akili-orange-500 to-akili-orange-600 rounded-lg inline-flex items-center justify-center">
-              <Bell className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <h4 className="text-body2-bold text-akili-grey-800">Centre d'aide</h4>
-              <p className="text-body4-medium text-akili-grey-600">Besoin d'assistance ?</p>
-            </div>
-          </div>
-          <Button 
-            size="sm" 
-            className="w-full bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 hover:from-akili-orange-600 hover:to-akili-orange-700 text-white border-0"
-          >
-            Contactez-nous
-          </Button>
-        </div>
+        <button
+          onClick={() => {
+            // Logique de déconnexion - peut être modifiée selon vos besoins
+            console.log("Déconnexion...");
+            handleNavigation('/login');
+          }}
+          className="w-full flex items-center space-x-s12 px-s16 py-s12 rounded-lg transition-all duration-200 group text-akili-grey-600 hover:text-red-600 hover:bg-red-50"
+        >
+          <LogOut className="w-5 h-5 group-hover:text-red-600" />
+          <span className="text-body2-medium">Se déconnecter</span>
+        </button>
       </div>
     </div>
   );
