@@ -6,16 +6,25 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
+  success: boolean;
   token: string;
-  message: string;
-  statut: number;
-  email: string;
-  role: string;
+  user: {
+    id: string;
+    nom: string;
+    prenom: string;
+    email: string;
+    role: string;
+    ecole: string;
+  };
 }
 
 export interface User {
+  id: string;
+  nom: string;
+  prenom: string;
   email: string;
   role: string;
+  ecole: string;
   token: string;
 }
 
@@ -24,16 +33,23 @@ class AuthService {
   private readonly USER_KEY = 'akili-user';
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    const response = await apiClient.post<LoginResponse>('auth', credentials, '/login');
-    
-    if (!response.success) {
-      throw new Error(response.error || 'Erreur de connexion');
-    }
+    // Note: L'endpoint est directement /api/login selon la documentation
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials),
+    });
 
-    const loginData = response.data!;
+    const loginData: LoginResponse = await response.json();
+    
+    if (!loginData.success) {
+      throw new Error('Erreur de connexion');
+    }
     
     // Vérifier que l'utilisateur a le rôle enseignant
-    if (loginData.role !== 'enseignant' && loginData.role !== 'super_admin') {
+    if (loginData.user.role !== 'enseignant' && loginData.user.role !== 'super_admin') {
       throw new Error('Accès refusé. Seuls les enseignants peuvent se connecter à cette application.');
     }
 
@@ -67,8 +83,12 @@ class AuthService {
     localStorage.setItem(this.TOKEN_KEY, response.token);
     
     const user: User = {
-      email: response.email,
-      role: response.role,
+      id: response.user.id,
+      nom: response.user.nom,
+      prenom: response.user.prenom,
+      email: response.user.email,
+      role: response.user.role,
+      ecole: response.user.ecole,
       token: response.token
     };
     
