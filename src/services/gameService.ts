@@ -50,45 +50,47 @@ export interface Question {
 
 export interface Answer {
   id: string;
-  libelle: string;
-  etat: boolean; // true = bonne réponse
+  reponse_texte: string; // Changé de libelle vers reponse_texte selon API
+  etat: boolean | number | string; // Accepte différents formats selon la doc
   question: string;
 }
 
 export interface QuestionType {
-  id: string;
-  libelle: string;
+  _id: string;
+  libelle: string; // "REPONSE_COURTE", "CHOIX_UNIQUE", "CHOIX_MULTIPLE"
   description: string;
   reference: string; // "30", "31", "32"
+  date: string;
+  __v: number;
 }
 
 export interface PointSystem {
   id: string;
-  nature: string;
+  nature: string; // "points", "bonus"  
   valeur: number;
   description: string;
 }
 
 export interface CreateGameRequest {
   titre: string;
-  image?: string;
+  image?: string; // Base64 ou URL
 }
 
 export interface CreateQuestionRequest {
   libelle: string;
-  temps: number;
-  typeQuestion: string;
-  point: string;
-  jeu: string;
-  fichier?: string;
-  type_fichier?: string;
+  temps: number; // en secondes
+  typeQuestion: string; // ID du type de question
+  point: string; // ID du système de points
+  jeu: string; // ID du jeu
+  fichier?: string; // Image/audio en base64
+  type_fichier?: string; // "image" ou "audio"
   limite_response?: boolean;
 }
 
 export interface CreateAnswerRequest {
-  libelle: string;
-  etat: boolean;
-  question: string;
+  reponse_texte: string;
+  etat: boolean | number | string; // true/false, 1/0, "true"/"false", "1"/"0"
+  question: string; // ID de la question
 }
 
 class GameService {
@@ -102,7 +104,7 @@ class GameService {
 
   // Créer un jeu
   async createGame(gameData: CreateGameRequest): Promise<Game> {
-    const response = await fetch('/api/jeux', {
+    const response = await fetch('http://localhost:3000/api/jeux', {
       method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(gameData),
@@ -133,7 +135,7 @@ class GameService {
 
   // Dupliquer un jeu
   async duplicateGame(gameId: string): Promise<Game> {
-    const response = await fetch(`/api/jeux/${gameId}/dupliquer`, {
+    const response = await fetch(`http://localhost:3000/api/jeux/${gameId}/dupliquer`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
     });
@@ -148,20 +150,20 @@ class GameService {
 
   // Archiver un jeu
   async archiveGame(gameId: string): Promise<void> {
-    const response = await fetch(`/api/jeux/${gameId}/archiver`, {
+    const response = await fetch(`http://localhost:3000/api/jeux/${gameId}/archiver`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
     });
 
     const result = await response.json();
     if (!result.success) {
-      throw new Error(result.message || 'Erreur lors de l\'archivage du jeu');
+      throw new Error(result.message || "Erreur lors de l'archivage du jeu");
     }
   }
 
   // Récupérer les types de questions
   async getQuestionTypes(): Promise<QuestionType[]> {
-    const response = await fetch('/api/type-question', {
+    const response = await fetch('http://localhost:3000/api/type-question', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -176,7 +178,7 @@ class GameService {
 
   // Récupérer les systèmes de points
   async getPointSystems(): Promise<PointSystem[]> {
-    const response = await fetch('/api/points', {
+    const response = await fetch('http://localhost:3000/api/points', {
       method: 'GET',
       headers: this.getAuthHeaders(),
     });
@@ -191,7 +193,7 @@ class GameService {
 
   // Ajouter une question à un jeu
   async addQuestion(questionData: CreateQuestionRequest): Promise<Question> {
-    const response = await fetch('/api/questions', {
+    const response = await fetch('http://localhost:3000/api/questions', {
       method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(questionData),
@@ -199,7 +201,7 @@ class GameService {
 
     const result = await response.json();
     if (!result.success) {
-      throw new Error(result.message || 'Erreur lors de l\'ajout de la question');
+      throw new Error(result.message || "Erreur lors de l'ajout de la question");
     }
     
     return result.data;
@@ -207,7 +209,7 @@ class GameService {
 
   // Ajouter une réponse à une question
   async addAnswer(answerData: CreateAnswerRequest): Promise<Answer> {
-    const response = await fetch('/api/reponse', {
+    const response = await fetch('http://localhost:3000/api/reponse', {
       method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(answerData),
@@ -215,7 +217,7 @@ class GameService {
 
     const result = await response.json();
     if (!result.success) {
-      throw new Error(result.message || 'Erreur lors de l\'ajout de la réponse');
+      throw new Error(result.message || "Erreur lors de l'ajout de la réponse");
     }
     
     return result.data;
