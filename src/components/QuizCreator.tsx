@@ -471,9 +471,12 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       console.log('🔍 Question data to send:', questionData);
       
       const questionResult = await gameService.addQuestion(questionData);
+      console.log('🔍 Question created successfully:', questionResult);
       
       // Créer les réponses
+      console.log('🔍 Answers to create:', currentQuestion.answers);
       for (const answer of currentQuestion.answers) {
+        console.log('🔍 Processing answer:', answer);
         if (answer.reponse_texte.trim()) {
           const answerData = {
             reponse_texte: answer.reponse_texte,
@@ -482,9 +485,17 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
           };
           
           console.log('🔍 Answer data to send:', answerData);
-          console.log('🔍 Question result:', questionResult);
+          console.log('🔍 Question result ID:', questionResult.id);
           
-          await gameService.addAnswer(answerData);
+          try {
+            const answerResult = await gameService.addAnswer(answerData);
+            console.log('🔍 Answer created successfully:', answerResult);
+          } catch (error) {
+            console.error('🔍 Error creating answer:', error);
+            throw error;
+          }
+        } else {
+          console.log('🔍 Skipping empty answer:', answer);
         }
       }
       

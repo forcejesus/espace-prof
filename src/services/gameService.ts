@@ -214,14 +214,21 @@ class GameService {
 
   // Ajouter une réponse à une question
   async addAnswer(answerData: CreateAnswerRequest): Promise<Answer> {
+    console.log('🔍 [gameService] Adding answer with data:', answerData);
+    
     const response = await fetch('http://localhost:3000/api/reponse', {
       method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(answerData),
     });
 
+    console.log('🔍 [gameService] Response status:', response.status);
+    
     const result = await response.json();
+    console.log('🔍 [gameService] Response result:', result);
+    
     if (!result.success) {
+      console.error('🔍 [gameService] Error creating answer:', result);
       throw new Error(result.message || "Erreur lors de l'ajout de la réponse");
     }
     
