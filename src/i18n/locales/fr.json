@@ -42,6 +42,57 @@
       "title": "Analytiques",
       "performance": "Performance des Jeux",
       "engagement": "Engagement des Joueurs"
+    },
+    "completedSessions": {
+      "title": "Sessions Terminées"
+    }
+  },
+  "pages": {
+    "groupeApprenant": {
+      "title": "Apprenants",
+      "subtitle": "Gérez et suivez vos apprenants"
+    },
+    "apprenantInvite": {
+      "title": "Apprenants Invités",
+      "subtitle": "Gérez vos invitations et apprenants externes",
+      "searchPlaceholder": "Rechercher un apprenant invité...",
+      "newInvitation": "Nouvelle Invitation"
+    },
+    "monCompte": {
+      "title": "Mon Compte",
+      "subtitle": "Gérez vos informations personnelles et préférences",
+      "stats": {
+        "gamesCreated": "Jeux créés",
+        "sessionsLed": "Sessions menées",
+        "studentsReached": "Apprenants touchés",
+        "averageRating": "Note moyenne"
+      },
+      "personalInfo": {
+        "title": "Informations Personnelles",
+        "fullName": "Nom complet",
+        "email": "Email",
+        "institution": "Établissement",
+        "function": "Fonction",
+        "update": "Mettre à jour"
+      },
+      "preferences": {
+        "title": "Préférences",
+        "emailNotifications": "Notifications par email",
+        "emailNotificationsDesc": "Recevoir les notifications importantes",
+        "autoReports": "Rapports automatiques",
+        "autoReportsDesc": "Rapport hebdomadaire d'activité",
+        "darkMode": "Mode sombre",
+        "darkModeDesc": "Interface en mode sombre"
+      },
+      "security": {
+        "title": "Sécurité",
+        "changePassword": "Changer le mot de passe",
+        "changePasswordDesc": "Mettre à jour votre sécurité",
+        "twoFactor": "Authentification 2FA",
+        "twoFactorDesc": "Sécurité renforcée",
+        "activeSessions": "Sessions actives",
+        "activeSessionsDesc": "Gérer vos connexions"
+      }
     }
   },
   "mesJeux": {

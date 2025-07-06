@@ -47,31 +47,28 @@ export function QuickActions({ onNavigate }: QuickActionsProps) {
   return (
     <div className="space-y-s20">
       <h2 className="text-h3-bold text-akili-grey-800">{t('dashboard.quickActions.title')}</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-s20">
+      <div className="space-y-s12">
         {quickActions.map((action, index) => (
           <Card 
             key={index} 
-            className="group cursor-pointer hover:shadow-akili-lg transition-all duration-fast border-0 shadow-akili-md bg-white transform hover:-translate-y-2" 
+            className="group cursor-pointer hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white" 
             onClick={action.onClick}
           >
-            <CardContent className="p-s28 flex flex-col justify-between h-full">
-              <div className="flex flex-col items-center text-center space-y-s20 px-0 mx-0 my-[29px]">
-                <div className={`w-20 h-20 rounded-akili-xl ${action.iconBg} flex items-center justify-center shadow-akili-lg group-hover:scale-110 transition-transform duration-fast`}>
-                  <action.icon className={`w-10 h-10 ${action.iconColor}`} />
+            <CardContent className="p-s16">
+              <div className="flex items-center space-x-s16">
+                <div className={`w-12 h-12 rounded-lg ${action.iconBg} flex items-center justify-center shadow-akili-sm group-hover:scale-105 transition-transform duration-fast`}>
+                  <action.icon className={`w-6 h-6 ${action.iconColor}`} />
                 </div>
-                <div>
-                  <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold">{action.title}</h3>
-                  <p className="text-body3-medium text-akili-grey-600 leading-relaxed">{action.description}</p>
+                <div className="flex-1">
+                  <h3 className="font-akili-bold text-akili-grey-800 text-body1-bold">{action.title}</h3>
+                  <p className="text-body3-medium text-akili-grey-600">{action.description}</p>
                 </div>
-              </div>
-              
-              <div className="mt-s20 pt-s20 border-t border-akili-grey-300">
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
                     action.onClick();
                   }} 
-                  className="w-full bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 hover:from-akili-orange-600 hover:to-akili-orange-700 text-white font-akili-bold py-s12 px-s20 rounded-akili-lg transition-all duration-300 transform hover:scale-105 shadow-akili-md hover:shadow-akili-lg"
+                  className="bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 hover:from-akili-orange-600 hover:to-akili-orange-700 text-white font-akili-bold py-s8 px-s16 rounded-lg transition-all duration-300 shadow-akili-sm hover:shadow-akili-md"
                 >
                   {t('dashboard.quickActions.access')}
                 </button>

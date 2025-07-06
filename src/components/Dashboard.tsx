@@ -2,6 +2,7 @@ import { useState } from "react";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { StatsCards } from "./dashboard/StatsCards";
 import { QuickActions } from "./dashboard/QuickActions";
+import { CompletedSessions } from "./dashboard/CompletedSessions";
 import { Analytics } from "./dashboard/Analytics";
 import { RecentGames } from "./dashboard/RecentGames";
 import { useTranslation } from "react-i18next";
@@ -98,8 +99,10 @@ export function Dashboard({
       
       <StatsCards />
       
-      <QuickActions onNavigate={onNavigate} />
-      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-s24">
+        <QuickActions onNavigate={onNavigate} />
+        <CompletedSessions />
+      </div>
       
     </div>;
 }

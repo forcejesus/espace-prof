@@ -42,6 +42,57 @@
       "title": "Analytics",
       "performance": "Game Performance",
       "engagement": "Player Engagement"
+    },
+    "completedSessions": {
+      "title": "Completed Sessions"
+    }
+  },
+  "pages": {
+    "groupeApprenant": {
+      "title": "Students",
+      "subtitle": "Manage and track your students"
+    },
+    "apprenantInvite": {
+      "title": "Invited Students",
+      "subtitle": "Manage your invitations and external students",
+      "searchPlaceholder": "Search for an invited student...",
+      "newInvitation": "New Invitation"
+    },
+    "monCompte": {
+      "title": "My Account",
+      "subtitle": "Manage your personal information and preferences",
+      "stats": {
+        "gamesCreated": "Games created",
+        "sessionsLed": "Sessions led",
+        "studentsReached": "Students reached",
+        "averageRating": "Average rating"
+      },
+      "personalInfo": {
+        "title": "Personal Information",
+        "fullName": "Full name",
+        "email": "Email",
+        "institution": "Institution",
+        "function": "Function",
+        "update": "Update"
+      },
+      "preferences": {
+        "title": "Preferences",
+        "emailNotifications": "Email notifications",
+        "emailNotificationsDesc": "Receive important notifications",
+        "autoReports": "Automatic reports",
+        "autoReportsDesc": "Weekly activity report",
+        "darkMode": "Dark mode",
+        "darkModeDesc": "Dark interface"
+      },
+      "security": {
+        "title": "Security",
+        "changePassword": "Change password",
+        "changePasswordDesc": "Update your security",
+        "twoFactor": "2FA Authentication",
+        "twoFactorDesc": "Enhanced security",
+        "activeSessions": "Active sessions",
+        "activeSessionsDesc": "Manage your connections"
+      }
     }
   },
   "mesJeux": {

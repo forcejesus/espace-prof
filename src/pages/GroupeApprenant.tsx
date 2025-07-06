@@ -1,14 +1,16 @@
 
 import { useState } from "react";
-import { Users, UserPlus, User, Search, Filter, Plus } from "lucide-react";
+import { Users, UserPlus, User, Search, Filter, Plus, GraduationCap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 const GroupeApprenantPage = () => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all");
 
@@ -83,16 +85,16 @@ const GroupeApprenantPage = () => {
   };
 
   return (
-    <div className="p-4 md:p-8 space-y-8 font-mono">
+    <div className="p-s24 space-y-s24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-teal-500 to-teal-600 rounded-2xl p-8 shadow-xl">
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-            <Users className="w-8 h-8 text-white" />
+      <div className="bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 rounded-xl p-s24 shadow-akili-lg">
+        <div className="flex items-center space-x-s16">
+          <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
+            <GraduationCap className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-white">Groupes & Apprenants</h1>
-            <p className="text-teal-100">Gérez vos groupes et suivez vos apprenants</p>
+            <h1 className="text-h2-bold text-white">{t('pages.groupeApprenant.title')}</h1>
+            <p className="text-body1-medium text-white/80">{t('pages.groupeApprenant.subtitle')}</p>
           </div>
         </div>
       </div>

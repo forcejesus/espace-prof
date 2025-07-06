@@ -68,13 +68,6 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       badge: undefined
     },
     { 
-      id: "groupe", 
-      label: t('nav.groupe'), 
-      icon: Users, 
-      path: "/groupe",
-      badge: undefined
-    },
-    { 
       id: "mon-compte", 
       label: t('nav.monCompte'), 
       icon: Settings, 
