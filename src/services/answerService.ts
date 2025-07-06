@@ -36,7 +36,7 @@ class AnswerService {
   // Modifier une réponse
   async updateAnswer(answerId: string, answerData: { etat?: boolean | number | string; reponse_texte?: string }): Promise<Answer> {
     const response = await fetch(`http://localhost:3000/api/reponse/update/${answerId}`, {
-      method: 'PUT',
+      method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(answerData),
     });
@@ -52,7 +52,7 @@ class AnswerService {
   // Supprimer une réponse
   async deleteAnswer(answerId: string): Promise<void> {
     const response = await fetch(`http://localhost:3000/api/reponse/delete/${answerId}`, {
-      method: 'DELETE',
+      method: 'POST',
       headers: this.getAuthHeaders(),
     });
 

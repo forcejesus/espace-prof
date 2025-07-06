@@ -29,7 +29,7 @@ class QuestionService {
   // Modifier une question
   async updateQuestion(questionId: string, questionData: { temps?: number; libelle?: string; fichier?: string }): Promise<Question> {
     const response = await fetch(`http://localhost:3000/api/questions/update/${questionId}`, {
-      method: 'PUT',
+      method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(questionData),
     });
@@ -45,7 +45,7 @@ class QuestionService {
   // Supprimer une question
   async deleteQuestion(questionId: string): Promise<void> {
     const response = await fetch(`http://localhost:3000/api/questions/delete/${questionId}`, {
-      method: 'DELETE',
+      method: 'POST',
       headers: this.getAuthHeaders(),
     });
 
