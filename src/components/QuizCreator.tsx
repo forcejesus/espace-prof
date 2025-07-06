@@ -462,12 +462,10 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       const questionData = {
         libelle: currentQuestion.libelle,
         temps: currentQuestion.temps,
+        limite_response: currentQuestion.limite_response,
         typeQuestion: currentQuestion.typeQuestion,
         point: currentQuestion.point,
-        jeu: gameId,
-        fichier: currentQuestion.fichier || undefined,
-        type_fichier: currentQuestion.type_fichier || undefined,
-        limite_response: currentQuestion.limite_response
+        jeu: gameId
       };
       
       console.log('🔍 Question data to send:', questionData);
