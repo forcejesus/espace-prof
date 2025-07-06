@@ -115,7 +115,32 @@ class AuthService {
   isAuthenticated(): boolean {
     const token = this.getToken();
     const user = this.getUser();
-    return !!(token && user);
+    
+    if (!token || !user) {
+      return false;
+    }
+    
+    // Vérifier si le token JWT est expiré
+    try {
+      const jwtPayload = this.decodeJWT(token);
+      if (!jwtPayload || !jwtPayload.exp) {
+        return false;
+      }
+      
+      // Vérifier l'expiration (exp est en secondes, Date.now() en millisecondes)
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (jwtPayload.exp < currentTime) {
+        // Token expiré, nettoyer le localStorage
+        this.logout();
+        return false;
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Erreur lors de la vérification du token:', error);
+      this.logout();
+      return false;
+    }
   }
 
   private saveAuthData(response: LoginResponse, jwtPayload: any): void {
