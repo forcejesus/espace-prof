@@ -5,94 +5,99 @@ import { Badge } from "@/components/ui/badge";
 export function StatsCards() {
   const stats = [
     { 
+      title: "Total Revenus", 
+      value: "$9,427.64",
+      trend: "+10%",
+      subtitle: "vs mois dernier", 
+      icon: TrendingUp, 
+      color: "orange",
+      bgColor: "bg-white",
+      textColor: "text-akili-grey-800",
+      valueColor: "text-akili-orange-600"
+    },
+    { 
       title: "Total Jeux", 
-      value: "24",
-      subtitle: "Planifications: 12", 
-      icon: Brain, 
-      bgGradient: "bg-gradient-to-br from-purple-500 via-purple-600 to-indigo-700",
-      iconBg: "bg-white/15",
-      trend: "+18%",
-      color: "purple"
-    },
-    { 
-      title: "Total Planifications", 
-      value: "12", 
-      icon: Calendar, 
-      bgGradient: "bg-gradient-to-br from-blue-500 via-blue-600 to-cyan-700",
-      iconBg: "bg-white/15",
-      trend: "+12%",
-      color: "blue"
-    },
-    { 
-      title: "Apprenants d'École", 
-      value: "380", 
-      icon: Users, 
-      bgGradient: "bg-gradient-to-br from-emerald-500 via-green-600 to-teal-700",
-      iconBg: "bg-white/15",
+      value: "57,922", 
       trend: "+8%",
-      color: "green"
+      subtitle: "vs mois dernier",
+      icon: Brain, 
+      color: "blue",
+      bgColor: "bg-white",
+      textColor: "text-akili-grey-800",
+      valueColor: "text-akili-blue-600"
     },
     { 
-      title: "Apprenants Invités", 
-      value: "52", 
-      icon: Award, 
-      bgGradient: "bg-gradient-to-br from-orange-500 via-amber-600 to-yellow-600",
-      iconBg: "bg-white/15",
+      title: "Planifications Actives", 
+      value: "380", 
+      trend: "+12%",
+      subtitle: "sessions en cours",
+      icon: Calendar, 
+      color: "green",
+      bgColor: "bg-white",
+      textColor: "text-akili-grey-800",
+      valueColor: "text-akili-green-600"
+    },
+    { 
+      title: "Performance", 
+      value: "$2,119.99", 
       trend: "+24%",
-      color: "orange"
+      subtitle: "résumé mensuel",
+      icon: ChartBar, 
+      color: "purple",
+      bgColor: "bg-white",
+      textColor: "text-akili-grey-800",
+      valueColor: "text-akili-purple-500"
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-s24">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-s20">
       {stats.map((stat, index) => (
-        <Card key={index} className={`${stat.bgGradient} border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-[1.02] rounded-3xl overflow-hidden h-[320px] group relative`}>
-          <CardContent className="p-s32 h-full flex flex-col justify-between text-white relative z-10">
+        <Card key={index} className={`${stat.bgColor} border border-akili-grey-300 shadow-akili-sm hover:shadow-akili-md transition-all duration-300 rounded-xl overflow-hidden group`}>
+          <CardContent className="p-s20">
             {/* Header avec icône et trend */}
-            <div className="flex items-start justify-between">
-              <div className={`w-16 h-16 ${stat.iconBg} backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                <stat.icon className="w-8 h-8 text-white" />
+            <div className="flex items-start justify-between mb-s16">
+              <div className="flex items-center space-x-s12">
+                <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                  stat.color === 'orange' ? 'bg-akili-orange-100' :
+                  stat.color === 'blue' ? 'bg-akili-blue-100' :
+                  stat.color === 'green' ? 'bg-akili-green-100' :
+                  'bg-akili-purple-100'
+                }`}>
+                  <stat.icon className={`w-6 h-6 ${
+                    stat.color === 'orange' ? 'text-akili-orange-600' :
+                    stat.color === 'blue' ? 'text-akili-blue-600' :
+                    stat.color === 'green' ? 'text-akili-green-600' :
+                    'text-akili-purple-500'
+                  }`} />
+                </div>
               </div>
-              <Badge className="bg-white/20 text-white border-white/30 text-xs font-medium backdrop-blur-sm hover:bg-white/30 transition-colors">
+              <Badge className={`text-xs font-medium ${
+                stat.trend.startsWith('+') 
+                  ? 'bg-akili-green-100 text-akili-green-700' 
+                  : 'bg-akili-red-100 text-akili-red-700'
+              }`}>
                 <TrendingUp className="w-3 h-3 mr-1" />
                 {stat.trend}
               </Badge>
             </div>
             
             {/* Contenu principal */}
-            <div className="space-y-s12 text-center">
-              <h3 className="text-lg font-bold text-white/90 leading-tight group-hover:text-white transition-colors">
+            <div className="space-y-s8">
+              <h3 className={`text-body2-medium ${stat.textColor}`}>
                 {stat.title}
               </h3>
               
-              <div className="space-y-s8">
-                <p className="text-5xl font-black text-white group-hover:scale-105 transition-transform duration-300">
+              <div className="space-y-s4">
+                <p className={`text-h3-bold ${stat.valueColor}`}>
                   {stat.value}
                 </p>
                 
-                {stat.subtitle && (
-                  <p className="text-sm text-white/70 leading-relaxed">
-                    {stat.subtitle}
-                  </p>
-                )}
+                <p className="text-body4-medium text-akili-grey-600">
+                  {stat.subtitle}
+                </p>
               </div>
             </div>
-
-            {/* Indicateur de progression visuel */}
-            <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-white/50 rounded-full transition-all duration-1000 group-hover:bg-white/70"
-                style={{ width: `${65 + index * 10}%` }}
-              ></div>
-            </div>
-            
-            {/* Éléments décoratifs animés */}
-            <div className="absolute top-4 right-4 w-16 h-16 bg-white/5 rounded-full opacity-60 group-hover:scale-150 group-hover:opacity-20 transition-all duration-700"></div>
-            <div className="absolute bottom-6 left-6 w-12 h-12 bg-white/5 rounded-full opacity-40 group-hover:scale-125 group-hover:opacity-10 transition-all duration-500"></div>
-            <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-white/5 rounded-full opacity-20 group-hover:scale-110 group-hover:opacity-10 transition-all duration-1000 -translate-x-1/2 -translate-y-1/2"></div>
-            
-            {/* Effet de brillance */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none"></div>
           </CardContent>
         </Card>
       ))}

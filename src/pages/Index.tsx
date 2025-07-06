@@ -1,19 +1,15 @@
 
-import { Outlet } from "react-router-dom";
-import { Sidebar } from "@/components/Sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { Dashboard } from "@/components/Dashboard";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-gradient-to-br from-orange-50 to-orange-100">
-        <Sidebar />
-        <main className="flex-1 overflow-auto">
-          <Outlet />
-        </main>
-      </div>
-    </SidebarProvider>
-  );
+  const navigate = useNavigate();
+
+  const handleNavigate = (view: string) => {
+    navigate(`/${view}`);
+  };
+
+  return <Dashboard onNavigate={handleNavigate} />;
 };
 
 export default Index;
