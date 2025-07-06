@@ -211,22 +211,30 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
     const questionType = questionTypes.find(t => t._id === typeId);
     let defaultAnswers: Answer[] = [];
     
-    if (questionType?.reference === "32") { // Vrai/Faux
+    if (questionType?.libelle === "VRAI_FAUX" || questionType?.reference === "32") { 
+      // Vrai/Faux - utilise CHOIX_UNIQUE avec 2 réponses fixes
       defaultAnswers = [
         { id: "1", reponse_texte: "Vrai", etat: true },
         { id: "2", reponse_texte: "Faux", etat: false }
       ];
-    } else if (questionType?.reference === "31") { // Choix unique
+    } else if (questionType?.libelle === "CHOIX_UNIQUE" || questionType?.reference === "31") { 
+      // Choix unique - permet d'ajouter plus de réponses, une seule correcte
       defaultAnswers = [
         { id: "1", reponse_texte: "", etat: true },
         { id: "2", reponse_texte: "", etat: false }
       ];
-    } else if (questionType?.reference === "30") { // Choix multiple
+    } else if (questionType?.libelle === "CHOIX_MULTIPLE" || questionType?.reference === "30") { 
+      // Choix multiple - plusieurs réponses peuvent être correctes
       defaultAnswers = [
         { id: "1", reponse_texte: "", etat: false },
         { id: "2", reponse_texte: "", etat: false },
         { id: "3", reponse_texte: "", etat: false },
         { id: "4", reponse_texte: "", etat: false }
+      ];
+    } else if (questionType?.libelle === "REPONSE_COURTE") {
+      // Réponse courte - une seule réponse de type texte libre
+      defaultAnswers = [
+        { id: "1", reponse_texte: "", etat: true }
       ];
     }
     
@@ -267,12 +275,25 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const updateAnswer = (answerId: string, field: string, value: any) => {
     if (!currentQuestion) return;
     
-    setCurrentQuestion({
-      ...currentQuestion,
-      answers: currentQuestion.answers.map(a => 
-        a.id === answerId ? { ...a, [field]: value } : a
-      )
-    });
+    const questionType = questionTypes.find(t => t._id === currentQuestion.typeQuestion);
+    
+    // Pour les types CHOIX_UNIQUE (Vrai/Faux et Choix unique), une seule réponse peut être correcte
+    if (field === 'etat' && value && (questionType?.libelle === "VRAI_FAUX" || questionType?.libelle === "CHOIX_UNIQUE" || questionType?.reference === "32" || questionType?.reference === "31")) {
+      setCurrentQuestion({
+        ...currentQuestion,
+        answers: currentQuestion.answers.map(a => ({
+          ...a,
+          etat: a.id === answerId ? true : false
+        }))
+      });
+    } else {
+      setCurrentQuestion({
+        ...currentQuestion,
+        answers: currentQuestion.answers.map(a => 
+          a.id === answerId ? { ...a, [field]: value } : a
+        )
+      });
+    }
   };
 
   // Sauvegarder la question
@@ -621,78 +642,139 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
               
               <div>
                 <Label htmlFor="point-system">Système de points</Label>
-                <Select value={currentQuestion.point} onValueChange={(value) => setCurrentQuestion({...currentQuestion, point: value})}>
-                  <SelectTrigger className="mt-2">
-                    <SelectValue placeholder="Choisissez un système de points" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {pointSystems.map(system => (
-                      <SelectItem key={system.id} value={system.id}>
-                        <div className="flex items-center justify-between w-full">
-                          <span className="font-medium">{system.nature}</span>
-                          <div className="flex items-center space-x-2">
-                            <Badge variant="secondary" className="bg-green-100 text-green-800">
-                              {system.valeur} pts
-                            </Badge>
-                            <span className="text-sm text-gray-500">{system.description}</span>
-                          </div>
+                <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-3">
+                  {pointSystems.map(system => (
+                    <div
+                      key={system.id}
+                      className={`relative p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
+                        currentQuestion.point === system.id
+                          ? 'border-orange-500 bg-orange-50 shadow-md'
+                          : 'border-gray-200 bg-white hover:border-orange-300'
+                      }`}
+                      onClick={() => setCurrentQuestion({...currentQuestion, point: system.id})}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium text-gray-900">{system.nature}</h4>
+                        <div className={`w-4 h-4 rounded-full border-2 ${
+                          currentQuestion.point === system.id
+                            ? 'border-orange-500 bg-orange-500'
+                            : 'border-gray-300'
+                        }`}>
+                          {currentQuestion.point === system.id && (
+                            <div className="w-2 h-2 bg-white rounded-full m-0.5"></div>
+                          )}
                         </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex items-center justify-between">
+                          <Badge variant="secondary" className="bg-green-100 text-green-800 font-medium">
+                            {system.valeur} points
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-gray-600">{system.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 {pointSystems.length === 0 && (
-                  <p className="text-sm text-red-500 mt-1">
+                  <p className="text-sm text-red-500 mt-2">
                     Aucun système de points disponible
                   </p>
                 )}
               </div>
               
-              {/* Réponses */}
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <Label>Réponses</Label>
-                  {questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.reference !== "32" && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={addAnswer}
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Ajouter une réponse
-                    </Button>
-                  )}
-                </div>
-                
-                <div className="space-y-3">
-                  {currentQuestion.answers.map((answer, index) => (
-                    <div key={answer.id} className="flex items-center space-x-3 p-3 border rounded-lg">
-                      <Checkbox
-                        checked={answer.etat}
-                        onCheckedChange={(checked) => updateAnswer(answer.id, 'etat', checked)}
-                      />
-                      <Input
-                        value={answer.reponse_texte}
-                        onChange={(e) => updateAnswer(answer.id, 'reponse_texte', e.target.value)}
-                        placeholder={`Réponse ${index + 1}`}
-                        className="flex-1"
-                        readOnly={questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.reference === "32"}
-                      />
-                      {questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.reference !== "32" && (
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => removeAnswer(answer.id)}
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
+               {/* Réponses */}
+               <div>
+                 <div className="flex items-center justify-between mb-4">
+                   <Label>Réponses</Label>
+                   {/* Bouton ajouter réponse - seulement pour choix unique/multiple et pas vrai/faux */}
+                   {(questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle === "CHOIX_UNIQUE" || 
+                     questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle === "CHOIX_MULTIPLE") && 
+                    questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle !== "VRAI_FAUX" && (
+                     <Button
+                       type="button"
+                       variant="outline"
+                       size="sm"
+                       onClick={addAnswer}
+                     >
+                       <Plus className="w-4 h-4 mr-2" />
+                       Ajouter une réponse
+                     </Button>
+                   )}
+                 </div>
+                 
+                 {/* Interface pour Réponse courte */}
+                 {questionTypes.find(t => t._id === currentQuestion.typeQuestion)?.libelle === "REPONSE_COURTE" ? (
+                   <div className="space-y-3">
+                     <Label className="text-sm font-medium text-gray-700">
+                       Saisissez la réponse attendue
+                     </Label>
+                     <Input
+                       value={currentQuestion.answers[0]?.reponse_texte || ""}
+                       onChange={(e) => updateAnswer(currentQuestion.answers[0]?.id || "1", 'reponse_texte', e.target.value)}
+                       placeholder="Réponse correcte attendue..."
+                       className="w-full"
+                     />
+                   </div>
+                 ) : (
+                   /* Interface pour les autres types */
+                   <div className="space-y-3">
+                     {currentQuestion.answers.map((answer, index) => {
+                       const questionType = questionTypes.find(t => t._id === currentQuestion.typeQuestion);
+                       const isVraiFaux = questionType?.libelle === "VRAI_FAUX" || questionType?.reference === "32";
+                       const isChoixUnique = questionType?.libelle === "CHOIX_UNIQUE" || questionType?.reference === "31";
+                       const isChoixMultiple = questionType?.libelle === "CHOIX_MULTIPLE" || questionType?.reference === "30";
+                       
+                       return (
+                         <div key={answer.id} className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
+                           {/* Radio button pour Vrai/Faux et Choix unique */}
+                           {(isVraiFaux || isChoixUnique) && (
+                             <div className="flex items-center">
+                               <input
+                                 type="radio"
+                                 name={`question-${currentQuestion.id}`}
+                                 checked={answer.etat}
+                                 onChange={() => updateAnswer(answer.id, 'etat', true)}
+                                 className="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500"
+                               />
+                             </div>
+                           )}
+                           
+                           {/* Checkbox pour Choix multiple */}
+                           {isChoixMultiple && (
+                             <Checkbox
+                               checked={answer.etat}
+                               onCheckedChange={(checked) => updateAnswer(answer.id, 'etat', checked)}
+                               className="w-4 h-4"
+                             />
+                           )}
+                           
+                           <Input
+                             value={answer.reponse_texte}
+                             onChange={(e) => updateAnswer(answer.id, 'reponse_texte', e.target.value)}
+                             placeholder={isVraiFaux ? (index === 0 ? "Vrai" : "Faux") : `Réponse ${index + 1}`}
+                             className="flex-1"
+                             readOnly={isVraiFaux}
+                           />
+                           
+                           {/* Bouton supprimer - pas pour Vrai/Faux */}
+                           {!isVraiFaux && (
+                             <Button
+                               type="button"
+                               variant="ghost"
+                               size="sm"
+                               onClick={() => removeAnswer(answer.id)}
+                               className="text-red-500 hover:bg-red-50"
+                             >
+                               <X className="w-4 h-4" />
+                             </Button>
+                           )}
+                         </div>
+                       );
+                     })}
+                   </div>
+                 )}
+               </div>
               
               <div className="flex justify-between">
                 <Button
