@@ -1,58 +1,66 @@
-import { Brain, Users, Calendar, Settings, BarChart, Bell, Search } from "lucide-react";
+import { Brain, Users, Calendar, Settings, BarChart, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarProps {
-  onNavigate: (view: string) => void;
-  currentView?: string;
+  onNavigate?: (view: string) => void; // Optional for backwards compatibility
 }
 
-export function Sidebar({ onNavigate, currentView = "dashboard" }: SidebarProps) {
+export function Sidebar({ onNavigate }: SidebarProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const handleNavigation = (path: string) => {
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      navigate(path);
+    }
+  };
+
+  const isActive = (path: string) => {
+    if (path === "/" || path === "") {
+      return location.pathname === "/" || location.pathname === "/dashboard";
+    }
+    return location.pathname === path;
+  };
+
   const menuItems = [
     { 
       id: "dashboard", 
       label: "Dashboard", 
       icon: BarChart, 
-      onClick: () => onNavigate(""),
-      isActive: currentView === "dashboard"
+      path: "/",
+      badge: undefined
     },
     { 
       id: "mes-jeux", 
       label: "Mes Jeux", 
       icon: Brain, 
-      onClick: () => onNavigate("mes-jeux"),
-      isActive: currentView === "mes-jeux",
+      path: "/mes-jeux",
       badge: "24"
     },
     { 
       id: "planification", 
       label: "Planifications", 
       icon: Calendar, 
-      onClick: () => onNavigate("planification"),
-      isActive: currentView === "planification",
+      path: "/planification",
       badge: "12"
     },
     { 
       id: "apprenants", 
       label: "Apprenants", 
       icon: Users, 
-      onClick: () => onNavigate("groupe-apprenant"),
-      isActive: currentView === "apprenants",
+      path: "/groupe-apprenant",
       badge: "432"
     },
     { 
-      id: "analytics", 
-      label: "Analytics", 
-      icon: BarChart, 
-      onClick: () => onNavigate("analytics"),
-      isActive: currentView === "analytics"
-    },
-    { 
-      id: "settings", 
-      label: "Paramètres", 
+      id: "mon-compte", 
+      label: "Mon Compte", 
       icon: Settings, 
-      onClick: () => onNavigate("settings"),
-      isActive: currentView === "settings"
+      path: "/mon-compte",
+      badge: undefined
     }
   ];
 
@@ -83,16 +91,16 @@ export function Sidebar({ onNavigate, currentView = "dashboard" }: SidebarProps)
           {menuItems.map((item) => (
             <button
               key={item.id}
-              onClick={item.onClick}
+              onClick={() => handleNavigation(item.path)}
               className={`w-full flex items-center justify-between px-s16 py-s12 rounded-lg transition-all duration-200 group ${
-                item.isActive
+                isActive(item.path)
                   ? "bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 text-white shadow-md"
                   : "text-akili-grey-700 hover:bg-akili-grey-200 hover:text-akili-orange-500"
               }`}
             >
               <div className="flex items-center space-x-s12">
                 <item.icon className={`w-5 h-5 ${
-                  item.isActive ? "text-white" : "text-akili-grey-600 group-hover:text-akili-orange-500"
+                  isActive(item.path) ? "text-white" : "text-akili-grey-600 group-hover:text-akili-orange-500"
                 }`} />
                 <span className="text-body2-medium">{item.label}</span>  
               </div>
@@ -100,7 +108,7 @@ export function Sidebar({ onNavigate, currentView = "dashboard" }: SidebarProps)
               {item.badge && (
                 <Badge 
                   className={`text-xs ${
-                    item.isActive 
+                    isActive(item.path) 
                       ? "bg-white/20 text-white hover:bg-white/30" 
                       : "bg-akili-orange-100 text-akili-orange-700"
                   }`}

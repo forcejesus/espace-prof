@@ -5,7 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { Header } from "@/components/Header";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/Sidebar";
 import DashboardPage from "./pages/Dashboard";
 import MesJeuxPage from "./pages/MesJeux";
 import PlanificationPage from "./pages/Planification";
@@ -30,37 +31,47 @@ function ScrollToTop() {
   return null;
 }
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/*" element={
-            <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100">
-              <Header />
-              <Routes>
-                <Route path="/" element={<DashboardPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/mes-jeux" element={<MesJeuxPage />} />
-                <Route path="/planification" element={<PlanificationPage />} />
-                <Route path="/mon-compte" element={<MonComptePage />} />
-                <Route path="/creer-quiz" element={<QuizCreatorPage />} />
-                <Route path="/session-live" element={<LiveSessionPage />} />
-                <Route path="/historique-session" element={<SessionHistoryPage />} />
-                <Route path="/historique-planification" element={<HistoriquePlanificationPage />} />
-                <Route path="/groupe-apprenant" element={<GroupeApprenantPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </div>
-          } />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  const handleNavigate = (view: string) => {
+    window.location.href = `/${view}`;
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/*" element={
+              <SidebarProvider defaultOpen={true}>
+                <div className="min-h-screen flex w-full bg-akili-grey-50">
+                  <Sidebar onNavigate={handleNavigate} />
+                  <SidebarInset className="flex-1">
+                    <Routes>
+                      <Route path="/" element={<DashboardPage />} />
+                      <Route path="/dashboard" element={<DashboardPage />} />
+                      <Route path="/mes-jeux" element={<MesJeuxPage />} />
+                      <Route path="/planification" element={<PlanificationPage />} />
+                      <Route path="/mon-compte" element={<MonComptePage />} />
+                      <Route path="/creer-quiz" element={<QuizCreatorPage />} />
+                      <Route path="/session-live" element={<LiveSessionPage />} />
+                      <Route path="/historique-session" element={<SessionHistoryPage />} />
+                      <Route path="/historique-planification" element={<HistoriquePlanificationPage />} />
+                      <Route path="/groupe-apprenant" element={<GroupeApprenantPage />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </SidebarInset>
+                </div>
+              </SidebarProvider>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

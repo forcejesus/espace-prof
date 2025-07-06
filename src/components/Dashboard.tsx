@@ -1,6 +1,5 @@
 
 import { useState } from "react";
-import { Sidebar } from "./Sidebar";
 import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { StatsCards } from "./dashboard/StatsCards";
 import { Analytics } from "./dashboard/Analytics";
@@ -99,29 +98,23 @@ export function Dashboard({ onNavigate, games = [] }: DashboardProps) {
   const gamesToDisplay = games.length > 0 ? games : defaultGames;
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar onNavigate={onNavigate} currentView="dashboard" />
+    <div className="p-s24 space-y-s24">
+      <DashboardHeader 
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        filterSubject={filterSubject}
+        setFilterSubject={setFilterSubject}
+        onNavigate={onNavigate}
+      />
       
-      <div className="flex-1 overflow-hidden">
-        <div className="p-s24 space-y-s24">
-          <DashboardHeader 
-            searchTerm={searchTerm}
-            setSearchTerm={setSearchTerm}
-            filterSubject={filterSubject}
-            setFilterSubject={setFilterSubject}
-            onNavigate={onNavigate}
-          />
-          
-          <StatsCards />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-s24">
-            <div className="lg:col-span-2">
-              <Analytics />
-            </div>
-            <div className="lg:col-span-1">
-              <RecentGames games={gamesToDisplay} onNavigate={onNavigate} />
-            </div>
-          </div>
+      <StatsCards />
+      
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-s24">
+        <div className="lg:col-span-2">
+          <Analytics />
+        </div>
+        <div className="lg:col-span-1">
+          <RecentGames games={gamesToDisplay} onNavigate={onNavigate} />
         </div>
       </div>
     </div>
