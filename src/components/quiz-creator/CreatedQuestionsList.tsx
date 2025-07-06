@@ -5,6 +5,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 import { questionService, answerService } from "@/services";
 import { toast } from "sonner";
 
@@ -34,6 +35,8 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
   const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
   const [editingAnswer, setEditingAnswer] = useState<string | null>(null);
   const [editData, setEditData] = useState<any>({});
+  const [shortAnswerEdit, setShortAnswerEdit] = useState<string | null>(null);
+  const [shortAnswerValue, setShortAnswerValue] = useState<string>("");
 
   const handleEditQuestion = (question: CreatedQuestion) => {
     setEditingQuestion(question._id);
@@ -347,53 +350,96 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
                              </div>
                            ) : (
                              <>
-                               <div className="flex items-center space-x-3">
-                                 {/* Interface directe de modification selon le type */}
-                                 {abstractType === "REPONSE_COURTE" ? (
-                                   <Input
-                                     value={answer.reponse_texte}
-                                     onChange={(e) => {
-                                       answerService.updateAnswer(answer._id, { reponse_texte: e.target.value })
-                                         .then(() => onQuestionUpdated())
-                                         .catch(err => console.error("Error updating answer:", err));
-                                     }}
-                                     className="flex-1"
-                                     placeholder="Réponse attendue..."
-                                   />
-                                 ) : (
-                                   <>
-                                     {abstractType === "VRAI_FAUX" || abstractType === "CHOIX_UNIQUE" ? (
-                                       <label className="flex items-center space-x-2 cursor-pointer">
-                                         <input
-                                           type="radio"
-                                           name={`question-${question._id}`}
-                                           checked={!!answer.etat}
-                                           onChange={(e) => {
-                                             if (e.target.checked) {
-                                               handleAnswerStateChange(answer._id, true, question);
-                                             }
-                                           }}
-                                         />
-                                         <span className="text-gray-700">{answer.reponse_texte}</span>
-                                       </label>
-                                     ) : (
-                                       <label className="flex items-center space-x-2 cursor-pointer">
-                                         <input
-                                           type="checkbox"
-                                           checked={!!answer.etat}
-                                           onChange={(e) => {
-                                             handleAnswerStateChange(answer._id, e.target.checked, question);
-                                           }}
-                                         />
-                                         <span className="text-gray-700">{answer.reponse_texte}</span>
-                                       </label>
-                                     )}
-                                     
-                                     {answer.etat && (
-                                       <Badge className="bg-green-100 text-green-800">Correcte</Badge>
-                                     )}
-                                   </>
-                                 )}
+                                <div className="flex items-center space-x-3">
+                                  {/* Interface directe de modification selon le type */}
+                                  {abstractType === "REPONSE_COURTE" ? (
+                                    <div className="flex items-center space-x-2 flex-1">
+                                      {shortAnswerEdit === answer._id ? (
+                                        <>
+                                          <Input
+                                            value={shortAnswerValue}
+                                            onChange={(e) => setShortAnswerValue(e.target.value)}
+                                            className="flex-1"
+                                            placeholder="Réponse attendue..."
+                                          />
+                                          <Button
+                                            size="sm"
+                                            onClick={() => {
+                                              answerService.updateAnswer(answer._id, { reponse_texte: shortAnswerValue })
+                                                .then(() => {
+                                                  onQuestionUpdated();
+                                                  setShortAnswerEdit(null);
+                                                  toast.success("Réponse modifiée avec succès");
+                                                })
+                                                .catch(err => {
+                                                  console.error("Error updating answer:", err);
+                                                  toast.error("Erreur lors de la modification");
+                                                });
+                                            }}
+                                            className="bg-green-500 hover:bg-green-600 text-white"
+                                          >
+                                            <Save className="w-3 h-3" />
+                                          </Button>
+                                          <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => setShortAnswerEdit(null)}
+                                          >
+                                            <X className="w-3 h-3" />
+                                          </Button>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Input
+                                            value={answer.reponse_texte}
+                                            readOnly
+                                            className="flex-1 bg-gray-50"
+                                          />
+                                          <Button
+                                            size="sm"
+                                            variant="ghost"
+                                            onClick={() => {
+                                              setShortAnswerEdit(answer._id);
+                                              setShortAnswerValue(answer.reponse_texte);
+                                            }}
+                                            className="text-blue-600 hover:bg-blue-50"
+                                          >
+                                            <Pencil className="w-3 h-3" />
+                                          </Button>
+                                        </>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <>
+                                      {abstractType === "VRAI_FAUX" || abstractType === "CHOIX_UNIQUE" ? (
+                                        <div className="flex items-center space-x-3">
+                                          <Switch
+                                            checked={!!answer.etat}
+                                            onCheckedChange={(checked) => {
+                                              if (checked) {
+                                                handleAnswerStateChange(answer._id, true, question);
+                                              }
+                                            }}
+                                          />
+                                          <span className="text-gray-700">{answer.reponse_texte}</span>
+                                        </div>
+                                      ) : (
+                                        <div className="flex items-center space-x-3">
+                                          <Switch
+                                            checked={!!answer.etat}
+                                            onCheckedChange={(checked) => {
+                                              handleAnswerStateChange(answer._id, checked, question);
+                                            }}
+                                          />
+                                          <span className="text-gray-700">{answer.reponse_texte}</span>
+                                        </div>
+                                      )}
+                                      
+                                      {answer.etat && (
+                                        <Badge className="bg-green-100 text-green-800">Correcte</Badge>
+                                      )}
+                                    </>
+                                  )}
                                </div>
                                
                                {abstractType !== "REPONSE_COURTE" && (

@@ -1,5 +1,5 @@
 
-import { Trash2, ToggleLeft, Type, CheckSquare, HelpCircle } from "lucide-react";
+import { Trash2, ToggleLeft, Type, CheckSquare, HelpCircle, Image, Upload } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,6 +28,18 @@ export function QuestionCard({ question, index, onUpdate, onDelete }: QuestionCa
   const handleQuestionChange = (value: string) => {
     if (value.length <= 250) {
       onUpdate(question.id, { question: value });
+    }
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64 = e.target?.result as string;
+        onUpdate(question.id, { image: base64 });
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -140,6 +152,30 @@ export function QuestionCard({ question, index, onUpdate, onDelete }: QuestionCa
         </div>
 
         {renderQuestionType()}
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Image (optionnelle)
+          </label>
+          <div className="flex items-center space-x-2">
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="border-orange-200 focus:border-orange-500"
+            />
+            <Upload className="w-5 h-5 text-gray-400" />
+          </div>
+          {question.image && (
+            <div className="mt-2">
+              <img 
+                src={question.image} 
+                alt="Question preview" 
+                className="max-w-xs h-auto rounded-lg border"
+              />
+            </div>
+          )}
+        </div>
 
         <div className="flex space-x-4">
           <div className="flex-1">
