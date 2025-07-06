@@ -11,8 +11,8 @@ import { useTranslation } from "react-i18next";
 import { LanguageSelector } from "@/components/LanguageSelector";
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("jean.dupont@ecole.com");
+  const [password, setPassword] = useState("motdepasse123");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const {
