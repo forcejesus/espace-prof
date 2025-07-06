@@ -2,6 +2,7 @@
 export interface ApiConfig {
   baseUrl: string;
   timeout: number;
+  enableLoginRequired: boolean;
   endpoints: {
     auth: string;
     games: string;
@@ -36,6 +37,7 @@ const configurations: Record<'development' | 'production', ApiConfig> = {
   development: {
     baseUrl: 'http://localhost:3001/api', // Votre serveur local NodeJS/Express
     timeout: 10000,
+    enableLoginRequired: true, // Activer/désactiver la protection des routes
     endpoints: {
       auth: '/auth',
       games: '/games',
@@ -47,6 +49,7 @@ const configurations: Record<'development' | 'production', ApiConfig> = {
   production: {
     baseUrl: 'https://api.akili.guru/api',
     timeout: 15000,
+    enableLoginRequired: true, // Activer/désactiver la protection des routes
     endpoints: {
       auth: '/auth',
       games: '/games',

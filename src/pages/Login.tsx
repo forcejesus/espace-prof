@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { authService } from "@/services/authService";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,6 +56,11 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans">
+      {/* Sélecteur de langue */}
+      <div className="absolute top-4 right-4 z-20">
+        <LanguageSelector />
+      </div>
+      
       {/* Formes décoratives */}
       <div className="absolute top-20 right-20 w-32 h-32 bg-gradient-to-br from-orange-400 to-red-500 rounded-full opacity-80"></div>
       <div className="absolute bottom-20 left-20 w-24 h-24 bg-gradient-to-br from-orange-400 to-yellow-500 rounded-full opacity-60"></div>

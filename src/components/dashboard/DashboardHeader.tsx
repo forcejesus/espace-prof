@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 interface DashboardHeaderProps {
   searchTerm: string;
@@ -31,6 +32,7 @@ export function DashboardHeader({
         </div>
         
         <div className="flex items-center space-x-s12">
+          <LanguageSelector />
           <Button 
             variant="outline"
             size="sm"
