@@ -118,17 +118,46 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
 
   // Initialiser une nouvelle question
   const initNewQuestion = () => {
+    console.log('🔍 Point systems available:', pointSystems);
+    console.log('🔍 Question types available:', questionTypes);
+    
+    const defaultPointSystem = pointSystems.length > 0 ? pointSystems[0] : null;
+    const defaultQuestionType = questionTypes.length > 0 ? questionTypes[0] : null;
+    
+    console.log('🔍 Default point system:', defaultPointSystem);
+    console.log('🔍 Default question type:', defaultQuestionType);
+    
+    if (!defaultPointSystem) {
+      toast({
+        title: "Erreur",
+        description: "Aucun système de points disponible. Veuillez réessayer.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!defaultQuestionType) {
+      toast({
+        title: "Erreur", 
+        description: "Aucun type de question disponible. Veuillez réessayer.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     const newQuestion: Question = {
       id: Date.now().toString(),
       libelle: "",
       temps: 30,
-      typeQuestion: questionTypes[0]?._id || "",
-      point: pointSystems[0]?.id || "",
+      typeQuestion: defaultQuestionType._id,
+      point: defaultPointSystem.id, // Utilise l'id du système de points
       fichier: "",
       type_fichier: "",
       limite_response: true,
       answers: []
     };
+    
+    console.log('🔍 New question initialized:', newQuestion);
     
     setCurrentQuestion(newQuestion);
     setStep(3);
@@ -209,11 +238,31 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const saveQuestion = async () => {
     if (!currentQuestion || !gameId) return;
     
+    console.log('🔍 Current question before save:', currentQuestion);
+    
     // Validation
     if (!currentQuestion.libelle.trim()) {
       toast({
         title: "Erreur",
         description: "Le libellé de la question est requis",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!currentQuestion.point || currentQuestion.point.trim() === "") {
+      toast({
+        title: "Erreur",
+        description: "Le système de points est requis",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!currentQuestion.typeQuestion || currentQuestion.typeQuestion.trim() === "") {
+      toast({
+        title: "Erreur",
+        description: "Le type de question est requis",
         variant: "destructive"
       });
       return;
@@ -247,10 +296,12 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
         typeQuestion: currentQuestion.typeQuestion,
         point: currentQuestion.point,
         jeu: gameId,
-        fichier: currentQuestion.fichier,
-        type_fichier: currentQuestion.type_fichier,
+        fichier: currentQuestion.fichier || undefined,
+        type_fichier: currentQuestion.type_fichier || undefined,
         limite_response: currentQuestion.limite_response
       };
+      
+      console.log('🔍 Question data to send:', questionData);
       
       const questionResult = await gameService.addQuestion(questionData);
       

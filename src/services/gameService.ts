@@ -184,10 +184,13 @@ class GameService {
     });
 
     const result = await response.json();
+    console.log('🔍 Raw points API response:', result);
+    
     if (!result.success) {
       throw new Error(result.message || 'Erreur lors de la récupération des systèmes de points');
     }
     
+    console.log('🔍 Points data structure:', result.data);
     return result.data;
   }
 
