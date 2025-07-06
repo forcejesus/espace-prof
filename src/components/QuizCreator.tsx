@@ -45,11 +45,51 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   const [gameId, setGameId] = useState<string | null>(quiz?._id || null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [questionCharCount, setQuestionCharCount] = useState(0);
   
   // États pour les références API
   const [questionTypes, setQuestionTypes] = useState<QuestionType[]>([]);
   const [pointSystems, setPointSystems] = useState<PointSystem[]>([]);
   const [loading, setLoading] = useState(false);
+
+  // Gérer l'upload d'image
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Vérifier la taille du fichier (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "Erreur",
+        description: "Le fichier est trop volumineux (max 5MB)",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Convertir en base64
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result as string;
+      setGameImage(base64String);
+    };
+    reader.onerror = () => {
+      toast({
+        title: "Erreur",
+        description: "Erreur lors de la lecture du fichier",
+        variant: "destructive"
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Mettre à jour le texte de la question avec compteur
+  const handleQuestionTextChange = (text: string) => {
+    if (text.length <= 255) {
+      setCurrentQuestion(prev => prev ? {...prev, libelle: text} : null);
+      setQuestionCharCount(text.length);
+    }
+  };
 
   // Charger les références au montage
   useEffect(() => {
@@ -159,6 +199,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
     
     console.log('🔍 New question initialized:', newQuestion);
     
+    setQuestionCharCount(0); // Réinitialiser le compteur
     setCurrentQuestion(newQuestion);
     setStep(3);
   };
@@ -421,22 +462,24 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
               
               <div>
                 <Label htmlFor="game-image">Image du jeu (optionnel)</Label>
-                <Input
-                  id="game-image"
-                  value={gameImage}
-                  onChange={(e) => setGameImage(e.target.value)}
-                  placeholder="URL de l'image ou laissez vide"
-                  className="mt-2"
-                />
+                <div className="mt-2">
+                  <Input
+                    id="game-image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
+                  />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Formats acceptés: JPG, PNG, GIF (max 5MB)
+                  </p>
+                </div>
                 {gameImage && (
                   <div className="mt-3">
                     <img 
                       src={gameImage} 
                       alt="Aperçu" 
                       className="w-32 h-24 object-cover rounded border"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                      }}
                     />
                   </div>
                 )}
@@ -522,14 +565,27 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <Label htmlFor="question-text">Question *</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="question-text">Question *</Label>
+                  <span className={`text-sm ${
+                    questionCharCount > 200 ? 'text-red-500' : 'text-gray-500'
+                  }`}>
+                    {questionCharCount}/255
+                  </span>
+                </div>
                 <Textarea
                   id="question-text"
                   value={currentQuestion.libelle}
-                  onChange={(e) => setCurrentQuestion({...currentQuestion, libelle: e.target.value})}
+                  onChange={(e) => handleQuestionTextChange(e.target.value)}
                   placeholder="Tapez votre question ici..."
                   className="mt-2"
+                  maxLength={255}
                 />
+                {questionCharCount > 200 && (
+                  <p className="text-sm text-orange-600 mt-1">
+                    Attention: Vous approchez de la limite de caractères
+                  </p>
+                )}
               </div>
               
               <div className="grid grid-cols-2 gap-4">
@@ -567,16 +623,29 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                 <Label htmlFor="point-system">Système de points</Label>
                 <Select value={currentQuestion.point} onValueChange={(value) => setCurrentQuestion({...currentQuestion, point: value})}>
                   <SelectTrigger className="mt-2">
-                    <SelectValue placeholder="Choisir le système de points" />
+                    <SelectValue placeholder="Choisissez un système de points" />
                   </SelectTrigger>
                   <SelectContent>
                     {pointSystems.map(system => (
                       <SelectItem key={system.id} value={system.id}>
-                        {system.description} ({system.valeur} points)
+                        <div className="flex items-center justify-between w-full">
+                          <span className="font-medium">{system.nature}</span>
+                          <div className="flex items-center space-x-2">
+                            <Badge variant="secondary" className="bg-green-100 text-green-800">
+                              {system.valeur} pts
+                            </Badge>
+                            <span className="text-sm text-gray-500">{system.description}</span>
+                          </div>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                {pointSystems.length === 0 && (
+                  <p className="text-sm text-red-500 mt-1">
+                    Aucun système de points disponible
+                  </p>
+                )}
               </div>
               
               {/* Réponses */}
