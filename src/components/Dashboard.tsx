@@ -4,6 +4,7 @@ import { DashboardHeader } from "./dashboard/DashboardHeader";
 import { StatsCards } from "./dashboard/StatsCards";
 import { Analytics } from "./dashboard/Analytics";
 import { RecentGames } from "./dashboard/RecentGames";
+import { useTranslation } from "react-i18next";
 
 interface Game {
   _id: string;

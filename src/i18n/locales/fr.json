@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "mesJeux": "Mes Jeux",
+    "planifications": "Planifications",
+    "apprenants": "Apprenants",
+    "apprenantsInvites": "Apprenant invité",
+    "groupe": "Groupe",
+    "monCompte": "Mon Compte",
+    "seDeconnecter": "Se déconnecter"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "stats": {
+      "totalGames": "Total Jeux",
+      "activePlayers": "Joueurs Actifs",
+      "completionRate": "Taux de Réussite",
+      "averageScore": "Score Moyen"
+    },
+    "recentGames": {
+      "title": "Jeux Récents",
+      "createdBy": "Créé par",
+      "createdAt": "Créé le"
+    },
+    "analytics": {
+      "title": "Analytiques",
+      "performance": "Performance des Jeux",
+      "engagement": "Engagement des Joueurs"
+    }
+  },
+  "mesJeux": {
+    "title": "Mes Jeux",
+    "search": "Rechercher un jeu...",
+    "filterBySubject": "Trier par matière",
+    "allSubjects": "Toutes matières",
+    "createNew": "Créer nouveau",
+    "lastPlayed": "Il y a",
+    "questions": "questions",
+    "modify": "Modifier",
+    "plan": "Planifier",
+    "noGamesFound": "Aucun jeu trouvé",
+    "tryModifying": "Essayez de modifier vos critères de recherche",
+    "createFirst": "Commencez par créer votre premier jeu",
+    "createGame": "Créer un Jeu"
+  },
+  "quizCreator": {
+    "title": "Créateur de Quiz",
+    "newGame": "Nouveau Jeu",
+    "gameName": "Nom du Jeu",
+    "gameImage": "URL de l'Image",
+    "preview": "Aperçu",
+    "cancel": "Annuler",
+    "create": "Créer le Jeu"
+  },
+  "planification": {
+    "title": "Planifications",
+    "schedule": "Programmer une session",
+    "history": "Historique"
+  },
+  "apprenants": {
+    "title": "Apprenants",
+    "totalStudents": "Total Apprenants"
+  },
+  "monCompte": {
+    "title": "Mon Compte",
+    "profile": "Profil",
+    "settings": "Paramètres"
+  },
+  "support": {
+    "title": "Support équipe AKILI",
+    "email": "support@akili.guru",
+    "contact": "Contactez-nous"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Créer",
+    "close": "Fermer",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "days": "jours",
+    "hours": "heures",
+    "minutes": "minutes",
+    "ago": "il y a"
+  },
+  "subjects": {
+    "histoire": "Histoire",
+    "mathematiques": "Mathématiques", 
+    "sciences": "Sciences",
+    "francais": "Français",
+    "geographie": "Géographie",
+    "arts": "Arts"
+  }
+}

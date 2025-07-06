@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { useTranslation } from "react-i18next";
 
 interface QuizLibraryProps {
   onNavigate: (view: string) => void;
@@ -21,6 +22,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [newGameName, setNewGameName] = useState("");
   const [newGameImage, setNewGameImage] = useState("");
+  const { t } = useTranslation();
 
   const quizzes = [
     {
@@ -89,14 +91,14 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
         {/* Header avec filtres avancés */}
         <div className="space-y-s20 animate-fade-in-up animate-delay-300">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
-            <h2 className="text-h3-bold text-akili-grey-800">Mes Jeux ({filteredQuizzes.length})</h2>
+            <h2 className="text-h3-bold text-akili-grey-800">{t('mesJeux.title')} ({filteredQuizzes.length})</h2>
             
             <div className="flex flex-col md:flex-row items-stretch md:items-center gap-s12">
               {/* Recherche locale */}
               <div className="relative">
                 <Search className="absolute left-s12 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-4 h-4" />
                 <Input
-                  placeholder="Rechercher un jeu..."
+                  placeholder={t('mesJeux.search')}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-s36 w-72 border-akili-grey-400 focus:border-akili-purple-500"
@@ -107,15 +109,15 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
               <Select value={filterSubject} onValueChange={setFilterSubject}>
                 <SelectTrigger className="w-48 border-akili-grey-400">
                   <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
-                  <SelectValue placeholder="Trier par matière" />
+                  <SelectValue placeholder={t('mesJeux.filterBySubject')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Toutes matières</SelectItem>
-                  <SelectItem value="Histoire">Histoire</SelectItem>
-                  <SelectItem value="Mathématiques">Mathématiques</SelectItem>
-                  <SelectItem value="Sciences">Sciences</SelectItem>
-                  <SelectItem value="Français">Français</SelectItem>
-                  <SelectItem value="Géographie">Géographie</SelectItem>
+                  <SelectItem value="all">{t('mesJeux.allSubjects')}</SelectItem>
+                  <SelectItem value="Histoire">{t('subjects.histoire')}</SelectItem>
+                  <SelectItem value="Mathématiques">{t('subjects.mathematiques')}</SelectItem>
+                  <SelectItem value="Sciences">{t('subjects.sciences')}</SelectItem>
+                  <SelectItem value="Français">{t('subjects.francais')}</SelectItem>
+                  <SelectItem value="Géographie">{t('subjects.geographie')}</SelectItem>
                 </SelectContent>
               </Select>
               
@@ -125,7 +127,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                 onClick={() => onNavigate("creer-quiz")}
               >
                 <Plus className="w-4 h-4 mr-s8" />
-                Créer nouveau
+                {t('mesJeux.createNew')}
               </Button>
             </div>
           </div>
@@ -157,7 +159,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                         <Clock className="w-4 h-4 mr-s4" />
                         {quiz.lastPlayed}
                       </span>
-                      <span>{quiz.questions} questions</span>
+                      <span>{quiz.questions} {t('mesJeux.questions')}</span>
                     </div>
                     <div className="flex items-center space-x-s8 mb-s16">
                       <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
@@ -176,7 +178,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                       onClick={() => onEditQuiz(quiz)}
                       className="flex-1 border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
                     >
-                      Modifier
+                      {t('mesJeux.modify')}
                     </Button>
                     <Button 
                       size="sm"
@@ -184,7 +186,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                       className="flex-1 text-white font-akili-bold"
                       style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
                     >
-                      Planifier
+                      {t('mesJeux.plan')}
                     </Button>
                   </div>
                 </div>
@@ -196,11 +198,11 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
         {filteredQuizzes.length === 0 && (
           <div className="text-center py-s48">
             <Brain className="w-16 h-16 text-akili-grey-500 mx-auto mb-s16" />
-            <h3 className="text-h5-medium text-akili-grey-700 mb-s8">Aucun jeu trouvé</h3>
+            <h3 className="text-h5-medium text-akili-grey-700 mb-s8">{t('mesJeux.noGamesFound')}</h3>
             <p className="text-body2-medium text-akili-grey-600 mb-s16">
               {searchTerm || filterSubject !== "all" 
-                ? "Essayez de modifier vos critères de recherche"
-                : "Commencez par créer votre premier jeu"
+                ? t('mesJeux.tryModifying')
+                : t('mesJeux.createFirst')
               }
             </p>
             <Button 
@@ -208,7 +210,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
               className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Créer un Jeu
+              {t('mesJeux.createGame')}
             </Button>
           </div>
         )}
@@ -218,12 +220,12 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-akili-grey-800">Créer un Nouveau Jeu</DialogTitle>
+            <DialogTitle className="text-akili-grey-800">{t('quizCreator.newGame')}</DialogTitle>
           </DialogHeader>
           <div className="space-y-s16">
             <div>
               <Label htmlFor="game-name" className="text-body2-medium text-akili-grey-700">
-                Nom du Jeu *
+                {t('quizCreator.gameName')} *
               </Label>
               <Input
                 id="game-name"
@@ -236,7 +238,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
             
             <div>
               <Label htmlFor="game-image" className="text-body2-medium text-akili-grey-700">
-                URL de l'Image
+                {t('quizCreator.gameImage')}
               </Label>
               <Input
                 id="game-image"
@@ -251,7 +253,7 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
               <div className="mt-2">
                 <img 
                   src={newGameImage} 
-                  alt="Aperçu"
+                  alt={t('quizCreator.preview')}
                   className="w-full h-32 object-cover rounded-akili-md border border-akili-grey-400"
                   onError={(e) => {
                     e.currentTarget.style.display = 'none';
@@ -266,14 +268,14 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
                 onClick={() => setIsCreateDialogOpen(false)}
                 className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
               >
-                Annuler
+                {t('quizCreator.cancel')}
               </Button>
               <Button 
                 onClick={handleCreateGame}
                 disabled={!newGameName.trim()}
                 className="bg-akili-purple-500 hover:bg-akili-purple-700 text-white"
               >
-                Créer le Jeu
+                {t('quizCreator.create')}
               </Button>
             </div>
           </div>

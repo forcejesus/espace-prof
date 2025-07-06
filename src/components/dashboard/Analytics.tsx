@@ -1,8 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function Analytics() {
+  const { t } = useTranslation();
+  
   const analyticsData = [
     {
       title: "Taux de Participation",

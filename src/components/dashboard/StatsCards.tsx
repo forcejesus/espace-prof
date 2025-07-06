@@ -1,8 +1,11 @@
 import { Brain, Calendar, Users, TrendingUp, Award, Target, ChartBar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 
 export function StatsCards() {
+  const { t } = useTranslation();
+  
   const stats = [
     { 
       title: "Total Revenus", 
@@ -16,7 +19,7 @@ export function StatsCards() {
       valueColor: "text-akili-orange-600"
     },
     { 
-      title: "Total Jeux", 
+      title: t('dashboard.stats.totalGames'), 
       value: "57,922", 
       trend: "+8%",
       subtitle: "vs mois dernier",

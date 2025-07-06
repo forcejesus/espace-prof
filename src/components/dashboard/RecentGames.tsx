@@ -2,6 +2,7 @@ import { Calendar, MoreHorizontal, Play, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "react-i18next";
 
 interface Game {
   _id: string;
@@ -27,6 +28,7 @@ interface RecentGamesProps {
 }
 
 export function RecentGames({ games, onNavigate }: RecentGamesProps) {
+  const { t } = useTranslation();
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('fr-FR', {
@@ -50,7 +52,7 @@ export function RecentGames({ games, onNavigate }: RecentGamesProps) {
       <CardHeader className="pb-s16">
         <div className="flex items-center justify-between">
           <CardTitle className="text-h4-bold text-akili-grey-800">
-            Jeux Récents
+            {t('dashboard.recentGames.title')}
           </CardTitle>
           <div className="flex items-center space-x-s8">
             <Button variant="ghost" size="sm" className="text-akili-grey-600 hover:text-akili-orange-500">

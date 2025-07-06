@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "dashboard": "Dashboard", 
+    "mesJeux": "My Games",
+    "planifications": "Scheduling",
+    "apprenants": "Students",
+    "apprenantsInvites": "Guest Student",
+    "groupe": "Group",
+    "monCompte": "My Account",
+    "seDeconnecter": "Sign Out"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "stats": {
+      "totalGames": "Total Games",
+      "activePlayers": "Active Players", 
+      "completionRate": "Completion Rate",
+      "averageScore": "Average Score"
+    },
+    "recentGames": {
+      "title": "Recent Games",
+      "createdBy": "Created by",
+      "createdAt": "Created on"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "performance": "Game Performance",
+      "engagement": "Player Engagement"
+    }
+  },
+  "mesJeux": {
+    "title": "My Games",
+    "search": "Search for a game...",
+    "filterBySubject": "Filter by subject",
+    "allSubjects": "All subjects", 
+    "createNew": "Create new",
+    "lastPlayed": "ago",
+    "questions": "questions",
+    "modify": "Edit",
+    "plan": "Schedule",
+    "noGamesFound": "No games found",
+    "tryModifying": "Try modifying your search criteria",
+    "createFirst": "Start by creating your first game",
+    "createGame": "Create a Game"
+  },
+  "quizCreator": {
+    "title": "Quiz Creator",
+    "newGame": "New Game",
+    "gameName": "Game Name",
+    "gameImage": "Image URL",
+    "preview": "Preview",
+    "cancel": "Cancel",
+    "create": "Create Game"
+  },
+  "planification": {
+    "title": "Scheduling",
+    "schedule": "Schedule a session",
+    "history": "History"
+  },
+  "apprenants": {
+    "title": "Students",
+    "totalStudents": "Total Students"
+  },
+  "monCompte": {
+    "title": "My Account",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "support": {
+    "title": "AKILI Team Support",
+    "email": "support@akili.guru",
+    "contact": "Contact Us"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel", 
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "days": "days",
+    "hours": "hours", 
+    "minutes": "minutes",
+    "ago": "ago"
+  },
+  "subjects": {
+    "histoire": "History",
+    "mathematiques": "Mathematics",
+    "sciences": "Sciences", 
+    "francais": "French",
+    "geographie": "Geography",
+    "arts": "Arts"
+  }
+}
