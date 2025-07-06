@@ -58,6 +58,20 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       badge: "432"
     },
     { 
+      id: "apprenant-invite", 
+      label: "Apprenant invité", 
+      icon: Users, 
+      path: "/apprenant-invite",
+      badge: undefined
+    },
+    { 
+      id: "groupe", 
+      label: "Groupe", 
+      icon: Users, 
+      path: "/groupe",
+      badge: undefined
+    },
+    { 
       id: "mon-compte", 
       label: "Mon Compte", 
       icon: Settings, 
@@ -123,8 +137,27 @@ export function Sidebar({ onNavigate }: SidebarProps) {
         </nav>
       </div>
       
-      {/* Section de déconnexion */}
+      {/* Section support */}
       <div className="p-s20 border-t border-akili-grey-300">
+        <div className="bg-gradient-to-br from-akili-orange-50 to-akili-orange-100 rounded-lg p-s16 mb-s16">
+          <div className="flex items-center space-x-s12 mb-s12">
+            <div className="w-8 h-8 bg-gradient-to-br from-akili-orange-500 to-akili-orange-600 rounded-lg inline-flex items-center justify-center">
+              <Bell className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h4 className="text-body2-bold text-akili-grey-800">Support équipe AKILI</h4>
+              <p className="text-body4-medium text-akili-grey-600">support@akili.guru</p>
+            </div>
+          </div>
+          <Button 
+            size="sm" 
+            className="w-full bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 hover:from-akili-orange-600 hover:to-akili-orange-700 text-white border-0"
+          >
+            Contactez-nous
+          </Button>
+        </div>
+        
+        {/* Section de déconnexion */}
         <button
           onClick={() => {
             // Logique de déconnexion - peut être modifiée selon vos besoins

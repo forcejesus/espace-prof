@@ -131,70 +131,61 @@ export function QuizLibrary({ onNavigate, onEditQuiz }: QuizLibraryProps) {
           </div>
         </div>
 
-        {/* Jeux en mode liste */}
-        <div className="space-y-s16">
+        {/* Jeux en mode grille */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-s24">
           {filteredQuizzes.map((quiz, index) => (
-            <Card key={quiz.id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-slide-in-left animate-delay-${(index % 5 + 1) * 100}`}>
-              <CardContent className="p-s20">
-                <div className="flex items-center space-x-s20">
+            <Card key={quiz.id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-scale-in animate-delay-${(index % 5 + 1) * 100}`}>
+              <CardContent className="p-0">
+                <div className="aspect-video relative overflow-hidden rounded-t-lg">
                   <img 
-                    src={quiz.image} 
+                    src={quiz.image || "https://via.placeholder.com/400x300/f97316/ffffff?text=AKILI+GAME+-+jeux+sans+image"} 
                     alt={quiz.title}
-                    className="w-20 h-20 object-cover rounded-akili-lg flex-shrink-0"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/f97316/ffffff?text=AKILI+GAME+-+jeux+sans+image";
+                    }}
                   />
-                  
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold truncate">
-                          {quiz.title}
-                        </h3>
-                        <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
-                          <span className="flex items-center">
-                            <Clock className="w-4 h-4 mr-s4" />
-                            Créé {quiz.lastPlayed}
-                          </span>
-                          <span>{quiz.questions} questions</span>
-                          <span>{quiz.plays} lectures</span>
-                        </div>
-                        <div className="flex items-center space-x-s8">
-                          <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
-                            {quiz.subject}
-                          </Badge>
-                          <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
-                            {quiz.difficulty}
-                          </Badge>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center space-x-s8 flex-shrink-0">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => onEditQuiz(quiz)}
-                          className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200 px-s16"
-                        >
-                          Modifier
-                        </Button>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => onNavigate("planification")}
-                          className="border-akili-blue-500 text-akili-blue-500 hover:bg-akili-blue-100 px-s16"
-                        >
-                          Planifications
-                        </Button>
-                        <Button 
-                          size="sm"
-                          onClick={() => onNavigate("session-live")}
-                          className="text-white font-akili-bold px-s20"
-                          style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
-                        >
-                          <Play className="w-4 h-4 mr-s8" />
-                          Jouer
-                        </Button>
-                      </div>
+                </div>
+                
+                <div className="p-s20">
+                  <div className="mb-s16">
+                    <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold line-clamp-2">
+                      {quiz.title}
+                    </h3>
+                    <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
+                      <span className="flex items-center">
+                        <Clock className="w-4 h-4 mr-s4" />
+                        {quiz.lastPlayed}
+                      </span>
+                      <span>{quiz.questions} questions</span>
                     </div>
+                    <div className="flex items-center space-x-s8 mb-s16">
+                      <Badge variant="secondary" className="bg-akili-grey-300 text-akili-grey-700 text-body4-medium">
+                        {quiz.subject}
+                      </Badge>
+                      <Badge variant="secondary" className="bg-akili-blue-300 text-white text-body4-medium">
+                        {quiz.difficulty}
+                      </Badge>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center space-x-s8">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => onEditQuiz(quiz)}
+                      className="flex-1 border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
+                    >
+                      Modifier
+                    </Button>
+                    <Button 
+                      size="sm"
+                      onClick={() => onNavigate("planification")}
+                      className="flex-1 text-white font-akili-bold"
+                      style={{ background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))' }}
+                    >
+                      Planifier
+                    </Button>
                   </div>
                 </div>
               </CardContent>
