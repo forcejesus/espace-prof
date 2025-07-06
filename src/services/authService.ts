@@ -8,6 +8,7 @@ export interface LoginRequest {
 export interface LoginResponse {
   success: boolean;
   token: string;
+  message?: string;
   user: {
     id: string;
     nom: string;
@@ -33,30 +34,50 @@ class AuthService {
   private readonly USER_KEY = 'akili-user';
 
   async login(credentials: LoginRequest): Promise<LoginResponse> {
-    // Note: L'endpoint est /api/login selon la documentation
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
+    console.log('🔍 Tentative de connexion avec:', credentials);
+    console.log('🌐 URL complète:', window.location.origin + '/api/login');
+    
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
 
-    const loginData: LoginResponse = await response.json();
-    
-    if (!loginData.success) {
-      throw new Error('Erreur de connexion');
-    }
-    
-    // Vérifier que l'utilisateur a le rôle enseignant ou admin
-    if (loginData.user.role !== 'enseignant' && loginData.user.role !== 'super_admin' && loginData.user.role !== 'admin') {
-      throw new Error('Accès refusé. Seuls les enseignants et admins peuvent se connecter à cette application.');
-    }
+      console.log('📡 Réponse HTTP status:', response.status);
+      console.log('📡 Réponse HTTP headers:', Object.fromEntries(response.headers.entries()));
+      
+      const responseText = await response.text();
+      console.log('📄 Réponse brute:', responseText);
+      
+      let loginData: LoginResponse;
+      try {
+        loginData = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('❌ Erreur JSON.parse:', parseError);
+        console.error('📄 Contenu à parser:', responseText);
+        throw new Error(`Réponse invalide du serveur: ${responseText.substring(0, 200)}`);
+      }
+      
+      if (!loginData.success) {
+        throw new Error(loginData.message || 'Erreur de connexion');
+      }
+      
+      // Vérifier que l'utilisateur a le rôle enseignant ou admin
+      if (loginData.user.role !== 'enseignant' && loginData.user.role !== 'super_admin' && loginData.user.role !== 'admin') {
+        throw new Error('Accès refusé. Seuls les enseignants et admins peuvent se connecter à cette application.');
+      }
 
-    // Sauvegarder le token et les informations utilisateur
-    this.saveAuthData(loginData);
-    
-    return loginData;
+      // Sauvegarder le token et les informations utilisateur
+      this.saveAuthData(loginData);
+      
+      return loginData;
+    } catch (error) {
+      console.error('❌ Erreur complète de login:', error);
+      throw error;
+    }
   }
 
   logout(): void {
