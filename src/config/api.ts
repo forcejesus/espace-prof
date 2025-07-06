@@ -37,7 +37,7 @@ const configurations: Record<'development' | 'production', ApiConfig> = {
   development: {
     baseUrl: 'http://localhost:3000/api', // Votre serveur local NodeJS/Express
     timeout: 10000,
-    enableLoginRequired: false, // Activer/désactiver la protection des routes
+    enableLoginRequired: true, // Activer/désactiver la protection des routes
     endpoints: {
       auth: '/auth',
       games: '/games',

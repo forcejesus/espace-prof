@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { Sidebar } from "@/components/Sidebar";
@@ -33,45 +33,56 @@ function ScrollToTop() {
   return null;
 }
 
-const App = () => {
+function AppContent() {
+  const navigate = useNavigate();
+
   const handleNavigate = (view: string) => {
-    window.location.href = `/${view}`;
+    navigate(`/${view}`);
   };
 
+  return (
+    <ProtectedRoute>
+      <SidebarProvider defaultOpen={true}>
+        <div className="min-h-screen flex w-full bg-akili-grey-50">
+          <Sidebar onNavigate={handleNavigate} />
+          <SidebarInset className="flex-1 ml-64">
+            <Routes>
+              <Route path="/" element={<DashboardPage />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
+              <Route path="/mes-jeux" element={<MesJeuxPage />} />
+              <Route path="/planification" element={<PlanificationPage />} />
+              <Route path="/mon-compte" element={<MonComptePage />} />
+              <Route path="/creer-quiz" element={<QuizCreatorPage />} />
+              <Route path="/session-live" element={<LiveSessionPage />} />
+              <Route path="/historique-session" element={<SessionHistoryPage />} />
+              <Route path="/historique-planification" element={<HistoriquePlanificationPage />} />
+              <Route path="/groupe-apprenant" element={<GroupeApprenantPage />} />
+              <Route path="/apprenant-invite" element={<ApprenantInvitePage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </SidebarInset>
+        </div>
+      </SidebarProvider>
+    </ProtectedRoute>
+  );
+}
+
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter 
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           <ScrollToTop />
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/*" element={
-              <ProtectedRoute>
-                <SidebarProvider defaultOpen={true}>
-                  <div className="min-h-screen flex w-full bg-akili-grey-50">
-                    <Sidebar onNavigate={handleNavigate} />
-                    <SidebarInset className="flex-1 ml-64">
-                      <Routes>
-                        <Route path="/" element={<DashboardPage />} />
-                        <Route path="/dashboard" element={<DashboardPage />} />
-                        <Route path="/mes-jeux" element={<MesJeuxPage />} />
-                        <Route path="/planification" element={<PlanificationPage />} />
-                        <Route path="/mon-compte" element={<MonComptePage />} />
-                        <Route path="/creer-quiz" element={<QuizCreatorPage />} />
-                        <Route path="/session-live" element={<LiveSessionPage />} />
-                        <Route path="/historique-session" element={<SessionHistoryPage />} />
-                        <Route path="/historique-planification" element={<HistoriquePlanificationPage />} />
-                        <Route path="/groupe-apprenant" element={<GroupeApprenantPage />} />
-                        <Route path="/apprenant-invite" element={<ApprenantInvitePage />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
-                    </SidebarInset>
-                  </div>
-                </SidebarProvider>
-              </ProtectedRoute>
-            } />
+            <Route path="/*" element={<AppContent />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
