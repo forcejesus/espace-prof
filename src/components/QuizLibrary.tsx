@@ -218,15 +218,15 @@ export function QuizLibrary({
             {filteredQuizzes.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-s24">
                  {filteredQuizzes.map((game, index) => <Card key={game._id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-scale-in animate-delay-${(index % 5 + 1) * 100}`}>
                      {game.image ? <CardContent className="p-0">
-                         <div className="aspect-video relative overflow-hidden rounded-t-lg">
-                           <img src={`http://localhost:3000/${game.image.replace('public/', '')}`} alt={game.titre} className="w-full h-full object-cover" onError={e => {
+                          <div className="aspect-video relative overflow-hidden rounded-t-lg">
+                            <img src={`http://localhost:3000/${game.image.replace('public/', '')}`} alt={game.titre} className="w-full h-full object-cover" onError={e => {
                   (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/f97316/ffffff?text=AKILI+GAME+-+erreur+image";
                 }} />
-                         </div>
-                       </CardContent> : <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center py-12">
-                         <h4 className="text-lg font-bold">AKILI GAME</h4>
-                         <p className="text-sm opacity-90">Pas d'image de jeu disponible</p>
-                       </CardHeader>}
+                          </div>
+                        </CardContent> : <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center aspect-video flex flex-col justify-center">
+                          <h4 className="text-lg font-bold">AKILI GAME</h4>
+                          <p className="text-sm opacity-90">Pas d'image de jeu disponible</p>
+                        </CardHeader>}
                      
                       <CardContent className="p-s20 my-[15px]">
                         <div className="mb-s16">
@@ -239,6 +239,7 @@ export function QuizLibrary({
                               {formatRelativeDate(game.date)}
                             </span>
                             <span>{game.questions?.length || 0} {t('mesJeux.questions')}</span>
+                            <span>{game.planification?.length || 0} planifications</span>
                           </div>
                         </div>
                         

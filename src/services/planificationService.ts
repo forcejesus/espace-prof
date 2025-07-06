@@ -81,7 +81,7 @@ class PlanificationService {
 
   // Planifier un jeu
   async createPlanification(planificationData: CreatePlanificationRequest): Promise<Planification> {
-    const response = await fetch('/api/planification', {
+    const response = await fetch('http://localhost:3000/api/planification', {
       method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(planificationData),
