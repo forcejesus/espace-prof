@@ -475,11 +475,16 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       // Créer les réponses
       for (const answer of currentQuestion.answers) {
         if (answer.reponse_texte.trim()) {
-          await gameService.addAnswer({
+          const answerData = {
             reponse_texte: answer.reponse_texte,
             etat: answer.etat,
             question: questionResult.id
-          });
+          };
+          
+          console.log('🔍 Answer data to send:', answerData);
+          console.log('🔍 Question result:', questionResult);
+          
+          await gameService.addAnswer(answerData);
         }
       }
       
