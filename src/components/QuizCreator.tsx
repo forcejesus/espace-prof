@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
-import { QuestionType, PointSystem, gameService } from "@/services";
+import { QuestionType, PointSystem, gameService, questionService, answerService, referenceService } from "@/services";
 import { CreatedQuestionsList } from "./quiz-creator/CreatedQuestionsList";
 
 interface QuizCreatorProps {
@@ -161,8 +161,8 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       try {
         setLoading(true);
         const [typesResult, pointsResult] = await Promise.all([
-          gameService.getQuestionTypes(),
-          gameService.getPointSystems()
+          referenceService.getQuestionTypes(),
+          referenceService.getPointSystems()
         ]);
         
         setQuestionTypes(typesResult);
@@ -187,7 +187,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
     if (!gameId) return;
 
     try {
-      const questionsData = await gameService.getGameQuestions(gameId);
+      const questionsData = await questionService.getGameQuestions(gameId);
       setCreatedQuestions(questionsData);
     } catch (error) {
       console.error('Erreur lors du chargement des questions:', error);
@@ -496,7 +496,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       
       console.log('🔍 Question data to send:', questionData);
       
-      const questionResult = await gameService.addQuestion(questionData);
+      const questionResult = await questionService.addQuestion(questionData);
       console.log('🔍 Question created successfully:', questionResult);
       
       // Créer les réponses
@@ -514,7 +514,7 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
           console.log('🔍 Question result ID:', questionResult.id);
           
           try {
-            const answerResult = await gameService.addAnswer(answerData);
+            const answerResult = await answerService.addAnswer(answerData);
             console.log('🔍 Answer created successfully:', answerResult);
           } catch (error) {
             console.error('🔍 Error creating answer:', error);

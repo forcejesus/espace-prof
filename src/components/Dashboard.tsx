@@ -7,7 +7,7 @@ import { Analytics } from "./dashboard/Analytics";
 import { RecentGames } from "./dashboard/RecentGames";
 import { useTranslation } from "react-i18next";
 import { dashboardService, DashboardData } from "@/services/dashboardService";
-import { gameService, Game } from "@/services/gameService";
+import { gameService, Game } from "@/services";
 
 interface DashboardProps {
   onNavigate: (view: string) => void;

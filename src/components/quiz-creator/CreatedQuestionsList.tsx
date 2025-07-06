@@ -5,7 +5,7 @@ import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { gameService } from "@/services/gameService";
+import { questionService, answerService } from "@/services";
 import { toast } from "sonner";
 
 interface CreatedQuestion {
@@ -41,7 +41,7 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
 
   const handleSaveQuestion = async (questionId: string) => {
     try {
-      await gameService.updateQuestion(questionId, editData);
+      await questionService.updateQuestion(questionId, editData);
       toast.success("Question modifiée avec succès");
       setEditingQuestion(null);
       onQuestionUpdated();
@@ -54,7 +54,7 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
   const handleDeleteQuestion = async (questionId: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cette question ?")) {
       try {
-        await gameService.deleteQuestion(questionId);
+        await questionService.deleteQuestion(questionId);
         toast.success("Question supprimée avec succès");
         onQuestionUpdated();
       } catch (error) {
@@ -74,7 +74,7 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
 
   const handleSaveAnswer = async (answerId: string) => {
     try {
-      await gameService.updateAnswer(answerId, editData);
+      await answerService.updateAnswer(answerId, editData);
       toast.success("Réponse modifiée avec succès");
       setEditingAnswer(null);
       onQuestionUpdated();
@@ -87,7 +87,7 @@ export function CreatedQuestionsList({ questions, onQuestionUpdated }: CreatedQu
   const handleDeleteAnswer = async (answerId: string) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cette réponse ?")) {
       try {
-        await gameService.deleteAnswer(answerId);
+        await answerService.deleteAnswer(answerId);
         toast.success("Réponse supprimée avec succès");
         onQuestionUpdated();
       } catch (error) {
