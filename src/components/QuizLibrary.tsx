@@ -81,37 +81,57 @@ export function QuizLibrary({
   }}>
       <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
         {/* Header avec filtres avancés - Fixe */}
-        <div className="sticky top-0 z-10 bg-grey-200 pb-s20 space-y-s20 animate-fade-in-up animate-delay-300" style={{backgroundColor: 'var(--colors-grey-200)'}}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
-            <h2 className="text-h3-bold text-akili-grey-800">{t('mesJeux.title')} ({filteredQuizzes.length})</h2>
-            
-            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-s12">
-              {/* Recherche locale */}
-              <div className="relative">
-                <Search className="absolute left-s12 top-1/2 transform -translate-y-1/2 text-akili-grey-600 w-4 h-4" />
-                <Input placeholder={t('mesJeux.search')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="pl-s36 w-72 border-akili-grey-400 focus:border-akili-purple-500" />
+        <div className="sticky top-0 z-10 bg-white shadow-lg border-b border-gray-200 pb-s20 mb-s32 space-y-s20">
+          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-s24 py-s16 -mx-s24 -mt-s32 mb-s20">
+            <h1 className="text-2xl font-bold text-center">🎮 AKILI GAME</h1>
+            <p className="text-center opacity-90 text-sm">Plateforme de création de jeux éducatifs</p>
+          </div>
+          
+          <div className="px-s24">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
+              <div className="flex items-center gap-s12">
+                <h2 className="text-h3-bold text-akili-grey-800">{t('mesJeux.title')}</h2>
+                <div className="bg-orange-100 text-orange-800 px-s12 py-s4 rounded-full text-sm font-semibold">
+                  {filteredQuizzes.length} jeux
+                </div>
               </div>
               
-              {/* Filtres */}
-              <Select value={filterSubject} onValueChange={setFilterSubject}>
-                <SelectTrigger className="w-48 border-akili-grey-400">
-                  <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
-                  <SelectValue placeholder={t('mesJeux.filterBySubject')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">{t('mesJeux.allSubjects')}</SelectItem>
-                  <SelectItem value="Histoire">{t('subjects.histoire')}</SelectItem>
-                  <SelectItem value="Mathématiques">{t('subjects.mathematiques')}</SelectItem>
-                  <SelectItem value="Sciences">{t('subjects.sciences')}</SelectItem>
-                  <SelectItem value="Français">{t('subjects.francais')}</SelectItem>
-                  <SelectItem value="Géographie">{t('subjects.geographie')}</SelectItem>
-                </SelectContent>
-              </Select>
-              
-              <Button variant="link" className="text-akili-green-500 p-0 font-akili-bold" onClick={() => onNavigate("creer-quiz")}>
-                <Plus className="w-4 h-4 mr-s8" />
-                {t('mesJeux.createNew')}
-              </Button>
+              <div className="flex flex-col md:flex-row items-stretch md:items-center gap-s12">
+                {/* Recherche améliorée */}
+                <div className="relative">
+                  <Search className="absolute left-s12 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                  <Input 
+                    placeholder={t('mesJeux.search')} 
+                    value={searchTerm} 
+                    onChange={e => setSearchTerm(e.target.value)} 
+                    className="pl-s40 w-80 h-11 border-2 border-orange-200 focus:border-orange-500 focus:ring-orange-300 rounded-xl bg-white shadow-sm" 
+                  />
+                </div>
+                
+                {/* Filtres améliorés */}
+                <Select value={filterSubject} onValueChange={setFilterSubject}>
+                  <SelectTrigger className="w-52 h-11 border-2 border-orange-200 focus:border-orange-500 rounded-xl bg-white shadow-sm">
+                    <Filter className="w-4 h-4 mr-2 text-orange-500" />
+                    <SelectValue placeholder={t('mesJeux.filterBySubject')} />
+                  </SelectTrigger>
+                  <SelectContent className="bg-white border-2 border-orange-200 rounded-xl shadow-lg">
+                    <SelectItem value="all">{t('mesJeux.allSubjects')}</SelectItem>
+                    <SelectItem value="Histoire">{t('subjects.histoire')}</SelectItem>
+                    <SelectItem value="Mathématiques">{t('subjects.mathematiques')}</SelectItem>
+                    <SelectItem value="Sciences">{t('subjects.sciences')}</SelectItem>
+                    <SelectItem value="Français">{t('subjects.francais')}</SelectItem>
+                    <SelectItem value="Géographie">{t('subjects.geographie')}</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                <Button 
+                  onClick={() => setIsCreateDialogOpen(true)} 
+                  className="h-11 px-s20 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  <Plus className="w-5 h-5 mr-s8" />
+                  {t('mesJeux.createNew')}
+                </Button>
+              </div>
             </div>
           </div>
         </div>

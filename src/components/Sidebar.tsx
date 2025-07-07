@@ -105,15 +105,15 @@ export function Sidebar({ onNavigate }: SidebarProps) {
             <button
               key={item.id}
               onClick={() => handleNavigation(item.path)}
-              className={`w-full flex items-center justify-between px-s16 py-s12 rounded-lg transition-all duration-200 group ${
+              className={`w-full flex items-center justify-between px-s16 py-s12 rounded-xl transition-all duration-200 group ${
                 isActive(item.path)
-                  ? "bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 text-white shadow-md"
-                  : "text-akili-grey-700 hover:bg-akili-grey-200 hover:text-akili-orange-500"
+                  ? "bg-orange-500 text-white shadow-lg"
+                  : "text-gray-700 hover:bg-orange-50 hover:text-orange-600"
               }`}
             >
               <div className="flex items-center space-x-s12">
                 <item.icon className={`w-5 h-5 ${
-                  isActive(item.path) ? "text-white" : "text-akili-grey-600 group-hover:text-akili-orange-500"
+                  isActive(item.path) ? "text-white" : "text-gray-500 group-hover:text-orange-600"
                 }`} />
                 <span className="text-body2-medium">{item.label}</span>  
               </div>
@@ -123,7 +123,7 @@ export function Sidebar({ onNavigate }: SidebarProps) {
                   className={`text-xs ${
                     isActive(item.path) 
                       ? "bg-white/20 text-white hover:bg-white/30" 
-                      : "bg-akili-orange-100 text-akili-orange-700"
+                      : "bg-orange-100 text-orange-600"
                   }`}
                 >
                   {item.badge}

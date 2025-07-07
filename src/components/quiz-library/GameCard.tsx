@@ -32,90 +32,94 @@ export function GameCard({ game, index, onEdit, onPlan, onArchive, onDelete }: G
   };
 
   return (
-    <Card key={game._id} className={`group hover:shadow-akili-md transition-all duration-fast border-0 shadow-akili-sm bg-white animate-scale-in animate-delay-${(index % 5 + 1) * 100}`}>
+    <Card className="group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border-0 shadow-lg bg-white rounded-2xl overflow-hidden">
       {game.image ? (
         <CardContent className="p-0">
-          <div className="aspect-video relative overflow-hidden rounded-t-lg">
+          <div className="aspect-video relative overflow-hidden">
             <img 
               src={`http://localhost:3000/${game.image.replace('public/', '')}`} 
               alt={game.titre} 
-              className="w-full h-full object-cover" 
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
               onError={e => {
                 (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/f97316/ffffff?text=AKILI+GAME+-+erreur+image";
               }} 
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </div>
         </CardContent>
       ) : (
-        <CardHeader className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center aspect-video flex flex-col justify-center">
-          <h4 className="text-lg font-bold">AKILI GAME</h4>
-          <p className="text-sm opacity-90">Pas d'image de jeu disponible</p>
-        </CardHeader>
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center aspect-video flex flex-col justify-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-pattern opacity-10"></div>
+          <h4 className="text-2xl font-bold relative z-10">AKILI GAME</h4>
+          <p className="text-sm opacity-90 relative z-10 mt-2">Pas d'image de jeu disponible</p>
+        </div>
       )}
       
-      <CardContent className="p-s20 my-[15px]">
-        <div className="mb-s16">
-          <h3 className="font-akili-bold text-akili-grey-800 mb-s8 text-h5-bold" title={game.titre}>
+      <CardContent className="p-s24">
+        <div className="mb-s20">
+          <h3 className="font-bold text-gray-900 mb-s12 text-lg leading-tight" title={game.titre}>
             {game.titre.length > 50 ? `${game.titre.substring(0, 50)}...` : game.titre}
           </h3>
-          <div className="flex items-center space-x-s16 text-body3-medium text-akili-grey-600 mb-s12">
-            <span className="flex items-center">
-              <Clock className="w-4 h-4 mr-s4" />
+          <div className="flex items-center gap-s16 text-sm text-gray-600 mb-s16">
+            <span className="flex items-center bg-gray-100 px-s8 py-s4 rounded-lg">
+              <Clock className="w-4 h-4 mr-s4 text-orange-500" />
               {formatRelativeDate(game.date)}
             </span>
-            <span>{game.questions?.length || 0} {t('mesJeux.questions')}</span>
-            <span>{game.planification?.length || 0} planifications</span>
+            <span className="flex items-center bg-blue-100 px-s8 py-s4 rounded-lg text-blue-700">
+              📝 {game.questions?.length || 0} questions
+            </span>
+            <span className="flex items-center bg-green-100 px-s8 py-s4 rounded-lg text-green-700">
+              📅 {game.planification?.length || 0} planifications
+            </span>
           </div>
         </div>
         
-        <div className="flex items-center space-x-s8">
+        {/* Footer amélioré */}
+        <div className="flex items-center gap-s8 pt-s16 border-t border-gray-100">
           <Button 
             variant="outline" 
             size="sm" 
             onClick={() => onEdit(game)} 
-            className="flex-1 border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200"
+            className="flex-1 h-10 border-2 border-gray-300 text-gray-700 hover:bg-gray-800 hover:text-white hover:border-gray-800 transition-all duration-200 rounded-xl font-medium"
           >
-            {t('mesJeux.modify')}
+            ✏️ {t('mesJeux.modify')}
           </Button>
           <Button 
             size="sm" 
             onClick={() => onPlan(game)} 
-            className="flex-1 text-white font-akili-bold" 
-            style={{
-              background: 'linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12))'
-            }}
+            className="flex-1 h-10 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
           >
-            {t('mesJeux.plan')}
+            🚀 {t('mesJeux.plan')}
           </Button>
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
+              <Button variant="outline" size="sm" className="h-10 w-10 border-2 border-gray-300 text-gray-700 hover:bg-gray-800 hover:text-white hover:border-gray-800 transition-all duration-200 rounded-xl">
                 <MoreVertical className="w-4 h-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white border border-akili-grey-400 shadow-akili-md">
-              <DropdownMenuItem onClick={() => onArchive(game._id)} className="cursor-pointer hover:bg-akili-grey-200">
+            <DropdownMenuContent className="bg-white border-2 border-gray-200 shadow-xl rounded-xl p-2">
+              <DropdownMenuItem onClick={() => onArchive(game._id)} className="cursor-pointer hover:bg-yellow-50 rounded-lg p-3 transition-colors duration-200">
                 <Archive className="w-4 h-4 mr-2 text-yellow-600" />
-                Archiver
+                <span className="font-medium">Archiver</span>
               </DropdownMenuItem>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <DropdownMenuItem onSelect={e => e.preventDefault()} className="cursor-pointer hover:bg-akili-grey-200 text-red-600">
+                  <DropdownMenuItem onSelect={e => e.preventDefault()} className="cursor-pointer hover:bg-red-50 text-red-600 rounded-lg p-3 transition-colors duration-200">
                     <Trash2 className="w-4 h-4 mr-2" />
-                    Supprimer
+                    <span className="font-medium">Supprimer</span>
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent className="rounded-2xl border-2">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogTitle className="text-xl">Confirmer la suppression</AlertDialogTitle>
+                    <AlertDialogDescription className="text-gray-600">
                       Êtes-vous sûr de vouloir supprimer le jeu "{game.titre}" ? Cette action est irréversible.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Annuler</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => onDelete(game._id)} className="bg-red-600 hover:bg-red-700">
+                    <AlertDialogCancel className="rounded-xl">Annuler</AlertDialogCancel>
+                    <AlertDialogAction onClick={() => onDelete(game._id)} className="bg-red-600 hover:bg-red-700 rounded-xl">
                       Supprimer
                     </AlertDialogAction>
                   </AlertDialogFooter>
