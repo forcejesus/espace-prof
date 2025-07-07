@@ -33,44 +33,43 @@ export function GameCard({ game, index, onEdit, onPlan, onArchive, onDelete }: G
 
   return (
     <Card className="group hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border-0 shadow-lg bg-white rounded-2xl overflow-hidden">
-      {game.image ? (
-        <CardContent className="p-0">
-          <div className="aspect-video relative overflow-hidden">
+      <CardHeader className="p-0">
+        <div className="aspect-video relative overflow-hidden bg-gray-100 flex items-center justify-center">
+          {game.image ? (
             <img 
               src={`http://localhost:3000/${game.image.replace('public/', '')}`} 
               alt={game.titre} 
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+              className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300" 
               onError={e => {
                 (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/f97316/ffffff?text=AKILI+GAME+-+erreur+image";
               }} 
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </div>
-        </CardContent>
-      ) : (
-        <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-center aspect-video flex flex-col justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-pattern opacity-10"></div>
-          <h4 className="text-2xl font-bold relative z-10">AKILI GAME</h4>
-          <p className="text-sm opacity-90 relative z-10 mt-2">Pas d'image de jeu disponible</p>
+          ) : (
+            <div className="w-full h-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex flex-col justify-center items-center relative overflow-hidden">
+              <div className="absolute inset-0 bg-pattern opacity-10"></div>
+              <h4 className="text-2xl font-bold relative z-10">AKILI GAME</h4>
+              <p className="text-sm opacity-90 relative z-10 mt-2">Pas d'image disponible</p>
+            </div>
+          )}
         </div>
-      )}
+      </CardHeader>
       
       <CardContent className="p-s24">
         <div className="mb-s20">
           <h3 className="font-bold text-gray-900 mb-s12 text-lg leading-tight" title={game.titre}>
             {game.titre.length > 50 ? `${game.titre.substring(0, 50)}...` : game.titre}
           </h3>
-          <div className="flex items-center gap-s16 text-sm text-gray-600 mb-s16">
-            <span className="flex items-center bg-gray-100 px-s8 py-s4 rounded-lg">
+          <div className="flex flex-col gap-s8 text-sm text-gray-600 mb-s16">
+            <div className="flex items-center bg-gray-100 px-s8 py-s4 rounded-lg">
               <Clock className="w-4 h-4 mr-s4 text-orange-500" />
-              {formatRelativeDate(game.date)}
-            </span>
-            <span className="flex items-center bg-blue-100 px-s8 py-s4 rounded-lg text-blue-700">
-              📝 {game.questions?.length || 0} questions
-            </span>
-            <span className="flex items-center bg-green-100 px-s8 py-s4 rounded-lg text-green-700">
-              📅 {game.planification?.length || 0} planifications
-            </span>
+              <span>{formatRelativeDate(game.date)}</span>
+            </div>
+            <div className="flex items-center bg-blue-100 px-s8 py-s4 rounded-lg text-blue-700">
+              <span>📝 {game.questions?.length || 0} questions</span>
+            </div>
+            <div className="flex items-center bg-green-100 px-s8 py-s4 rounded-lg text-green-700">
+              <span>📅 {game.planification?.length || 0} planifications</span>
+            </div>
           </div>
         </div>
         

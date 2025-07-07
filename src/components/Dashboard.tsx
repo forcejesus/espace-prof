@@ -62,7 +62,9 @@ export function Dashboard({
       
       <StatsCards data={dashboardData} loading={loading} error={error} />
       
-      <QuickActions onNavigate={onNavigate} />
+      <div className="mt-s32">
+        <QuickActions onNavigate={onNavigate} />
+      </div>
       
     </div>
   );

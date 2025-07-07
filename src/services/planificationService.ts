@@ -95,11 +95,8 @@ class PlanificationService {
   }
 
   // Consulter mes planifications
-  async getMyPlanifications(): Promise<Planification[]> {
-    const user = authService.getUser();
-    if (!user) throw new Error('Utilisateur non connecté');
-
-    const response = await fetch(`/api/enseignants/${user.id}/planifications`, {
+  async getMyPlanifications(): Promise<any> {
+    const response = await fetch('http://localhost:3000/api/planifications', {
       method: 'GET',
       headers: this.getAuthHeaders(),
     });
@@ -109,7 +106,7 @@ class PlanificationService {
       throw new Error(result.message || 'Erreur lors de la récupération des planifications');
     }
     
-    return result.data;
+    return result;
   }
 
   // Statistiques détaillées d'une planification

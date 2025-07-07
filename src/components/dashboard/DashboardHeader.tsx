@@ -20,22 +20,18 @@ export function DashboardHeader({
   return <div className="bg-white rounded-xl p-s24 shadow-akili-sm border border-akili-grey-300">
       <div className="flex items-center justify-between mb-s20">
         <div>
-          <h1 className="text-h2-bold bg-gradient-to-r from-akili-orange-500 to-akili-orange-700 bg-clip-text text-transparent">
-            Dashboard Éducateur
-          </h1>
-          <p className="text-body1-medium text-akili-grey-600 py-0 my-[4px]">
-            Gérez vos jeux éducatifs et planifications
-          </p>
+          <div className="text-center">
+            <h1 className="text-5xl font-black bg-gradient-to-r from-akili-orange-500 to-akili-orange-700 bg-clip-text text-transparent mb-2">
+              TABLEAU DE BORD
+            </h1>
+            <p className="text-lg font-medium text-akili-grey-600">
+              Éducateur
+            </p>
+          </div>
         </div>
         
-        <div className="flex items-center space-x-s12">
+        <div className="flex items-center">
           <LanguageSelector />
-          <Button variant="outline" size="sm" className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-200">
-            Exporter
-          </Button>
-          <Button onClick={() => onNavigate("creer-quiz")} className="bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 hover:from-akili-orange-600 hover:to-akili-orange-700 text-white border-0 px-s20">
-            + Nouveau Jeu
-          </Button>
         </div>
       </div>
       

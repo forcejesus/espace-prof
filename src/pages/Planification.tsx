@@ -147,27 +147,12 @@ const PlanificationPage = () => {
                   </div>
                   <div>
                     <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
-                      Planification des Sessions
+                      Planifications des jeux
                     </h1>
-                    <p className="text-lg text-gray-600 mt-1">Organisez et gérez vos sessions de jeu éducatives</p>
+                    <p className="text-lg text-gray-600 mt-1">Organisez et gérez vos planifications de jeux éducatifs</p>
                   </div>
                 </div>
                 
-                {/* Statistiques rapides */}
-                <div className="flex flex-wrap gap-6 mt-6">
-                  <div className="flex items-center space-x-3 bg-blue-50 px-4 py-2 rounded-xl">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-blue-700">{stats.total} Sessions au total</span>
-                  </div>
-                  <div className="flex items-center space-x-3 bg-emerald-50 px-4 py-2 rounded-xl">
-                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-emerald-700">{stats.scheduled} Programmées</span>
-                  </div>
-                  <div className="flex items-center space-x-3 bg-purple-50 px-4 py-2 rounded-xl">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-purple-700">{stats.totalParticipants} Participants</span>
-                  </div>
-                </div>
               </div>
               
               <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-8 py-4 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
@@ -180,11 +165,12 @@ const PlanificationPage = () => {
 
         {/* Filtres et Recherche */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Filtrer les planifications</h3>
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <Input
-                placeholder="Rechercher une session..."
+                placeholder="Rechercher par nom du jeu..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-12 h-12 border-gray-200 bg-white/80 backdrop-blur-sm focus:border-blue-400 focus:ring-blue-400/20 rounded-xl"
@@ -194,13 +180,12 @@ const PlanificationPage = () => {
             <Select value={filterStatus} onValueChange={setFilterStatus}>
               <SelectTrigger className="w-full md:w-48 h-12 border-gray-200 bg-white/80 backdrop-blur-sm rounded-xl">
                 <Filter className="w-4 h-4 mr-2 text-blue-500" />
-                <SelectValue placeholder="Filtrer par statut" />
+                <SelectValue placeholder="Filtrer par type" />
               </SelectTrigger>
               <SelectContent className="bg-white/95 backdrop-blur-sm border-gray-200 rounded-xl">
-                <SelectItem value="all">Tous les statuts</SelectItem>
-                <SelectItem value="Programmé">Programmé</SelectItem>
-                <SelectItem value="En cours">En cours</SelectItem>
-                <SelectItem value="Terminé">Terminé</SelectItem>
+                <SelectItem value="all">Tous les types</SelectItem>
+                <SelectItem value="Live">Live</SelectItem>
+                <SelectItem value="Examen">Examen</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -82,12 +82,7 @@ export function QuizLibrary({
       <div className="max-w-7xl mx-auto px-s24 py-s32 space-y-32">
         {/* Header avec filtres avancés - Fixe */}
         <div className="sticky top-0 z-10 bg-white shadow-lg border-b border-gray-200 pb-s20 mb-s32 space-y-s20">
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-s24 py-s16 -mx-s24 -mt-s32 mb-s20">
-            <h1 className="text-2xl font-bold text-center">🎮 AKILI GAME</h1>
-            <p className="text-center opacity-90 text-sm">Plateforme de création de jeux éducatifs</p>
-          </div>
-          
-          <div className="px-s24">
+          <div className="px-s24 pt-s20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-s16">
               <div className="flex items-center gap-s12">
                 <h2 className="text-h3-bold text-akili-grey-800">{t('mesJeux.title')}</h2>
@@ -107,22 +102,6 @@ export function QuizLibrary({
                     className="pl-s40 w-80 h-11 border-2 border-orange-200 focus:border-orange-500 focus:ring-orange-300 rounded-xl bg-white shadow-sm" 
                   />
                 </div>
-                
-                {/* Filtres améliorés */}
-                <Select value={filterSubject} onValueChange={setFilterSubject}>
-                  <SelectTrigger className="w-52 h-11 border-2 border-orange-200 focus:border-orange-500 rounded-xl bg-white shadow-sm">
-                    <Filter className="w-4 h-4 mr-2 text-orange-500" />
-                    <SelectValue placeholder={t('mesJeux.filterBySubject')} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white border-2 border-orange-200 rounded-xl shadow-lg">
-                    <SelectItem value="all">{t('mesJeux.allSubjects')}</SelectItem>
-                    <SelectItem value="Histoire">{t('subjects.histoire')}</SelectItem>
-                    <SelectItem value="Mathématiques">{t('subjects.mathematiques')}</SelectItem>
-                    <SelectItem value="Sciences">{t('subjects.sciences')}</SelectItem>
-                    <SelectItem value="Français">{t('subjects.francais')}</SelectItem>
-                    <SelectItem value="Géographie">{t('subjects.geographie')}</SelectItem>
-                  </SelectContent>
-                </Select>
                 
                 <Button 
                   onClick={() => setIsCreateDialogOpen(true)} 
