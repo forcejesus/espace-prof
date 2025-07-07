@@ -27,25 +27,50 @@ export function PlanificationDialog({ open, onOpenChange, selectedGame, onError 
   const handleCreatePlanification = async () => {
     if (!selectedGame) return;
     
-    console.log('Début création planification pour:', selectedGame.titre);
-    console.log('Données planification:', planificationData);
+    console.log('🚀 Début création planification pour:', selectedGame.titre);
+    console.log('📝 Données brutes planification:', planificationData);
     
     try {
-      const result = await planificationService.createPlanification({
-        statut: "en attente",
-        date_debut: planificationData.date_debut,
-        date_fin: planificationData.date_fin,
-        heure_debut: planificationData.heure_debut,
-        heure_fin: planificationData.heure_fin,
-        limite_participant: planificationData.limite_participant,
-        type: planificationData.type as 'live' | 'attribuer',
-        jeu: selectedGame._id
-      });
+      // Conversion des formats selon la documentation API
+      const formatDate = (dateStr: string) => {
+        // Convertir de YYYY-MM-DD vers YYYY/MM/DD
+        return dateStr.replace(/-/g, '/');
+      };
       
-      console.log('Planification créée avec succès:', result);
+      const formatTime = (timeStr: string) => {
+        // Convertir de HH:MM vers HHhMM
+        return timeStr.replace(':', 'h');
+      };
+      
+      const convertType = (type: string): 'Live' | 'Examen' => {
+        // Convertir vers les valeurs acceptées par l'API
+        return type === 'live' ? 'Live' : 'Examen';
+      };
+      
+      const formattedData = {
+        date_debut: formatDate(planificationData.date_debut),
+        date_fin: formatDate(planificationData.date_fin),
+        heure_debut: formatTime(planificationData.heure_debut),
+        heure_fin: formatTime(planificationData.heure_fin),
+        limite_participant: planificationData.limite_participant,
+        type: convertType(planificationData.type),
+        jeu: selectedGame._id
+      };
+      
+      console.log('🔄 Données formatées pour l\'API:', formattedData);
+      
+      const result = await planificationService.createPlanification(formattedData);
+      
+      console.log('✅ Planification créée avec succès:', result);
+      console.log('🎯 PIN généré:', result.pin);
       handleClose();
     } catch (err) {
-      console.error('Erreur lors de la création de la planification:', err);
+      console.error('❌ Erreur lors de la création de la planification:', err);
+      console.error('📊 Détails de l\'erreur:', {
+        message: err instanceof Error ? err.message : 'Erreur inconnue',
+        selectedGame: selectedGame?._id,
+        formData: planificationData
+      });
       onError(err instanceof Error ? err.message : 'Erreur lors de la planification');
     }
   };

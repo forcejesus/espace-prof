@@ -16,14 +16,13 @@ export interface Planification {
 }
 
 export interface CreatePlanificationRequest {
-  type: 'live' | 'attribuer';
-  date_debut?: string;
-  date_fin?: string;
-  heure_debut?: string;
-  heure_fin?: string;
+  type: 'Live' | 'Examen';
+  date_debut: string;
+  date_fin: string;
+  heure_debut: string;
+  heure_fin: string;
   limite_participant: number;
   jeu: string;
-  statut?: string;
 }
 
 export interface PlanificationStats {
