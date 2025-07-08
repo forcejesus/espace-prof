@@ -13,6 +13,7 @@ import MesJeuxPage from "./pages/MesJeux";
 import PlanificationPage from "./pages/Planification";
 import MonComptePage from "./pages/MonCompte";
 import QuizCreatorPage from "./pages/QuizCreator";
+import ModifierJeuPage from "./pages/ModifierJeu";
 import LiveSessionPage from "./pages/LiveSession";
 import SessionHistoryPage from "./pages/SessionHistory";
 import HistoriquePlanificationPage from "./pages/HistoriquePlanification";
@@ -53,6 +54,7 @@ function AppContent() {
               <Route path="/planification" element={<PlanificationPage />} />
               <Route path="/mon-compte" element={<MonComptePage />} />
               <Route path="/creer-quiz" element={<QuizCreatorPage />} />
+              <Route path="/modifier-jeu/:id" element={<ModifierJeuPage />} />
               <Route path="/session-live" element={<LiveSessionPage />} />
               <Route path="/historique-session" element={<SessionHistoryPage />} />
               <Route path="/historique-planification" element={<HistoriquePlanificationPage />} />

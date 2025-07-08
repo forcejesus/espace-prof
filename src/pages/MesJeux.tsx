@@ -13,7 +13,7 @@ const MesJeuxPage = () => {
 
   const handleEditQuiz = (quiz: any) => {
     setSelectedQuiz(quiz);
-    navigate("/creer-quiz", { state: { quiz } });
+    navigate(`/modifier-jeu/${quiz._id}`);
   };
 
   return (

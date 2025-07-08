@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { useTranslation } from "react-i18next";
 import { gameService, Game } from "@/services";
 import { GameCard } from "./quiz-library/GameCard";
@@ -19,7 +20,7 @@ export function QuizLibrary({
   onEditQuiz
 }: QuizLibraryProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterSubject, setFilterSubject] = useState("all");
+  const [showOnlyWithPlan, setShowOnlyWithPlan] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [games, setGames] = useState<Game[]>([]);
@@ -46,8 +47,8 @@ export function QuizLibrary({
   }, []);
   const filteredQuizzes = games.filter(game => {
     const matchesSearch = game.titre.toLowerCase().includes(searchTerm.toLowerCase());
-    // Pour l'instant, pas de filtrage par matière car cette info n'est pas dans l'API
-    return matchesSearch;
+    const matchesPlanFilter = showOnlyWithPlan ? (game.planification && game.planification.length > 0) : true;
+    return matchesSearch && matchesPlanFilter;
   });
   const handleDeleteGame = async (gameId: string) => {
     try {
@@ -98,7 +99,7 @@ export function QuizLibrary({
                 className="h-12 px-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <Plus className="w-5 h-5 mr-2" />
-                {t('mesJeux.createNew')}
+                Créer un nouveau jeu
               </Button>
             </div>
             
@@ -106,12 +107,24 @@ export function QuizLibrary({
             <div className="flex flex-col lg:flex-row gap-4 items-center">
               {/* Recherche */}
               <div className="relative flex-1 w-full lg:max-w-md">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-orange-500 w-5 h-5 z-10" />
                 <Input 
                   placeholder="Rechercher un jeu..." 
                   value={searchTerm} 
                   onChange={e => setSearchTerm(e.target.value)} 
                   className="pl-12 h-12 border-2 border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 rounded-xl bg-white/80 backdrop-blur-sm transition-all duration-200" 
+                />
+              </div>
+
+              {/* Filtre avec planification */}
+              <div className="flex items-center gap-3 bg-white/80 backdrop-blur-sm rounded-xl p-3 border border-gray-200">
+                <Label htmlFor="plan-filter" className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                  Avec planification
+                </Label>
+                <Switch
+                  id="plan-filter"
+                  checked={showOnlyWithPlan}
+                  onCheckedChange={setShowOnlyWithPlan}
                 />
               </div>
               
@@ -150,7 +163,7 @@ export function QuizLibrary({
 
         <div className="px-4 md:px-6">
           {/* État de chargement */}
-          {loading && <div className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}>
+          {loading && <div className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
               {[...Array(6)].map((_, index) => <Card key={index} className="group hover:shadow-lg transition-all duration-200 border border-gray-200 bg-white rounded-xl">
                   <CardContent className="p-0">
                     <Skeleton className="aspect-video w-full rounded-t-xl" />
@@ -183,7 +196,7 @@ export function QuizLibrary({
           {/* Liste des jeux */}
           {!loading && !error && <>
               {filteredQuizzes.length > 0 ? (
-                <div className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" : "grid-cols-1"}`}>
+                <div className={`grid gap-6 ${viewMode === "grid" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
                   {filteredQuizzes.map((game, index) => (
                     <GameCard
                       key={game._id}

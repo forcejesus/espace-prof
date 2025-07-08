@@ -38,7 +38,7 @@ export function GameCard({ game, index, onEdit, onPlan, onArchive, onDelete, vie
         <CardContent className="p-0">
           <div className="flex">
             {/* Image à gauche */}
-            <div className="w-48 h-32 flex-shrink-0 relative overflow-hidden bg-gray-100">
+            <div className="w-48 flex-shrink-0 relative overflow-hidden bg-gray-100">
               {game.image ? (
                 <img 
                   src={`http://localhost:3000/${game.image.replace('public/', '')}`} 
@@ -49,7 +49,7 @@ export function GameCard({ game, index, onEdit, onPlan, onArchive, onDelete, vie
                   }} 
                 />
               ) : (
-                <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 text-white flex flex-col justify-center items-center">
+                <div className="w-full h-full bg-gradient-to-br from-orange-400 to-orange-600 text-white flex flex-col justify-center items-center min-h-full">
                   <div className="text-xs font-semibold opacity-90">AKILI GAME</div>
                 </div>
               )}
