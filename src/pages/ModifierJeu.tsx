@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Settings, MessageSquare } from "lucide-react";
+import { ArrowLeft, Settings, MessageSquare, Upload, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -109,32 +109,41 @@ export default function ModifierJeu() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Button
-            variant="outline"
-            onClick={() => navigate("/mes-jeux")}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Retour
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Modifier le jeu</h1>
-            <p className="text-gray-600 mt-1">{game.titre}</p>
+    <div className="min-h-screen bg-background">
+      {/* Header mis en évidence */}
+      <div className="w-full bg-card border-b shadow-sm">
+        <div className="max-w-6xl mx-auto px-6 py-6">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/mes-jeux")}
+              className="flex items-center gap-2 hover:bg-muted"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Retour
+            </Button>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Modification du jeu</h1>
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 lg:w-96">
-            <TabsTrigger value="config" className="flex items-center gap-2">
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        {/* Tabs mis en évidence */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto h-12 bg-muted/50 rounded-xl p-1">
+            <TabsTrigger 
+              value="config" 
+              className="flex items-center gap-2 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
+            >
               <Settings className="w-4 h-4" />
               Configuration du jeu
             </TabsTrigger>
-            <TabsTrigger value="questions" className="flex items-center gap-2">
+            <TabsTrigger 
+              value="questions" 
+              className="flex items-center gap-2 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
+            >
               <MessageSquare className="w-4 h-4" />
               Questions et Réponses
             </TabsTrigger>
@@ -142,61 +151,99 @@ export default function ModifierJeu() {
 
           {/* Tab 1: Configuration */}
           <TabsContent value="config">
-            <Card>
+            <Card className="shadow-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Settings className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <Settings className="w-5 h-5 text-primary" />
                   Configuration du jeu
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid gap-6 md:grid-cols-2">
-                  {/* Nom du jeu */}
-                  <div className="space-y-2">
-                    <Label htmlFor="game-name">Nom du jeu</Label>
-                    <Input
-                      id="game-name"
-                      value={gameName}
-                      onChange={(e) => setGameName(e.target.value)}
-                      placeholder="Entrez le nom du jeu"
-                    />
-                  </div>
-
-                  {/* Image du jeu */}
-                  <div className="space-y-2">
-                    <Label htmlFor="game-image">Image du jeu (URL)</Label>
-                    <Input
-                      id="game-image"
-                      value={gameImage}
-                      onChange={(e) => setGameImage(e.target.value)}
-                      placeholder="URL de l'image"
-                    />
-                  </div>
+              <CardContent className="space-y-8">
+                {/* Nom du jeu avec plus de valeur */}
+                <div className="space-y-3">
+                  <Label htmlFor="game-name" className="text-base font-semibold">Nom du jeu</Label>
+                  <Input
+                    id="game-name"
+                    value={gameName}
+                    onChange={(e) => setGameName(e.target.value)}
+                    placeholder="Entrez le nom du jeu"
+                    className="text-lg py-3"
+                  />
+                  <p className="text-sm text-muted-foreground">
+                    Choisissez un nom accrocheur et descriptif pour votre jeu
+                  </p>
                 </div>
 
-                {/* Aperçu de l'image */}
-                {gameImage && (
-                  <div className="space-y-2">
-                    <Label>Aperçu de l'image</Label>
-                    <div className="w-64 h-36 rounded-lg overflow-hidden border border-gray-200">
-                      <img
-                        src={gameImage.startsWith('http') ? gameImage : `http://localhost:3000/${gameImage.replace('public/', '')}`}
-                        alt="Aperçu"
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = "https://via.placeholder.com/256x144/f97316/ffffff?text=Image";
-                        }}
+                {/* Image du jeu avec preview amélioré */}
+                <div className="space-y-4">
+                  <Label className="text-base font-semibold">Image du jeu</Label>
+                  
+                  {/* Image actuelle ou message si pas d'image */}
+                  <div className="space-y-4">
+                    {game.image ? (
+                      <div className="space-y-2">
+                        <p className="text-sm text-muted-foreground">Image actuelle :</p>
+                        <div className="w-80 h-48 rounded-xl overflow-hidden border-2 border-border shadow-md">
+                          <img
+                            src={game.image.startsWith('http') ? game.image : `http://localhost:3000/${game.image.replace('public/', '')}`}
+                            alt="Image actuelle du jeu"
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "https://via.placeholder.com/320x192/f97316/ffffff?text=AKILI+GAME";
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-80 h-48 rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center bg-muted/20">
+                        <ImageIcon className="w-12 h-12 text-muted-foreground mb-2" />
+                        <p className="text-muted-foreground font-medium">Ce jeu n'a pas d'image</p>
+                        <p className="text-sm text-muted-foreground/70">Ajoutez une image ci-dessous</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Input pour nouvelle image */}
+                  <div className="space-y-3">
+                    <Label htmlFor="game-image" className="text-sm font-medium">Modifier l'image (URL)</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="game-image"
+                        value={gameImage}
+                        onChange={(e) => setGameImage(e.target.value)}
+                        placeholder="URL de la nouvelle image"
+                        className="flex-1"
                       />
+                      <Button variant="outline" size="icon">
+                        <Upload className="w-4 h-4" />
+                      </Button>
                     </div>
                   </div>
-                )}
+
+                  {/* Preview de la nouvelle image */}
+                  {gameImage && gameImage !== game.image && (
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium">Aperçu de la nouvelle image :</Label>
+                      <div className="w-80 h-48 rounded-xl overflow-hidden border-2 border-primary/20 shadow-md">
+                        <img
+                          src={gameImage.startsWith('http') ? gameImage : `http://localhost:3000/${gameImage.replace('public/', '')}`}
+                          alt="Aperçu nouvelle image"
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "https://via.placeholder.com/320x192/ef4444/ffffff?text=Image+invalide";
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 {/* Bouton de sauvegarde */}
-                <div className="flex justify-end pt-4 border-t">
+                <div className="flex justify-end pt-6 border-t">
                   <Button 
                     onClick={handleSaveConfig}
                     disabled={saving || !gameName.trim()}
-                    className="bg-orange-500 hover:bg-orange-600"
+                    className="px-8 py-3"
                   >
                     {saving ? "Sauvegarde..." : "Sauvegarder la configuration"}
                   </Button>
@@ -207,20 +254,22 @@ export default function ModifierJeu() {
 
           {/* Tab 2: Questions et Réponses */}
           <TabsContent value="questions">
-            <Card>
+            <Card className="shadow-sm">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5" />
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <MessageSquare className="w-5 h-5 text-primary" />
                   Questions et Réponses
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <QuestionsStep
-                  questions={game.questions || []}
-                  setQuestions={(questions) => {
-                    setGame(prev => prev ? { ...prev, questions } : null);
-                  }}
-                />
+              <CardContent className="p-6">
+                {game && (
+                  <QuestionsStep
+                    questions={game.questions || []}
+                    setQuestions={(questions) => {
+                      setGame(prev => prev ? { ...prev, questions } : null);
+                    }}
+                  />
+                )}
               </CardContent>
             </Card>
           </TabsContent>
