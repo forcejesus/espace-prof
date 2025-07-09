@@ -17,25 +17,27 @@ export function DashboardHeader({
   setFilterSubject,
   onNavigate
 }: DashboardHeaderProps) {
-  return <div className="w-full bg-gradient-to-r from-orange-500 to-orange-700 p-s32 -mx-s24 -mt-s24 mb-s24">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-s8">
-              Tableau de Bord
-            </h1>
-            <p className="text-orange-100 text-lg">
-              Bienvenue dans votre espace éducateur
-            </p>
+  return <div className="w-full min-h-screen bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 -mx-s24 -mt-s24 flex items-center justify-center">
+      <div className="max-w-6xl mx-auto text-center px-s24">
+        <div className="mb-s32">
+          <h1 className="text-8xl font-black text-white mb-s16 tracking-tight">
+            TABLEAU DE BORD
+          </h1>
+          <p className="text-2xl text-orange-100 mb-s24 font-light">
+            Votre espace éducateur
+          </p>
+          <div className="text-orange-200 text-lg">
+            {new Date().toLocaleDateString('fr-FR', { 
+              weekday: 'long', 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            })}
           </div>
-          
-          <div className="flex items-center space-x-s16">
-            <div className="text-right text-white">
-              <p className="text-sm opacity-90">Aujourd'hui</p>
-              <p className="text-lg font-semibold">{new Date().toLocaleDateString('fr-FR')}</p>
-            </div>
-            <LanguageSelector />
-          </div>
+        </div>
+        
+        <div className="absolute top-s24 right-s24">
+          <LanguageSelector />
         </div>
       </div>
     </div>;
