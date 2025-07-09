@@ -8,13 +8,18 @@ import { Badge } from "@/components/ui/badge";
 
 interface LiveSessionProps {
   onNavigate: (view: string) => void;
+  planificationData?: {
+    planificationId: string;
+    pin: string;
+    jeu: any;
+  };
 }
 
-export function LiveSession({ onNavigate }: LiveSessionProps) {
+export function LiveSession({ onNavigate, planificationData }: LiveSessionProps) {
   const [sessionState, setSessionState] = useState("waiting"); // waiting, playing, paused, finished
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
-  const [gamePin] = useState("123456");
+  const [gamePin] = useState(planificationData?.pin || "123456");
   
   const participants = [
     { id: 1, name: "Emma Martin", score: 850, streak: 3, answered: true },
@@ -374,21 +379,22 @@ export function LiveSession({ onNavigate }: LiveSessionProps) {
   );
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="min-h-screen w-full p-6 space-y-6 bg-gray-50">
       {/* En-tête */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
-            onClick={() => onNavigate("library")}
+            onClick={() => onNavigate("planifications")}
             className="text-slate-600 hover:bg-slate-100"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour
+            Retour aux Planifications
           </Button>
           <div>
             <h1 className="text-2xl font-bold text-slate-800">Session Live</h1>
             <p className="text-slate-600">
+              {planificationData?.jeu?.titre && `Jeu: ${planificationData.jeu.titre} - `}
               {sessionState === "waiting" && "En attente des participants"}
               {sessionState === "playing" && `Question ${currentQuestion + 1}/${totalQuestions} en cours`}
               {sessionState === "paused" && "Session en pause"}
