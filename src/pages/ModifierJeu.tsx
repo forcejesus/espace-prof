@@ -146,7 +146,7 @@ export default function ModifierJeu() {
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Tabs mis en évidence */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto h-12 bg-muted/50 rounded-xl p-1">
+          <TabsList className="grid w-full grid-cols-2 h-16 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-2 shadow-lg border border-primary/20">
             <TabsTrigger 
               value="config" 
               className="flex items-center gap-2 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
