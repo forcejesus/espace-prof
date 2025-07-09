@@ -76,29 +76,34 @@ export function QuestionCard({ question, index, onQuestionUpdated }: QuestionCar
   };
 
   const handleAnswerStateChange = async (answerId: string, newState: boolean, question: CreatedQuestion) => {
-    const abstractType = getAbstractQuestionType(question);
-    
-    if (abstractType === "VRAI_FAUX") {
-      const otherAnswer = question.reponses.find(r => r._id !== answerId);
-      if (otherAnswer) {
-        await answerService.updateAnswer(answerId, { etat: newState });
-        await answerService.updateAnswer(otherAnswer._id, { etat: !newState });
-        onQuestionUpdated();
-        toast.success("Réponse modifiée avec succès");
-      }
-    } else if (abstractType === "CHOIX_UNIQUE") {
-      if (newState) {
-        for (const answer of question.reponses) {
-          const shouldBeTrue = answer._id === answerId;
-          await answerService.updateAnswer(answer._id, { etat: shouldBeTrue });
+    try {
+      const abstractType = getAbstractQuestionType(question);
+      
+      if (abstractType === "VRAI_FAUX") {
+        const otherAnswer = question.reponses.find(r => r._id !== answerId);
+        if (otherAnswer) {
+          await answerService.updateAnswer(answerId, { etat: newState ? 1 : 0 });
+          await answerService.updateAnswer(otherAnswer._id, { etat: newState ? 0 : 1 });
+          onQuestionUpdated();
+          toast.success("Réponse modifiée avec succès");
         }
+      } else if (abstractType === "CHOIX_UNIQUE") {
+        if (newState) {
+          for (const answer of question.reponses) {
+            const shouldBeTrue = answer._id === answerId;
+            await answerService.updateAnswer(answer._id, { etat: shouldBeTrue ? 1 : 0 });
+          }
+          onQuestionUpdated();
+          toast.success("Réponse modifiée avec succès");
+        }
+      } else if (abstractType === "CHOIX_MULTIPLE") {
+        await answerService.updateAnswer(answerId, { etat: newState ? 1 : 0 });
         onQuestionUpdated();
         toast.success("Réponse modifiée avec succès");
       }
-    } else if (abstractType === "CHOIX_MULTIPLE") {
-      await answerService.updateAnswer(answerId, { etat: newState });
-      onQuestionUpdated();
-      toast.success("Réponse modifiée avec succès");
+    } catch (error) {
+      console.error("Error updating answer state:", error);
+      toast.error("Erreur lors de la modification de la réponse");
     }
   };
 

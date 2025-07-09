@@ -110,7 +110,7 @@ export function AnswerDisplay({
         {abstractType === "VRAI_FAUX" || abstractType === "CHOIX_UNIQUE" ? (
           <div className="flex items-center space-x-3">
             <Switch
-              checked={!!answer.etat}
+              checked={answer.etat === 1 || answer.etat === true}
               onCheckedChange={(checked) => {
                 if (checked) {
                   onAnswerStateChange(answer._id, true, question);
@@ -122,7 +122,7 @@ export function AnswerDisplay({
         ) : (
           <div className="flex items-center space-x-3">
             <Switch
-              checked={!!answer.etat}
+              checked={answer.etat === 1 || answer.etat === true}
               onCheckedChange={(checked) => {
                 onAnswerStateChange(answer._id, checked, question);
               }}
