@@ -4,6 +4,7 @@ import { Plus, Settings, MessageSquare, Clock, CheckCircle, HelpCircle, ChartBar
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Game } from "@/services/types";
 import { QuestionCard } from "@/components/quiz-creator/QuestionCard";
@@ -43,6 +44,8 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
   const [questions, setQuestions] = useState<Question[]>([]);
   const [localQuestions, setLocalQuestions] = useState<any[]>([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState<string | null>(null);
+  const [editingData, setEditingData] = useState<any>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -159,11 +162,108 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
     }
   };
 
-  const handleEditQuestion = (questionId: string) => {
-    toast({
-      title: "Édition de question",
-      description: "Utilisez les boutons d'édition sur chaque question",
+  const handleEditQuestion = (question: Question) => {
+    setEditingQuestion(question._id);
+    setEditingData({
+      libelle: question.libelle,
+      temps: question.temps,
+      reponses: question.reponses.map(r => ({
+        _id: r._id,
+        reponse_texte: r.reponse_texte,
+        etat: r.etat
+      })),
+      typeQuestion: question.typeQuestion,
+      correctAnswer: question.typeQuestion.libelle === 'REPONSE_COURTE' 
+        ? question.reponses.find(r => r.etat === 1)?.reponse_texte || ''
+        : null
     });
+  };
+
+  const handleSaveEdit = async () => {
+    if (!editingQuestion || !editingData) return;
+    
+    try {
+      setIsCreating(true);
+      
+      // Préparer les données selon le type de question
+      let reponsesData = [];
+      
+      if (editingData.typeQuestion.libelle === 'REPONSE_COURTE') {
+        reponsesData = [
+          {
+            _id: editingData.reponses[0]?._id,
+            reponse_texte: editingData.correctAnswer,
+            etat: 1
+          }
+        ];
+      } else {
+        reponsesData = editingData.reponses;
+      }
+      
+      const updateData = {
+        _id: editingQuestion,
+        libelle: editingData.libelle,
+        temps: editingData.temps,
+        reponses: reponsesData
+      };
+      
+      await questionService.updateQuestion(editingQuestion, updateData);
+      
+      // Mettre à jour la liste locale
+      setQuestions(prev => prev.map(q => 
+        q._id === editingQuestion 
+          ? { ...q, ...editingData, reponses: reponsesData }
+          : q
+      ));
+      
+      setEditingQuestion(null);
+      setEditingData(null);
+      
+      toast({
+        title: "Succès",
+        description: "Question modifiée avec succès",
+      });
+      
+    } catch (error) {
+      console.error("Erreur lors de la modification:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de modifier la question",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingQuestion(null);
+    setEditingData(null);
+  };
+
+  const handleAnswerToggle = (answerId: string) => {
+    if (!editingData) return;
+    
+    if (editingData.typeQuestion.libelle === 'CHOIX_UNIQUE') {
+      // Pour choix unique, désélectionner toutes les autres
+      setEditingData(prev => ({
+        ...prev,
+        reponses: prev.reponses.map(r => ({
+          ...r,
+          etat: r._id === answerId ? 1 : 0
+        }))
+      }));
+    } else if (editingData.typeQuestion.libelle === 'CHOIX_MULTIPLE') {
+      // Pour choix multiple, inverser l'état
+      setEditingData(prev => ({
+        ...prev,
+        reponses: prev.reponses.map(r => 
+          r._id === answerId 
+            ? { ...r, etat: r.etat === 1 ? 0 : 1 }
+            : r
+        )
+      }));
+    }
   };
 
   return (
@@ -297,45 +397,123 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEditQuestion(question._id)}
-                      className="border-orange-200 text-orange-600 hover:bg-orange-50"
-                    >
-                      <Settings className="w-4 h-4 mr-1" />
-                      Modifier
-                    </Button>
+                    {editingQuestion === question._id ? (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleCancelEdit}
+                          className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                        >
+                          Annuler
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={handleSaveEdit}
+                          disabled={isCreating}
+                          className="bg-green-500 hover:bg-green-600 text-white"
+                        >
+                          {isCreating ? "Sauvegarde..." : "Valider"}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEditQuestion(question)}
+                        className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                      >
+                        <Settings className="w-4 h-4 mr-1" />
+                        Modifier
+                      </Button>
+                    )}
                   </div>
                 </div>
 
-                {/* Aperçu des réponses */}
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <h4 className="text-sm font-medium text-gray-700 mb-2">
-                    Réponses ({question.reponses.length})
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {question.reponses.map((reponse, idx) => (
-                      <div 
-                        key={reponse._id} 
-                        className={`p-2 rounded text-sm ${
-                          reponse.etat === 1 
-                            ? 'bg-green-100 text-green-800 border border-green-200' 
-                            : 'bg-white text-gray-700 border border-gray-200'
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="font-medium">
-                            {String.fromCharCode(65 + idx)}. {reponse.reponse_texte}
-                          </span>
-                          {reponse.etat === 1 && (
-                            <CheckCircle className="w-4 h-4 text-green-600" />
-                          )}
+                {/* Interface d'édition ou aperçu des réponses */}
+                {editingQuestion === question._id ? (
+                  <div className="bg-blue-50 rounded-lg p-4 border-2 border-blue-200">
+                    <h4 className="text-sm font-medium text-blue-800 mb-3">
+                      Modification - {getQuestionTypeLabel(question.typeQuestion)}
+                    </h4>
+                    
+                    {/* Édition selon le type */}
+                    {editingData.typeQuestion.libelle === 'REPONSE_COURTE' ? (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          Réponse correcte :
+                        </label>
+                        <Input
+                          value={editingData.correctAnswer}
+                          onChange={(e) => setEditingData(prev => ({
+                            ...prev,
+                            correctAnswer: e.target.value
+                          }))}
+                          placeholder="Saisissez la réponse correcte..."
+                          className="border-blue-300 focus:border-blue-500"
+                        />
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">
+                          {editingData.typeQuestion.libelle === 'CHOIX_UNIQUE' 
+                            ? 'Sélectionnez la bonne réponse :' 
+                            : 'Sélectionnez les bonnes réponses :'}
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {editingData.reponses.map((reponse, idx) => (
+                            <button
+                              key={reponse._id}
+                              onClick={() => handleAnswerToggle(reponse._id)}
+                              className={`p-3 rounded-lg text-left transition-all ${
+                                reponse.etat === 1 
+                                  ? 'bg-green-100 border-2 border-green-400 text-green-800' 
+                                  : 'bg-white border-2 border-gray-200 hover:border-blue-300 text-gray-700'
+                              }`}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="font-medium">
+                                  {String.fromCharCode(65 + idx)}. {reponse.reponse_texte}
+                                </span>
+                                {reponse.etat === 1 && (
+                                  <CheckCircle className="w-4 h-4 text-green-600" />
+                                )}
+                              </div>
+                            </button>
+                          ))}
                         </div>
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
+                ) : (
+                  // Aperçu des réponses (mode normal)
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">
+                      Réponses ({question.reponses.length})
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {question.reponses.map((reponse, idx) => (
+                        <div 
+                          key={reponse._id} 
+                          className={`p-2 rounded text-sm ${
+                            reponse.etat === 1 
+                              ? 'bg-green-100 text-green-800 border border-green-200' 
+                              : 'bg-white text-gray-700 border border-gray-200'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium">
+                              {String.fromCharCode(65 + idx)}. {reponse.reponse_texte}
+                            </span>
+                            {reponse.etat === 1 && (
+                              <CheckCircle className="w-4 h-4 text-green-600" />
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Image de la question si elle existe */}
                 {question.fichier && (
