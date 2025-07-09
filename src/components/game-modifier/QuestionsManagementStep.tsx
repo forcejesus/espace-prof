@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Plus, Settings, MessageSquare, Clock, CheckCircle } from "lucide-react";
+import { Plus, Settings, MessageSquare, Clock, CheckCircle, HelpCircle, ChartBar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Game } from "@/services/types";
+import { QuestionCard } from "@/components/quiz-creator/QuestionCard";
 
 interface Question {
   _id: string;
@@ -38,6 +39,7 @@ interface QuestionsManagementStepProps {
 
 export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsManagementStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [localQuestions, setLocalQuestions] = useState<any[]>([]);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -76,6 +78,26 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
     }
   };
 
+  const addQuestion = () => {
+    const newQuestion = {
+      id: localQuestions.length + Date.now(),
+      type: "VRAI_FAUX",
+      question: "",
+      correctAnswer: "true",
+      timeLimit: 20,
+      points: 50
+    };
+    setLocalQuestions([...localQuestions, newQuestion]);
+  };
+
+  const updateQuestion = (id: number, updates: any) => {
+    setLocalQuestions(localQuestions.map(q => q.id === id ? { ...q, ...updates } : q));
+  };
+
+  const deleteQuestion = (id: number) => {
+    setLocalQuestions(localQuestions.filter(q => q.id !== id));
+  };
+
   const handleEditQuestion = (questionId: string) => {
     // Logique pour éditer une question
     toast({
@@ -92,13 +114,6 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
     });
   };
 
-  const handleAddQuestion = () => {
-    toast({
-      title: "Ajouter une question",
-      description: "Fonctionnalité d'ajout en cours de développement",
-    });
-  };
-
   return (
     <Card className="shadow-sm border-orange-200">
       <CardHeader className="bg-gradient-to-r from-orange-50 to-orange-100">
@@ -108,7 +123,7 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
             Questions du jeu
           </CardTitle>
           <Button 
-            onClick={handleAddQuestion}
+            onClick={addQuestion}
             className="bg-orange-500 hover:bg-orange-600 text-white"
           >
             <Plus className="w-4 h-4 mr-2" />
@@ -117,22 +132,52 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
         </div>
       </CardHeader>
       <CardContent className="p-6">
-        {questions.length === 0 ? (
-          <div className="text-center py-16">
-            <MessageSquare className="w-16 h-16 text-orange-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">Aucune question</h3>
-            <p className="text-gray-600 mb-4">
-              Ce jeu n'a pas encore de questions. Commencez par en ajouter une.
-            </p>
-            <Button 
-              onClick={handleAddQuestion}
-              className="bg-orange-500 hover:bg-orange-600 text-white"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Ajouter la première question
-            </Button>
+        {/* Section des nouvelles questions en cours de création */}
+        {localQuestions.length > 0 && (
+          <div className="mb-8">
+            <h4 className="text-lg font-semibold text-orange-800 mb-4">Nouvelles questions en cours de création</h4>
+            <div className="space-y-6">
+              {localQuestions.map((question, index) => (
+                <div key={question.id} className="animate-fade-in-up">
+                  <QuestionCard
+                    question={question}
+                    index={index}
+                    onUpdate={updateQuestion}
+                    onDelete={deleteQuestion}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        ) : (
+        )}
+
+        {questions.length === 0 && localQuestions.length === 0 ? (
+          <div className="text-center py-16 bg-gradient-to-br from-orange-50 to-orange-100 rounded-3xl border-2 border-dashed border-orange-200 relative overflow-hidden">
+            {/* Éléments décoratifs */}
+            <div className="absolute top-6 left-6 w-16 h-16 bg-orange-200/30 rounded-full"></div>
+            <div className="absolute bottom-6 right-6 w-12 h-12 bg-orange-200/30 rounded-full"></div>
+            <div className="absolute top-1/2 left-1/2 w-32 h-32 bg-orange-100/20 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
+            
+            <div className="relative z-10 space-y-6">
+              <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                <HelpCircle className="w-10 h-10 text-white" />
+              </div>
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-orange-800">Prêt à créer vos questions ?</h3>
+                <p className="text-orange-700 max-w-md mx-auto">
+                  Commencez par ajouter votre première question et choisissez parmi plusieurs types interactifs
+                </p>
+              </div>
+              <Button
+                onClick={addQuestion}
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold px-8 py-4 rounded-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300"
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                Créer ma première question
+              </Button>
+            </div>
+          </div>
+        ) : questions.length > 0 ? (
           <div className="space-y-4">
             {questions.map((question, index) => (
               <div 
@@ -223,6 +268,28 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
                 )}
               </div>
             ))}
+          </div>
+        ) : null}
+
+        {/* Actions rapides */}
+        {(questions.length > 0 || localQuestions.length > 0) && (
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 bg-gradient-to-r from-white/90 to-orange-50/80 backdrop-blur-sm rounded-2xl p-6 border border-orange-200/60">
+            <div className="flex items-center space-x-4">
+              <div className="bg-orange-100 p-3 rounded-xl">
+                <ChartBar className="w-5 h-5 text-orange-600" />
+              </div>
+              <div>
+                <h3 className="font-bold text-orange-800">Questions ({questions.length + localQuestions.length})</h3>
+                <p className="text-orange-600">Diversifiez les types pour plus d'engagement</p>
+              </div>
+            </div>
+            <Button
+              onClick={addQuestion}
+              className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Ajouter une Question
+            </Button>
           </div>
         )}
       </CardContent>
