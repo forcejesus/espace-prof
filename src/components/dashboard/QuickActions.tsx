@@ -16,7 +16,7 @@ export function QuickActions({ onNavigate }: QuickActionsProps) {
       icon: Zap,
       iconColor: "text-white",
       iconBg: "bg-gradient-to-br from-akili-orange-500 to-akili-orange-600",
-      onClick: () => onNavigate("creer-quiz")
+      onClick: () => onNavigate("create-quiz")
     },
     {
       title: t('dashboard.quickActions.newCategory'),

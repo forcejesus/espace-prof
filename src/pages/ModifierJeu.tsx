@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { gameService, Game } from "@/services";
-import { QuestionsStep } from "@/components/quiz-creator/QuestionsStep";
+import { GameConfigurationStep } from "@/components/game-modifier/GameConfigurationStep";
+import { QuestionsManagementStep } from "@/components/game-modifier/QuestionsManagementStep";
 
 export default function ModifierJeu() {
   const { id } = useParams<{ id: string }>();
@@ -164,147 +165,34 @@ export default function ModifierJeu() {
 
           {/* Tab 1: Configuration */}
           <TabsContent value="config">
-            <Card className="shadow-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <Settings className="w-5 h-5 text-primary" />
-                  Configuration du jeu
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-8">
-                {/* Nom du jeu avec plus de valeur */}
-                <div className="space-y-3">
-                  <Label htmlFor="game-name" className="text-base font-semibold">Nom du jeu</Label>
-                  <Input
-                    id="game-name"
-                    value={gameName}
-                    onChange={(e) => setGameName(e.target.value)}
-                    placeholder="Entrez le nom du jeu"
-                    className="text-lg py-3"
-                  />
-                  <p className="text-sm text-muted-foreground">
-                    Choisissez un nom accrocheur et descriptif pour votre jeu
-                  </p>
-                </div>
-
-                {/* Image du jeu avec preview amélioré */}
-                <div className="space-y-4">
-                  <Label className="text-base font-semibold">Image du jeu</Label>
-                  
-                  {/* Image actuelle ou message si pas d'image */}
-                  <div className="space-y-4">
-                    {game.image ? (
-                      <div className="space-y-2">
-                        <p className="text-sm text-muted-foreground">Image actuelle :</p>
-                        <div className="w-80 h-48 rounded-xl overflow-hidden border-2 border-border shadow-md">
-                          <img
-                            src={game.image.startsWith('http') ? game.image : `http://localhost:3000/${game.image.replace('public/', '')}`}
-                            alt="Image actuelle du jeu"
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              (e.target as HTMLImageElement).src = "https://via.placeholder.com/320x192/f97316/ffffff?text=AKILI+GAME";
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-80 h-48 rounded-xl border-2 border-dashed border-muted-foreground/30 flex flex-col items-center justify-center bg-muted/20">
-                        <ImageIcon className="w-12 h-12 text-muted-foreground mb-2" />
-                        <p className="text-muted-foreground font-medium">Ce jeu n'a pas d'image</p>
-                        <p className="text-sm text-muted-foreground/70">Ajoutez une image ci-dessous</p>
-                      </div>
-                    )}
-                  </div>
-
-                   {/* Input pour nouvelle image */}
-                   <div className="space-y-3">
-                     <Label htmlFor="game-image" className="text-sm font-medium">Modifier l'image (URL)</Label>
-                     <div className="flex gap-2">
-                       <Input
-                         id="game-image"
-                         value={gameImage}
-                         onChange={(e) => setGameImage(e.target.value)}
-                         placeholder="URL de la nouvelle image"
-                         className="flex-1"
-                       />
-                       <Button 
-                         variant="outline" 
-                         size="icon"
-                         onClick={() => document.getElementById('file-input')?.click()}
-                       >
-                         <Upload className="w-4 h-4" />
-                       </Button>
-                       <input
-                         id="file-input"
-                         type="file"
-                         accept="image/*"
-                         className="hidden"
-                         onChange={(e) => {
-                           const file = e.target.files?.[0];
-                           if (file) {
-                             const reader = new FileReader();
-                             reader.onload = (event) => {
-                               setGameImage(event.target?.result as string);
-                             };
-                             reader.readAsDataURL(file);
-                           }
-                         }}
-                       />
-                     </div>
-                   </div>
-
-                  {/* Preview de la nouvelle image */}
-                  {gameImage && gameImage !== game.image && (
-                    <div className="space-y-2">
-                      <Label className="text-sm font-medium">Aperçu de la nouvelle image :</Label>
-                      <div className="w-80 h-48 rounded-xl overflow-hidden border-2 border-primary/20 shadow-md">
-                        <img
-                          src={gameImage.startsWith('http') ? gameImage : `http://localhost:3000/${gameImage.replace('public/', '')}`}
-                          alt="Aperçu nouvelle image"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "https://via.placeholder.com/320x192/ef4444/ffffff?text=Image+invalide";
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Bouton de sauvegarde */}
-                <div className="flex justify-end pt-6 border-t">
-                  <Button 
-                    onClick={handleSaveConfig}
-                    disabled={saving || !gameName.trim()}
-                    className="px-8 py-3"
-                  >
-                    {saving ? "Sauvegarde..." : "Sauvegarder la configuration"}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <GameConfigurationStep 
+              game={game}
+              onSave={async (gameData) => {
+                const formData = new FormData();
+                formData.append('titre', gameData.titre);
+                formData.append('_id', game._id);
+                
+                if (gameData.image) {
+                  formData.append('image', gameData.image);
+                }
+                
+                const updatedGame = await gameService.updateGame(game._id, formData);
+                setGame(updatedGame);
+                
+                toast({
+                  title: "Succès",
+                  description: "Configuration sauvegardée",
+                });
+              }}
+              loading={saving}
+            />
           </TabsContent>
 
           {/* Tab 2: Questions et Réponses */}
           <TabsContent value="questions">
-            <Card className="shadow-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl">
-                  <MessageSquare className="w-5 h-5 text-primary" />
-                  Questions et Réponses
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-6">
-                {game && (
-                  <QuestionsStep
-                    questions={game.questions || []}
-                    setQuestions={(questions) => {
-                      setGame(prev => prev ? { ...prev, questions } : null);
-                    }}
-                  />
-                )}
-              </CardContent>
-            </Card>
+            <QuestionsManagementStep 
+              game={game}
+            />
           </TabsContent>
         </Tabs>
       </div>

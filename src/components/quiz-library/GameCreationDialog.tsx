@@ -25,7 +25,7 @@ export function GameCreationDialog({ open, onOpenChange, onNavigate }: GameCreat
       onOpenChange(false);
       setNewGameName("");
       setNewGameImage("");
-      onNavigate("creer-quiz");
+      onNavigate("create-quiz");
     }
   };
 

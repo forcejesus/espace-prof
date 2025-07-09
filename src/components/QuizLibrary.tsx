@@ -95,7 +95,7 @@ export function QuizLibrary({
               </div>
               
               <Button 
-                onClick={() => setIsCreateDialogOpen(true)} 
+                onClick={() => onNavigate("create-quiz")} 
                 className="h-12 px-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <Plus className="w-5 h-5 mr-2" />
@@ -217,7 +217,7 @@ export function QuizLibrary({
                   <p className="text-gray-600 mb-4">
                     {searchTerm ? t('mesJeux.tryModifying') : t('mesJeux.createFirst')}
                   </p>
-                  <Button onClick={() => setIsCreateDialogOpen(true)} className="bg-orange-500 hover:bg-orange-600 text-white">
+                  <Button onClick={() => onNavigate("create-quiz")} className="bg-orange-500 hover:bg-orange-600 text-white">
                     <Plus className="w-4 h-4 mr-2" />
                     {t('mesJeux.createGame')}
                   </Button>

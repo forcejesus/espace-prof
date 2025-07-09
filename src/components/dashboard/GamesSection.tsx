@@ -145,7 +145,7 @@ export function GamesSection({ onNavigate, searchTerm, filterSubject, games = []
             <Button 
               variant="link" 
               className="text-akili-green-500 p-0 font-akili-bold"
-              onClick={() => onNavigate("creer-quiz")}
+              onClick={() => onNavigate("create-quiz")}
             >
               <Plus className="w-4 h-4 mr-s8" />
               Créer nouveau
@@ -209,7 +209,7 @@ export function GamesSection({ onNavigate, searchTerm, filterSubject, games = []
                       </Button>
                       <Button 
                         size="sm"
-                        onClick={() => onNavigate("creer-quiz")}
+                        onClick={() => onNavigate("create-quiz")}
                         className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium px-s20 py-s8 rounded-lg transition-all duration-300"
                       >
                         Modification

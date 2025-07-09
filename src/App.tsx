@@ -53,6 +53,7 @@ function AppContent() {
               <Route path="/mes-jeux" element={<MesJeuxPage />} />
               <Route path="/planification" element={<PlanificationPage />} />
               <Route path="/mon-compte" element={<MonComptePage />} />
+              <Route path="/create-quiz" element={<QuizCreatorPage />} />
               <Route path="/creer-quiz" element={<QuizCreatorPage />} />
               <Route path="/modifier-jeu/:id" element={<ModifierJeuPage />} />
               <Route path="/session-live" element={<LiveSessionPage />} />

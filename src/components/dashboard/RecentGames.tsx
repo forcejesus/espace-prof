@@ -71,7 +71,7 @@ export function RecentGames({ games, onNavigate }: RecentGamesProps) {
             <div 
               key={game._id} 
               className="flex items-center space-x-s12 p-s12 rounded-lg hover:bg-akili-grey-200 transition-colors duration-200 cursor-pointer group"
-              onClick={() => onNavigate("creer-quiz")}
+              onClick={() => onNavigate("create-quiz")}
             >
               <img 
                 src={getGameImage(game.image)} 
