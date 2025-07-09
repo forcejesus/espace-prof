@@ -389,7 +389,7 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
             className="text-grey-700 hover:bg-akili-grey-200"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Retour aux Planifications
+            Quitter la session
           </Button>
           <div>
             <h1 className="text-2xl font-bold text-grey-800">Session Live</h1>

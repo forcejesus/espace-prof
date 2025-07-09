@@ -45,21 +45,21 @@ export function Sidebar({ onNavigate }: SidebarProps) {
       label: t('nav.mesJeux'), 
       icon: Brain, 
       path: "/mes-jeux",
-      badge: "24"
+      badge: undefined
     },
     { 
       id: "planification", 
       label: t('nav.planifications'), 
       icon: Calendar, 
       path: "/planification",
-      badge: "12"
+      badge: undefined
     },
     { 
       id: "apprenants", 
       label: t('nav.apprenants'), 
       icon: Users, 
       path: "/groupe-apprenant",
-      badge: "432"
+      badge: undefined
     },
     { 
       id: "apprenant-invite", 
