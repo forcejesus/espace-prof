@@ -568,41 +568,41 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-akili-grey-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-6 py-4">
+      <div className="bg-white border-b border-akili-grey-200 shadow-sm">
+        <div className="w-full px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 onClick={() => onNavigate("mes-jeux")}
-                className="text-gray-600 hover:text-gray-900"
+                className="text-akili-grey-600 hover:text-akili-grey-900 hover:bg-akili-grey-100"
               >
                 <ArrowLeft className="w-5 h-5 mr-2" />
                 Retour
               </Button>
-              <h1 className="text-xl font-semibold">
-                {step === 1 ? "Créer un jeu" : step === 2 ? "Gérer les questions" : "Ajouter une question"}
+              <h1 className="text-xl font-semibold text-akili-grey-900">
+                {step === 1 ? "Créer un nouveau jeu" : step === 2 ? "Gérer les questions" : "Ajouter une question"}
               </h1>
             </div>
             
             {/* Indicateur d'étapes */}
             <div className="flex items-center space-x-2">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step >= 1 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                step >= 1 ? 'bg-akili-purple-500 text-white' : 'bg-akili-grey-200 text-akili-grey-500'
               }`}>
                 {step > 1 ? <Check className="w-4 h-4" /> : '1'}
               </div>
-              <div className="w-8 h-px bg-gray-300"></div>
+              <div className="w-8 h-px bg-akili-grey-300"></div>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step >= 2 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                step >= 2 ? 'bg-akili-purple-500 text-white' : 'bg-akili-grey-200 text-akili-grey-500'
               }`}>
                 {step > 2 ? <Check className="w-4 h-4" /> : '2'}
               </div>
-              <div className="w-8 h-px bg-gray-300"></div>
+              <div className="w-8 h-px bg-akili-grey-300"></div>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                step >= 3 ? 'bg-orange-500 text-white' : 'bg-gray-200 text-gray-500'
+                step >= 3 ? 'bg-akili-purple-500 text-white' : 'bg-akili-grey-200 text-akili-grey-500'
               }`}>
                 3
               </div>
@@ -615,68 +615,98 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
       <div className="max-w-4xl mx-auto px-6 py-8">
         {/* Étape 1: Informations du jeu */}
         {step === 1 && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Informations du jeu</CardTitle>
+          <Card className="bg-white shadow-sm border-akili-grey-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-akili-grey-900">Configuration du jeu</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
-                <Label htmlFor="game-title">Titre du jeu *</Label>
+                <Label htmlFor="game-title" className="text-body2-medium text-akili-grey-700">
+                  Nom du jeu *
+                </Label>
                 <Input
                   id="game-title"
                   value={gameTitle}
                   onChange={(e) => setGameTitle(e.target.value)}
                   placeholder="Ex: Quiz de Mathématiques - Niveau CM1"
-                  className="mt-2"
+                  className="mt-2 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
                 />
               </div>
               
               <div>
-                <Label htmlFor="game-image">Image du jeu (optionnel)</Label>
-                <div className="mt-2">
-                  <Input
-                    id="game-image"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Formats acceptés: JPG, PNG, GIF (max 5MB)
-                  </p>
-                </div>
-                {gameImage && (
-                  <div className="mt-3">
-                    <img 
-                      src={gameImage} 
-                      alt="Aperçu" 
-                      className="w-32 h-24 object-cover rounded border"
-                    />
+                <Label htmlFor="game-image" className="text-body2-medium text-akili-grey-700">
+                  Image du jeu (optionnel)
+                </Label>
+                <div className="mt-2 space-y-3">
+                  <div className="flex items-center justify-center w-full">
+                    <label 
+                      htmlFor="game-image" 
+                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-akili-grey-300 border-dashed rounded-lg cursor-pointer bg-akili-grey-50 hover:bg-akili-grey-100 transition-colors"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <FileImage className="w-8 h-8 mb-2 text-akili-grey-500" />
+                        <p className="mb-2 text-sm text-akili-grey-500">
+                          <span className="font-medium">Cliquez pour télécharger</span> ou glissez-déposez
+                        </p>
+                        <p className="text-xs text-akili-grey-500">PNG, JPG, GIF (max 5MB)</p>
+                      </div>
+                      <input 
+                        id="game-image" 
+                        type="file" 
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden" 
+                      />
+                    </label>
                   </div>
-                )}
+                  
+                  {gameImage && (
+                    <div className="mt-4">
+                      <Label className="text-body2-medium text-akili-grey-700">Aperçu de l'image</Label>
+                      <div className="mt-2 relative">
+                        <img 
+                          src={gameImage} 
+                          alt="Aperçu du jeu" 
+                          className="w-full h-40 object-cover rounded-lg border border-akili-grey-300"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setGameImage("")}
+                          className="absolute top-2 right-2 bg-white/80 hover:bg-white text-akili-grey-600"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               
-              <div className="flex justify-end">
+              <div className="flex justify-end pt-4">
                 <Button 
                   onClick={handleCreateGame}
                   disabled={loading || !gameTitle.trim()}
-                  className="bg-orange-500 hover:bg-orange-600"
+                  className="bg-akili-purple-500 hover:bg-akili-purple-600 text-white px-8"
                 >
-                  {loading ? "Création..." : "Créer le jeu"}
+                  {loading ? "Création..." : "Terminer et ajouter les questions"}
                 </Button>
               </div>
             </CardContent>
           </Card>
         )}
 
-         {/* Étape 2: Liste des questions */}
+          {/* Étape 2: Liste des questions */}
         {step === 2 && (
           <div className="space-y-6">
-            <Card>
-              <CardHeader>
+            <Card className="bg-white shadow-sm border-akili-grey-200">
+              <CardHeader className="pb-4">
                 <div className="flex items-center justify-between">
-                  <CardTitle>Questions du jeu</CardTitle>
-                  <Button onClick={initNewQuestion} className="bg-orange-500 hover:bg-orange-600">
+                  <CardTitle className="text-akili-grey-900">Questions du jeu</CardTitle>
+                  <Button 
+                    onClick={initNewQuestion} 
+                    className="bg-akili-purple-500 hover:bg-akili-purple-600 text-white"
+                  >
                     <Plus className="w-4 h-4 mr-2" />
                     Ajouter une question
                   </Button>
@@ -692,8 +722,11 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
             
             {createdQuestions.length > 0 && (
               <div className="flex justify-end">
-                <Button onClick={finalizeGame} className="bg-green-600 hover:bg-green-700">
-                  Terminer le jeu
+                <Button 
+                  onClick={finalizeGame} 
+                  className="bg-akili-green-600 hover:bg-akili-green-700 text-white px-8"
+                >
+                  Finaliser le jeu
                 </Button>
               </div>
             )}
@@ -702,16 +735,18 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
 
         {/* Étape 3: Ajouter une question */}
         {step === 3 && currentQuestion && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Ajouter une question</CardTitle>
+          <Card className="bg-white shadow-sm border-akili-grey-200">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-akili-grey-900">Ajouter une question</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div>
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="question-text">Question *</Label>
+                  <Label htmlFor="question-text" className="text-body2-medium text-akili-grey-700">
+                    Question *
+                  </Label>
                   <span className={`text-sm ${
-                    questionCharCount > 200 ? 'text-red-500' : 'text-gray-500'
+                    questionCharCount > 200 ? 'text-akili-red-500' : 'text-akili-grey-500'
                   }`}>
                     {questionCharCount}/255
                   </span>
@@ -721,11 +756,11 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                   value={currentQuestion.libelle}
                   onChange={(e) => handleQuestionTextChange(e.target.value)}
                   placeholder="Tapez votre question ici..."
-                  className="mt-2"
+                  className="mt-2 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
                   maxLength={255}
                 />
                 {questionCharCount > 200 && (
-                  <p className="text-sm text-orange-600 mt-1">
+                  <p className="text-sm text-akili-orange-600 mt-1">
                     Attention: Vous approchez de la limite de caractères
                   </p>
                 )}
@@ -733,12 +768,14 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="question-type">Type de question</Label>
+                  <Label htmlFor="question-type" className="text-body2-medium text-akili-grey-700">
+                    Type de question
+                  </Label>
                   <Select value={currentQuestion.abstractType || "VRAI_FAUX"} onValueChange={handleAbstractTypeChange}>
-                    <SelectTrigger className="mt-2 bg-white border-gray-200 z-50">
+                    <SelectTrigger className="mt-2 bg-white border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300">
                       <SelectValue placeholder="Choisir le type" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                    <SelectContent className="bg-white border-akili-grey-200 shadow-lg">
                       {abstractQuestionTypes.map(type => (
                         <SelectItem key={type.id} value={type.id}>
                           {type.label}
@@ -749,7 +786,9 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                 </div>
                 
                 <div>
-                  <Label htmlFor="question-time">Temps (secondes)</Label>
+                  <Label htmlFor="question-time" className="text-body2-medium text-akili-grey-700">
+                    Temps (secondes)
+                  </Label>
                   <Input
                     id="question-time"
                     type="number"
@@ -757,27 +796,29 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                     max="300"
                     value={currentQuestion.temps}
                     onChange={(e) => setCurrentQuestion({...currentQuestion, temps: parseInt(e.target.value) || 30})}
-                    className="mt-2"
+                    className="mt-2 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
                   />
                 </div>
               </div>
               
               <div>
-                <Label htmlFor="point-system">Système de points</Label>
+                <Label htmlFor="point-system" className="text-body2-medium text-akili-grey-700">
+                  Système de points
+                </Label>
                 <Select value={currentQuestion.point} onValueChange={(value) => setCurrentQuestion({...currentQuestion, point: value})}>
-                  <SelectTrigger className="mt-2 bg-white border-gray-200 z-50">
+                  <SelectTrigger className="mt-2 bg-white border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300">
                     <SelectValue placeholder="Choisissez un système de points" />
                   </SelectTrigger>
-                  <SelectContent className="bg-white border-gray-200 shadow-lg z-50">
+                  <SelectContent className="bg-white border-akili-grey-200 shadow-lg">
                     {pointSystems.map(system => (
                       <SelectItem key={system._id} value={system._id}>
                         <div className="flex items-center justify-between w-full">
-                          <span className="font-medium">{system.nature}</span>
+                          <span className="font-medium text-akili-grey-900">{system.nature}</span>
                           <div className="flex items-center space-x-2 ml-4">
-                            <Badge variant="secondary" className="bg-green-100 text-green-800">
+                            <Badge variant="secondary" className="bg-akili-green-100 text-akili-green-800">
                               {system.valeur} pts
                             </Badge>
-                            <span className="text-sm text-gray-500">{system.description}</span>
+                            <span className="text-sm text-akili-grey-500">{system.description}</span>
                           </div>
                         </div>
                       </SelectItem>
@@ -785,44 +826,45 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                   </SelectContent>
                 </Select>
                 {pointSystems.length === 0 && (
-                  <p className="text-sm text-red-500 mt-2">
+                  <p className="text-sm text-akili-red-500 mt-2">
                     Aucun système de points disponible
                   </p>
                 )}
               </div>
               
                {/* Réponses */}
-               <div>
-                 <div className="flex items-center justify-between mb-4">
-                   <Label>Réponses</Label>
-                   {/* Bouton ajouter réponse - seulement pour choix unique/multiple mais pas vrai/faux */}
-                   {(currentQuestion.abstractType === "CHOIX_UNIQUE" || currentQuestion.abstractType === "CHOIX_MULTIPLE") && (
-                     <Button
-                       type="button"
-                       variant="outline"
-                       size="sm"
-                       onClick={addAnswer}
-                     >
-                       <Plus className="w-4 h-4 mr-2" />
-                       Ajouter une réponse
-                     </Button>
-                   )}
-                 </div>
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <Label className="text-body2-medium text-akili-grey-700">Réponses</Label>
+                    {/* Bouton ajouter réponse - seulement pour choix unique/multiple mais pas vrai/faux */}
+                    {(currentQuestion.abstractType === "CHOIX_UNIQUE" || currentQuestion.abstractType === "CHOIX_MULTIPLE") && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={addAnswer}
+                        className="border-akili-purple-500 text-akili-purple-500 hover:bg-akili-purple-50"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        Ajouter une réponse
+                      </Button>
+                    )}
+                  </div>
                  
-                 {/* Interface pour Réponse courte */}
-                 {currentQuestion.abstractType === "REPONSE_COURTE" ? (
-                   <div className="space-y-3">
-                     <Label className="text-sm font-medium text-gray-700">
-                       Saisissez la réponse attendue
-                     </Label>
-                     <Input
-                       value={currentQuestion.answers[0]?.reponse_texte || ""}
-                       onChange={(e) => updateAnswer(currentQuestion.answers[0]?.id || "1", 'reponse_texte', e.target.value)}
-                       placeholder="Réponse correcte attendue..."
-                       className="w-full"
-                     />
-                   </div>
-                 ) : (
+                  {/* Interface pour Réponse courte */}
+                  {currentQuestion.abstractType === "REPONSE_COURTE" ? (
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium text-akili-grey-700">
+                        Saisissez la réponse attendue
+                      </Label>
+                      <Input
+                        value={currentQuestion.answers[0]?.reponse_texte || ""}
+                        onChange={(e) => updateAnswer(currentQuestion.answers[0]?.id || "1", 'reponse_texte', e.target.value)}
+                        placeholder="Réponse correcte attendue..."
+                        className="w-full border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
+                      />
+                    </div>
+                  ) : (
                    /* Interface pour les autres types */
                    <div className="space-y-3">
                      {currentQuestion.answers.map((answer, index) => {
@@ -830,68 +872,73 @@ export function QuizCreator({ quiz, onNavigate }: QuizCreatorProps) {
                        const isChoixUnique = currentQuestion.abstractType === "CHOIX_UNIQUE";
                        const isChoixMultiple = currentQuestion.abstractType === "CHOIX_MULTIPLE";
                        
-                       return (
-                         <div key={answer.id} className="flex items-center space-x-3 p-3 border rounded-lg bg-gray-50">
-                           {/* Radio button pour Vrai/Faux et Choix unique */}
-                           {(isVraiFaux || isChoixUnique) && (
-                             <div className="flex items-center">
-                               <input
-                                 type="radio"
-                                 name={`question-${currentQuestion.id}`}
-                                 checked={answer.etat}
-                                 onChange={() => updateAnswer(answer.id, 'etat', true)}
-                                 className="w-4 h-4 text-orange-600 border-gray-300 focus:ring-orange-500"
-                               />
-                             </div>
-                           )}
-                           
-                           {/* Checkbox pour Choix multiple */}
-                           {isChoixMultiple && (
-                             <Checkbox
-                               checked={answer.etat}
-                               onCheckedChange={(checked) => updateAnswer(answer.id, 'etat', checked)}
-                               className="w-4 h-4"
-                             />
-                           )}
-                           
-                           <Input
-                             value={answer.reponse_texte}
-                             onChange={(e) => updateAnswer(answer.id, 'reponse_texte', e.target.value)}
-                             placeholder={isVraiFaux ? (index === 0 ? "Vrai" : "Faux") : `Réponse ${index + 1}`}
-                             className="flex-1"
-                             readOnly={isVraiFaux}
-                           />
-                           
-                           {/* Bouton supprimer - pas pour Vrai/Faux */}
-                           {!isVraiFaux && (
-                             <Button
-                               type="button"
-                               variant="ghost"
-                               size="sm"
-                               onClick={() => removeAnswer(answer.id)}
-                               className="text-red-500 hover:bg-red-50"
-                             >
-                               <X className="w-4 h-4" />
-                             </Button>
-                           )}
-                         </div>
-                       );
+                        return (
+                          <div key={answer.id} className="flex items-center space-x-3 p-3 border border-akili-grey-300 rounded-lg bg-akili-grey-50">
+                            {/* Radio button pour Vrai/Faux et Choix unique */}
+                            {(isVraiFaux || isChoixUnique) && (
+                              <div className="flex items-center">
+                                <input
+                                  type="radio"
+                                  name={`question-${currentQuestion.id}`}
+                                  checked={answer.etat}
+                                  onChange={() => updateAnswer(answer.id, 'etat', true)}
+                                  className="w-4 h-4 text-akili-purple-600 border-akili-grey-300 focus:ring-akili-purple-500"
+                                />
+                              </div>
+                            )}
+                            
+                            {/* Checkbox pour Choix multiple */}
+                            {isChoixMultiple && (
+                              <Checkbox
+                                checked={answer.etat}
+                                onCheckedChange={(checked) => updateAnswer(answer.id, 'etat', checked)}
+                                className="w-4 h-4 border-akili-grey-400 data-[state=checked]:bg-akili-purple-500 data-[state=checked]:border-akili-purple-500"
+                              />
+                            )}
+                            
+                            <Input
+                              value={answer.reponse_texte}
+                              onChange={(e) => updateAnswer(answer.id, 'reponse_texte', e.target.value)}
+                              placeholder={isVraiFaux ? (index === 0 ? "Vrai" : "Faux") : `Réponse ${index + 1}`}
+                              className="flex-1 border-akili-grey-400 focus:border-akili-purple-500 focus:ring-akili-purple-300"
+                              readOnly={isVraiFaux}
+                            />
+                            
+                            {/* Bouton supprimer - pas pour Vrai/Faux */}
+                            {!isVraiFaux && (
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => removeAnswer(answer.id)}
+                                className="text-akili-red-500 hover:bg-akili-red-50"
+                              >
+                                <X className="w-4 h-4" />
+                              </Button>
+                            )}
+                          </div>
+                        );
                      })}
                    </div>
                  )}
                </div>
               
-              <div className="flex justify-between">
+              <div className="flex justify-between pt-4">
                 <Button
                   variant="outline"
                   onClick={() => {
                     setCurrentQuestion(null);
                     setStep(2);
                   }}
+                  className="border-akili-grey-400 text-akili-grey-700 hover:bg-akili-grey-100"
                 >
                   Annuler
                 </Button>
-                <Button onClick={saveQuestion} disabled={loading} className="bg-orange-500 hover:bg-orange-600">
+                <Button 
+                  onClick={saveQuestion} 
+                  disabled={loading} 
+                  className="bg-akili-purple-500 hover:bg-akili-purple-600 text-white px-8"
+                >
                   {loading ? "Sauvegarde..." : "Sauvegarder la question"}
                 </Button>
               </div>
