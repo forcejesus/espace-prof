@@ -100,7 +100,7 @@ class GameService {
   // Mettre à jour un jeu
   async updateGame(gameId: string, gameData: FormData): Promise<Game> {
     const response = await fetch(`http://localhost:3000/api/jeux`, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${this.getAuthHeaders().Authorization.replace('Bearer ', '')}`,
       },
