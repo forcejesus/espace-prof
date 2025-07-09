@@ -22,14 +22,14 @@ export function SessionHistory() {
       averageScore: 78,
       duration: "12min 30s",
       questionsCount: 15,
-      bestScore: { student: "Emma Martin", score: 95 },
+      bestScore: { student: "MAMBOU Marcel", score: 95 },
       status: "completed",
       participants: [
-        { id: 1, name: "Emma Martin", score: 95, correctAnswers: 14, avgTime: "2.1s" },
-        { id: 2, name: "Lucas Dubois", score: 87, correctAnswers: 13, avgTime: "3.2s" },
-        { id: 3, name: "Léa Bernard", score: 82, correctAnswers: 12, avgTime: "2.8s" },
-        { id: 4, name: "Noah Petit", score: 76, correctAnswers: 11, avgTime: "4.1s" },
-        { id: 5, name: "Chloé Moreau", score: 71, correctAnswers: 10, avgTime: "3.5s" },
+        { id: 1, name: "MAMBOU Marcel", score: 95, correctAnswers: 14, avgTime: "2.1s" },
+        { id: 2, name: "KISSANGOU Délice", score: 87, correctAnswers: 13, avgTime: "3.2s" },
+        { id: 3, name: "NTSOUMOU Mondésir", score: 82, correctAnswers: 12, avgTime: "2.8s" },
+        { id: 4, name: "NGANGOU Ned", score: 76, correctAnswers: 11, avgTime: "4.1s" },
+        { id: 5, name: "DISSOUSSOU Emery Patrice", score: 71, correctAnswers: 10, avgTime: "3.5s" },
       ]
     },
     {
@@ -41,12 +41,12 @@ export function SessionHistory() {
       averageScore: 82,
       duration: "15min 45s",
       questionsCount: 12,
-      bestScore: { student: "Gabriel Simon", score: 100 },
+      bestScore: { student: "POBA Brice", score: 100 },
       status: "completed",
       participants: [
-        { id: 1, name: "Gabriel Simon", score: 100, correctAnswers: 12, avgTime: "1.8s" },
-        { id: 2, name: "Manon Laurent", score: 91, correctAnswers: 11, avgTime: "2.4s" },
-        { id: 3, name: "Tom Michel", score: 88, correctAnswers: 10, avgTime: "3.1s" },
+        { id: 1, name: "POBA Brice", score: 100, correctAnswers: 12, avgTime: "1.8s" },
+        { id: 2, name: "KOUMBA Grace", score: 91, correctAnswers: 11, avgTime: "2.4s" },
+        { id: 3, name: "MOUSSOUNDA Paul", score: 88, correctAnswers: 10, avgTime: "3.1s" },
       ]
     },
     {
@@ -58,7 +58,7 @@ export function SessionHistory() {
       averageScore: 75,
       duration: "18min 20s",
       questionsCount: 18,
-      bestScore: { student: "Léa Bernard", score: 92 },
+      bestScore: { student: "NTSOUMOU Mondésir", score: 92 },
       status: "completed"
     },
     {
@@ -70,7 +70,7 @@ export function SessionHistory() {
       averageScore: 68,
       duration: "20min 15s",
       questionsCount: 20,
-      bestScore: { student: "Emma Martin", score: 85 },
+      bestScore: { student: "MAMBOU Marcel", score: 85 },
       status: "completed"
     }
   ];
