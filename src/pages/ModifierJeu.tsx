@@ -30,13 +30,12 @@ export default function ModifierJeu() {
       
       try {
         setLoading(true);
-        const result = await gameService.getMyGames();
-        const foundGame = result.data.find(g => g._id === id);
+        const gameData = await gameService.getGameById(id);
         
-        if (foundGame) {
-          setGame(foundGame);
-          setGameName(foundGame.titre);
-          setGameImage(foundGame.image || "");
+        if (gameData) {
+          setGame(gameData);
+          setGameName(gameData.titre);
+          setGameImage(gameData.image || "");
         } else {
           toast({
             title: "Erreur",
@@ -65,8 +64,22 @@ export default function ModifierJeu() {
     
     try {
       setSaving(true);
-      // TODO: Appel API pour mettre à jour la configuration du jeu
-      // await gameService.updateGame(game._id, { titre: gameName, image: gameImage });
+      const formData = new FormData();
+      formData.append('titre', gameName);
+      formData.append('_id', game._id);
+      
+      if (gameImage && gameImage !== game.image) {
+        // Si gameImage est un fichier, l'ajouter au FormData
+        if (typeof gameImage === 'string') {
+          formData.append('image', gameImage);
+        }
+      }
+      
+      const updatedGame = await gameService.updateGame(game._id, formData);
+      
+      // Mettre à jour l'état local
+      setGame(updatedGame);
+      setGameImage(updatedGame.image || "");
       
       toast({
         title: "Succès",
@@ -203,22 +216,42 @@ export default function ModifierJeu() {
                     )}
                   </div>
 
-                  {/* Input pour nouvelle image */}
-                  <div className="space-y-3">
-                    <Label htmlFor="game-image" className="text-sm font-medium">Modifier l'image (URL)</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="game-image"
-                        value={gameImage}
-                        onChange={(e) => setGameImage(e.target.value)}
-                        placeholder="URL de la nouvelle image"
-                        className="flex-1"
-                      />
-                      <Button variant="outline" size="icon">
-                        <Upload className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
+                   {/* Input pour nouvelle image */}
+                   <div className="space-y-3">
+                     <Label htmlFor="game-image" className="text-sm font-medium">Modifier l'image (URL)</Label>
+                     <div className="flex gap-2">
+                       <Input
+                         id="game-image"
+                         value={gameImage}
+                         onChange={(e) => setGameImage(e.target.value)}
+                         placeholder="URL de la nouvelle image"
+                         className="flex-1"
+                       />
+                       <Button 
+                         variant="outline" 
+                         size="icon"
+                         onClick={() => document.getElementById('file-input')?.click()}
+                       >
+                         <Upload className="w-4 h-4" />
+                       </Button>
+                       <input
+                         id="file-input"
+                         type="file"
+                         accept="image/*"
+                         className="hidden"
+                         onChange={(e) => {
+                           const file = e.target.files?.[0];
+                           if (file) {
+                             const reader = new FileReader();
+                             reader.onload = (event) => {
+                               setGameImage(event.target?.result as string);
+                             };
+                             reader.readAsDataURL(file);
+                           }
+                         }}
+                       />
+                     </div>
+                   </div>
 
                   {/* Preview de la nouvelle image */}
                   {gameImage && gameImage !== game.image && (
