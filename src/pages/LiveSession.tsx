@@ -8,43 +8,12 @@ const LiveSessionPage = () => {
   const location = useLocation();
   const planificationData = location.state;
 
-  useEffect(() => {
-    // Mettre l'application en plein écran si possible
-    const enterFullscreen = async () => {
-      try {
-        if (document.documentElement.requestFullscreen) {
-          await document.documentElement.requestFullscreen();
-        }
-      } catch (error) {
-        console.log("Fullscreen not supported or already in fullscreen");
-      }
-    };
-
-    enterFullscreen();
-
-    // Cleanup function pour sortir du plein écran lors du démontage
-    return () => {
-      if (document.exitFullscreen && document.fullscreenElement) {
-        document.exitFullscreen().catch(console.log);
-      }
-    };
-  }, []);
-
   const handleNavigate = (view: string) => {
-    // Sortir du plein écran avant de naviguer
-    if (document.exitFullscreen && document.fullscreenElement) {
-      document.exitFullscreen().then(() => {
-        navigate(`/${view}`);
-      }).catch(() => {
-        navigate(`/${view}`);
-      });
-    } else {
-      navigate(`/${view}`);
-    }
+    navigate(`/${view}`);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="fixed inset-0 z-50 bg-akili-grey-50">
       <LiveSession 
         onNavigate={handleNavigate} 
         planificationData={planificationData}

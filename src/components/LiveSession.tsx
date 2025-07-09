@@ -98,16 +98,16 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
   const renderWaitingRoom = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-8 mb-6">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-700 text-white rounded-2xl p-8 mb-6">
           <h2 className="text-3xl font-bold mb-2">Salle d'Attente</h2>
-          <p className="text-indigo-100 mb-6">Les étudiants peuvent rejoindre avec le code PIN</p>
+          <p className="text-orange-100 mb-6">Les étudiants peuvent rejoindre avec le code PIN</p>
           
           <div className="bg-white/20 backdrop-blur-sm rounded-xl p-6 mb-6">
-            <p className="text-indigo-100 text-lg mb-2">Code PIN</p>
+            <p className="text-orange-100 text-lg mb-2">Code PIN</p>
             <div className="text-6xl font-bold tracking-wider">{gamePin}</div>
           </div>
           
-          <div className="flex items-center justify-center space-x-6 text-indigo-100">
+          <div className="flex items-center justify-center space-x-6 text-orange-100">
             <div className="flex items-center">
               <Users className="w-5 h-5 mr-2" />
               <span>{participants.length} participants</span>
@@ -122,7 +122,7 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
         <Button
           onClick={startSession}
           size="lg"
-          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-8 py-3 text-lg"
+          className="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white px-8 py-3 text-lg"
         >
           <Play className="w-5 h-5 mr-2" />
           Démarrer le Quiz
@@ -132,18 +132,18 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Users className="w-5 h-5 mr-2 text-indigo-500" />
+            <Users className="w-5 h-5 mr-2 text-orange-500" />
             Participants Connectés ({participants.length})
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {participants.map((participant) => (
-              <div key={participant.id} className="bg-slate-50 rounded-lg p-3 text-center">
-                <div className="w-10 h-10 bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-medium">
+              <div key={participant.id} className="bg-akili-grey-50 rounded-lg p-3 text-center">
+                <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-orange-700 rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-medium">
                   {participant.name.charAt(0)}
                 </div>
-                <p className="text-sm font-medium text-slate-800 truncate">{participant.name}</p>
+                <p className="text-sm font-medium text-grey-800 truncate">{participant.name}</p>
               </div>
             ))}
           </div>
@@ -158,14 +158,14 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
       <div className="bg-white rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-4">
-            <Badge className="bg-indigo-100 text-indigo-800 px-3 py-1">
+            <Badge className="bg-orange-100 text-orange-800 px-3 py-1">
               Question {currentQuestion + 1}/{totalQuestions}
             </Badge>
-            <div className="flex items-center text-slate-600">
+            <div className="flex items-center text-grey-700">
               <Clock className="w-4 h-4 mr-1" />
               <span className="font-mono text-lg">{timeLeft}s</span>
             </div>
-            <div className="flex items-center text-slate-600">
+            <div className="flex items-center text-grey-700">
               <Users className="w-4 h-4 mr-1" />
               <span>{answeredCount}/{participants.length} répondu</span>
             </div>
@@ -181,7 +181,7 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
             </Button>
             <Button
               onClick={nextQuestion}
-              className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
+              className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 text-white"
             >
               <SkipForward className="w-4 h-4 mr-2" />
               Question Suivante
@@ -202,9 +202,9 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Question Actuelle */}
-        <Card className="bg-gradient-to-br from-slate-50 to-indigo-50">
+        <Card className="bg-gradient-to-br from-akili-grey-50 to-orange-100">
           <CardHeader>
-            <CardTitle className="text-xl text-slate-800">
+            <CardTitle className="text-xl text-grey-800">
               {currentQuestionData.question}
             </CardTitle>
           </CardHeader>
@@ -289,7 +289,7 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
   const renderResults = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-2xl p-8 mb-6">
+        <div className="bg-gradient-to-r from-green-500 to-green-700 text-white rounded-2xl p-8 mb-6">
           <Trophy className="w-16 h-16 mx-auto mb-4" />
           <h2 className="text-3xl font-bold mb-2">Quiz Terminé !</h2>
           <p className="text-green-100">Félicitations à tous les participants</p>
@@ -297,17 +297,17 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
 
         <div className="flex justify-center space-x-4">
           <Button
-            onClick={() => onNavigate("history")}
-            className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
+            onClick={() => onNavigate("historique-session")}
+            className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 text-white"
           >
             Voir les Résultats Détaillés
           </Button>
           <Button
             variant="outline"
-            onClick={() => onNavigate("library")}
-            className="border-slate-200 text-slate-600 hover:bg-slate-50"
+            onClick={() => onNavigate("mes-jeux")}
+            className="border-grey-400 text-grey-700 hover:bg-akili-grey-50"
           >
-            Retour à la Bibliothèque
+            Retour à Mes Jeux
           </Button>
         </div>
       </div>
@@ -379,21 +379,21 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
   );
 
   return (
-    <div className="min-h-screen w-full p-6 space-y-6 bg-gray-50">
+    <div className="min-h-screen w-full p-6 space-y-6 bg-akili-grey-50">
       {/* En-tête */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Button
             variant="ghost"
-            onClick={() => onNavigate("planifications")}
-            className="text-slate-600 hover:bg-slate-100"
+            onClick={() => onNavigate("planification")}
+            className="text-grey-700 hover:bg-akili-grey-200"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Retour aux Planifications
           </Button>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800">Session Live</h1>
-            <p className="text-slate-600">
+            <h1 className="text-2xl font-bold text-grey-800">Session Live</h1>
+            <p className="text-grey-700">
               {planificationData?.jeu?.titre && `Jeu: ${planificationData.jeu.titre} - `}
               {sessionState === "waiting" && "En attente des participants"}
               {sessionState === "playing" && `Question ${currentQuestion + 1}/${totalQuestions} en cours`}
@@ -404,7 +404,7 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
         </div>
         
         {sessionState !== "waiting" && sessionState !== "finished" && (
-          <div className="flex items-center space-x-4 text-sm text-slate-600">
+          <div className="flex items-center space-x-4 text-sm text-grey-700">
             <span>PIN: <strong>{gamePin}</strong></span>
           </div>
         )}
