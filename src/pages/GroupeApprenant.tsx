@@ -44,8 +44,8 @@ const GroupeApprenantPage = () => {
   const apprenants = [
     {
       id: 1,
-      nom: "Amina Diallo",
-      email: "amina.diallo@ecole.fr",
+      nom: "MAMBOU Marcel",
+      email: "mambou.marcel@ecole.fr",
       classe: "3èmeA",
       niveau: "Avancé",
       derniere_connexion: "Il y a 1 heure",
@@ -53,8 +53,8 @@ const GroupeApprenantPage = () => {
     },
     {
       id: 2,
-      nom: "Kwame Asante",
-      email: "kwame.asante@ecole.fr",
+      nom: "KISSANGOU Délice",
+      email: "kissangou.delice@ecole.fr",
       classe: "3èmeB",
       niveau: "Intermédiaire",
       derniere_connexion: "Il y a 3 heures",
@@ -62,12 +62,39 @@ const GroupeApprenantPage = () => {
     },
     {
       id: 3,
-      nom: "Fatou Ndiaye",
-      email: "fatou.ndiaye@ecole.fr",
+      nom: "NTSOUMOU Mondésir",
+      email: "ntsoumou.mondesir@ecole.fr",
       classe: "3èmeA",
       niveau: "Expert",
       derniere_connexion: "Il y a 30 min",
       score_moyen: 4.7
+    },
+    {
+      id: 4,
+      nom: "NGANGOU Ned",
+      email: "ngangou.ned@ecole.fr",
+      classe: "3èmeB",
+      niveau: "Avancé",
+      derniere_connexion: "Il y a 2 heures",
+      score_moyen: 4.1
+    },
+    {
+      id: 5,
+      nom: "DISSOUSSOU Emery Patrice",
+      email: "dissoussou.emery@ecole.fr",
+      classe: "3èmeA",
+      niveau: "Intermédiaire",
+      derniere_connexion: "Il y a 4 heures",
+      score_moyen: 3.5
+    },
+    {
+      id: 6,
+      nom: "POBA Brice",
+      email: "poba.brice@ecole.fr",
+      classe: "3èmeB",
+      niveau: "Expert",
+      derniere_connexion: "Il y a 1 heure",
+      score_moyen: 4.5
     }
   ];
 

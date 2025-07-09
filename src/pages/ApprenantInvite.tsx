@@ -15,8 +15,8 @@ const ApprenantInvitePage = () => {
   const apprenantsInvites = [
     {
       id: 1,
-      nom: "Sophie Ndongo",
-      email: "sophie.ndongo@gmail.com",
+      nom: "MAMBOU Marcel",
+      email: "mambou.marcel@gmail.com",
       invitePar: "Marie Dubois",
       statut: "Actif",
       derniereActivite: "Il y a 2 heures",
@@ -25,8 +25,8 @@ const ApprenantInvitePage = () => {
     },
     {
       id: 2,
-      nom: "Paul Moukoko",
-      email: "paul.moukoko@yahoo.fr",
+      nom: "KISSANGOU Délice",
+      email: "kissangou.delice@yahoo.fr",
       invitePar: "Jean Martin",
       statut: "En attente",
       derniereActivite: "Jamais connecté",
@@ -35,13 +35,43 @@ const ApprenantInvitePage = () => {
     },
     {
       id: 3,
-      nom: "Grace Mambou",
-      email: "grace.mambou@outlook.com",
+      nom: "NTSOUMOU Mondésir",
+      email: "ntsoumou.mondesir@outlook.com",
       invitePar: "Marie Dubois",
       statut: "Actif",
       derniereActivite: "Il y a 1 jour",
       scoreMoyen: 3.9,
       dateInvitation: "10 Nov 2024"
+    },
+    {
+      id: 4,
+      nom: "NGANGOU Ned",
+      email: "ngangou.ned@gmail.com",
+      invitePar: "Jean Martin",
+      statut: "Actif",
+      derniereActivite: "Il y a 3 heures",
+      scoreMoyen: 4.3,
+      dateInvitation: "08 Nov 2024"
+    },
+    {
+      id: 5,
+      nom: "DISSOUSSOU Emery Patrice",
+      email: "dissoussou.emery@yahoo.fr",
+      invitePar: "Marie Dubois",
+      statut: "En attente",
+      derniereActivite: "Jamais connecté",
+      scoreMoyen: 0,
+      dateInvitation: "06 Nov 2024"
+    },
+    {
+      id: 6,
+      nom: "POBA Brice",
+      email: "poba.brice@outlook.com",
+      invitePar: "Jean Martin",
+      statut: "Actif",
+      derniereActivite: "Il y a 5 heures",
+      scoreMoyen: 3.7,
+      dateInvitation: "05 Nov 2024"
     }
   ];
 
