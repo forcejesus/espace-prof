@@ -146,19 +146,19 @@ export default function ModifierJeu() {
       <div className="max-w-6xl mx-auto px-6 py-8">
         {/* Tabs mis en évidence */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 h-16 bg-gradient-to-r from-primary/10 to-primary/5 rounded-2xl p-2 shadow-lg border border-primary/20">
+          <TabsList className="grid w-full grid-cols-2 h-20 bg-gradient-to-r from-orange-50 via-orange-100/50 to-orange-50 rounded-3xl p-3 shadow-xl border border-orange-200 backdrop-blur-sm">
             <TabsTrigger 
               value="config" 
-              className="flex items-center gap-2 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
+              className="flex items-center justify-center gap-3 rounded-2xl text-lg font-semibold py-4 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-orange-100/70 transition-all duration-300 transform hover:scale-105"
             >
-              <Settings className="w-4 h-4" />
+              <Settings className="w-5 h-5" />
               Configuration du jeu
             </TabsTrigger>
             <TabsTrigger 
               value="questions" 
-              className="flex items-center gap-2 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md transition-all"
+              className="flex items-center justify-center gap-3 rounded-2xl text-lg font-semibold py-4 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white data-[state=active]:shadow-lg hover:bg-orange-100/70 transition-all duration-300 transform hover:scale-105"
             >
-              <MessageSquare className="w-4 h-4" />
+              <MessageSquare className="w-5 h-5" />
               Questions et Réponses
             </TabsTrigger>
           </TabsList>

@@ -93,13 +93,17 @@ export function GameConfigurationStep({ game, onSave, loading }: GameConfigurati
           <Input
             id="game-name"
             value={gameName}
-            onChange={(e) => setGameName(e.target.value)}
-            placeholder="Entrez le nom du jeu"
+            onChange={(e) => setGameName(e.target.value.slice(0, 50))}
+            placeholder="Entrez le nom du jeu (max 50 caractères)"
             className="text-lg py-3 border-orange-200 focus:border-orange-500 focus:ring-orange-200"
+            maxLength={50}
           />
-          <p className="text-sm text-gray-500">
-            Choisissez un nom accrocheur et descriptif pour votre jeu
-          </p>
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-gray-500">
+              Choisissez un nom accrocheur et descriptif pour votre jeu
+            </p>
+            <span className="text-xs text-gray-400">{gameName.length}/50</span>
+          </div>
         </div>
 
         {/* Image du jeu */}
@@ -111,19 +115,19 @@ export function GameConfigurationStep({ game, onSave, loading }: GameConfigurati
             {getImageUrl(game.image) ? (
               <div className="space-y-2">
                 <p className="text-sm text-gray-600">Image actuelle :</p>
-                <div className="w-80 h-48 rounded-xl overflow-hidden border-2 border-orange-200 shadow-md">
+                <div className="w-full max-w-2xl h-64 rounded-xl overflow-hidden border-2 border-orange-200 shadow-md">
                   <img
                     src={getImageUrl(game.image)!}
                     alt="Image actuelle du jeu"
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/320x192/f97316/ffffff?text=AKILI+GAME";
+                      (e.target as HTMLImageElement).src = "https://via.placeholder.com/640x256/f97316/ffffff?text=AKILI+GAME";
                     }}
                   />
                 </div>
               </div>
             ) : (
-              <div className="w-80 h-48 rounded-xl border-2 border-dashed border-orange-300 flex flex-col items-center justify-center bg-orange-50">
+              <div className="w-full max-w-2xl h-64 rounded-xl border-2 border-dashed border-orange-300 flex flex-col items-center justify-center bg-orange-50">
                 <FileImage className="w-12 h-12 text-orange-400 mb-2" />
                 <p className="text-orange-600 font-medium">Ce jeu n'a pas d'image</p>
                 <p className="text-sm text-orange-500">Ajoutez une image ci-dessous</p>
@@ -161,7 +165,7 @@ export function GameConfigurationStep({ game, onSave, loading }: GameConfigurati
           {previewImage && previewImage !== game.image && (
             <div className="space-y-2">
               <Label className="text-sm font-medium text-gray-700">Aperçu de la nouvelle image :</Label>
-              <div className="w-80 h-48 rounded-xl overflow-hidden border-2 border-orange-400 shadow-md relative">
+              <div className="w-full max-w-2xl h-64 rounded-xl overflow-hidden border-2 border-orange-400 shadow-md relative">
                 <img
                   src={previewImage}
                   alt="Aperçu nouvelle image"
