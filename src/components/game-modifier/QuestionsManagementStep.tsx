@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Plus, Settings, MessageSquare, Clock, CheckCircle, HelpCircle, ChartBar } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Game } from "@/services/types";
 import { QuestionCard } from "@/components/quiz-creator/QuestionCard";
+import { questionService } from "@/services";
 
 interface Question {
   _id: string;
@@ -40,6 +42,7 @@ interface QuestionsManagementStepProps {
 export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsManagementStepProps) {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [localQuestions, setLocalQuestions] = useState<any[]>([]);
+  const [isCreating, setIsCreating] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -98,19 +101,68 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
     setLocalQuestions(localQuestions.filter(q => q.id !== id));
   };
 
-  const handleEditQuestion = (questionId: string) => {
-    // Logique pour éditer une question
-    toast({
-      title: "Édition de question",
-      description: "Fonctionnalité d'édition en cours de développement",
-    });
+  const saveLocalQuestion = async (localQuestion: any) => {
+    try {
+      setIsCreating(true);
+
+      // Créer la question d'abord
+      const questionData = {
+        libelle: localQuestion.question,
+        temps: localQuestion.timeLimit,
+        jeu: game._id,
+        typeQuestion: getTypeQuestionId(localQuestion.type),
+        point: "686a8704dc5ff531557af515", // Point par défaut
+        fichier: localQuestion.image || null
+      };
+
+      console.log("Creating question with data:", questionData);
+      const createdQuestion = await questionService.addQuestion(questionData);
+      console.log("Question created:", createdQuestion);
+
+      // Supprimer la question locale
+      setLocalQuestions(prev => prev.filter(q => q.id !== localQuestion.id));
+
+      toast({
+        title: "Succès",
+        description: "Question ajoutée avec succès",
+      });
+
+      // Recharger la page ou actualiser les données
+      if (onQuestionUpdate) {
+        onQuestionUpdate();
+      }
+    } catch (error) {
+      console.error("Erreur lors de la création de la question:", error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de créer la question",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCreating(false);
+    }
   };
 
-  const handleDeleteQuestion = (questionId: string) => {
-    // Logique pour supprimer une question
+  const getTypeQuestionId = (type: string) => {
+    // IDs des types de questions selon votre système
+    switch (type) {
+      case "VRAI_FAUX":
+        return "6839d9de4dd3e891de5ff98f"; // ID pour VRAI_FAUX
+      case "CHOIX_UNIQUE":
+        return "6839d9de4dd3e891de5ff98e"; // ID pour CHOIX_UNIQUE
+      case "CHOIX_MULTIPLE":
+        return "6839d9de4dd3e891de5ff990"; // ID pour CHOIX_MULTIPLE
+      case "REPONSE_COURTE":
+        return "6839d9de4dd3e891de5ff991"; // ID pour REPONSE_COURTE
+      default:
+        return "6839d9de4dd3e891de5ff98f"; // Par défaut VRAI_FAUX
+    }
+  };
+
+  const handleEditQuestion = (questionId: string) => {
     toast({
-      title: "Suppression de question",
-      description: "Fonctionnalité de suppression en cours de développement",
+      title: "Édition de question",
+      description: "Utilisez les boutons d'édition sur chaque question",
     });
   };
 
@@ -125,6 +177,7 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
           <Button 
             onClick={addQuestion}
             className="bg-orange-500 hover:bg-orange-600 text-white"
+            disabled={isCreating}
           >
             <Plus className="w-4 h-4 mr-2" />
             Ajouter une question
@@ -135,7 +188,31 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
         {/* Section des nouvelles questions en cours de création */}
         {localQuestions.length > 0 && (
           <div className="mb-8">
-            <h4 className="text-lg font-semibold text-orange-800 mb-4">Nouvelles questions en cours de création</h4>
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-lg font-semibold text-orange-800">Nouvelles questions en cours de création</h4>
+              <Button
+                onClick={() => {
+                  const validQuestions = localQuestions.filter(q => q.question.trim() !== "");
+                  if (validQuestions.length === 0) {
+                    toast({
+                      title: "Erreur",
+                      description: "Veuillez remplir au moins une question",
+                      variant: "destructive",
+                    });
+                    return;
+                  }
+                  
+                  // Sauvegarder toutes les questions valides
+                  validQuestions.forEach(question => {
+                    saveLocalQuestion(question);
+                  });
+                }}
+                className="bg-green-500 hover:bg-green-600 text-white"
+                disabled={isCreating || localQuestions.every(q => q.question.trim() === "")}
+              >
+                {isCreating ? "Sauvegarde..." : "Sauvegarder toutes"}
+              </Button>
+            </div>
             <div className="space-y-6">
               {localQuestions.map((question, index) => (
                 <div key={question.id} className="animate-fade-in-up">
@@ -145,6 +222,16 @@ export function QuestionsManagementStep({ game, onQuestionUpdate }: QuestionsMan
                     onUpdate={updateQuestion}
                     onDelete={deleteQuestion}
                   />
+                  <div className="mt-2 flex justify-end">
+                    <Button
+                      size="sm"
+                      onClick={() => saveLocalQuestion(question)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white"
+                      disabled={isCreating || question.question.trim() === ""}
+                    >
+                      {isCreating ? "Sauvegarde..." : "Sauvegarder cette question"}
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
