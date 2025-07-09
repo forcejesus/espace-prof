@@ -61,7 +61,7 @@ const ApprenantInvitePage = () => {
   return (
     <div className="p-s24 space-y-s24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-akili-purple-500 to-akili-purple-700 rounded-xl p-s24 shadow-akili-lg">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-700 rounded-xl p-s24 shadow-akili-lg">
         <div className="flex items-center space-x-s16">
           <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
             <UserPlus className="w-8 h-8 text-white" />
@@ -78,11 +78,11 @@ const ApprenantInvitePage = () => {
         <Card className="bg-white border-0 shadow-akili-sm">
           <CardContent className="p-s20">
             <div className="flex items-center space-x-s12">
-              <div className="w-12 h-12 rounded-lg bg-akili-purple-100 flex items-center justify-center">
-                <UserPlus className="w-6 h-6 text-akili-purple-600" />
+              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
+                <UserPlus className="w-6 h-6 text-orange-600" />
               </div>
               <div>
-                <p className="text-h4-bold text-akili-purple-600">156</p>
+                <p className="text-h4-bold text-orange-600">156</p>
                 <p className="text-body3-medium text-akili-grey-600">Total invités</p>
               </div>
             </div>
@@ -91,11 +91,11 @@ const ApprenantInvitePage = () => {
         <Card className="bg-white border-0 shadow-akili-sm">
           <CardContent className="p-s20">
             <div className="flex items-center space-x-s12">
-              <div className="w-12 h-12 rounded-lg bg-akili-green-100 flex items-center justify-center">
-                <User className="w-6 h-6 text-akili-green-600" />
+              <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
+                <User className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <p className="text-h4-bold text-akili-green-600">124</p>
+                <p className="text-h4-bold text-green-600">124</p>
                 <p className="text-body3-medium text-akili-grey-600">Actifs</p>
               </div>
             </div>
@@ -104,11 +104,11 @@ const ApprenantInvitePage = () => {
         <Card className="bg-white border-0 shadow-akili-sm">
           <CardContent className="p-s20">
             <div className="flex items-center space-x-s12">
-              <div className="w-12 h-12 rounded-lg bg-akili-orange-100 flex items-center justify-center">
-                <Clock className="w-6 h-6 text-akili-orange-600" />
+              <div className="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                <Clock className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
-                <p className="text-h4-bold text-akili-orange-600">32</p>
+                <p className="text-h4-bold text-yellow-600">32</p>
                 <p className="text-body3-medium text-akili-grey-600">En attente</p>
               </div>
             </div>
@@ -117,11 +117,11 @@ const ApprenantInvitePage = () => {
         <Card className="bg-white border-0 shadow-akili-sm">
           <CardContent className="p-s20">
             <div className="flex items-center space-x-s12">
-              <div className="w-12 h-12 rounded-lg bg-akili-blue-100 flex items-center justify-center">
-                <Mail className="w-6 h-6 text-akili-blue-600" />
+              <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
+                <Mail className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <p className="text-h4-bold text-akili-blue-600">4.2</p>
+                <p className="text-h4-bold text-blue-600">4.2</p>
                 <p className="text-body3-medium text-akili-grey-600">Score moyen</p>
               </div>
             </div>
@@ -138,12 +138,12 @@ const ApprenantInvitePage = () => {
               placeholder={t('pages.apprenantInvite.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 border-akili-grey-300 focus:border-akili-purple-500"
+              className="pl-10 border-akili-grey-300 focus:border-orange-500"
             />
           </div>
           <Select value={filterType} onValueChange={setFilterType}>
-            <SelectTrigger className="w-40 border-akili-grey-300 focus:border-akili-purple-500">
-              <Filter className="w-4 h-4 mr-2 text-akili-purple-500" />
+            <SelectTrigger className="w-40 border-akili-grey-300 focus:border-orange-500">
+              <Filter className="w-4 h-4 mr-2 text-orange-500" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -154,7 +154,7 @@ const ApprenantInvitePage = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button className="bg-gradient-to-r from-akili-purple-500 to-akili-purple-700 hover:from-akili-purple-600 hover:to-akili-purple-800 text-white shadow-akili-md">
+        <Button className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 text-white shadow-akili-md">
           <UserPlus className="w-4 h-4 mr-2" />
           {t('pages.apprenantInvite.newInvitation')}
         </Button>
@@ -167,8 +167,8 @@ const ApprenantInvitePage = () => {
             <CardContent className="p-s20">
               <div className="flex flex-col md:flex-row md:items-center justify-between space-y-s16 md:space-y-0">
                 <div className="flex items-center space-x-s16">
-                  <div className="w-12 h-12 bg-akili-purple-100 rounded-full flex items-center justify-center">
-                    <User className="w-6 h-6 text-akili-purple-600" />
+                  <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-orange-600" />
                   </div>
                   <div>
                     <h3 className="font-akili-bold text-akili-grey-800 text-body1-bold">{apprenant.nom}</h3>
@@ -179,7 +179,7 @@ const ApprenantInvitePage = () => {
                 
                 <div className="flex items-center space-x-s16">
                   <div className="text-center">
-                    <div className="text-h5-bold text-akili-purple-600">
+                    <div className="text-h5-bold text-orange-600">
                       {apprenant.scoreMoyen > 0 ? `${apprenant.scoreMoyen}/5` : '-'}
                     </div>
                     <div className="text-body4-medium text-akili-grey-600">Score moyen</div>
@@ -191,7 +191,7 @@ const ApprenantInvitePage = () => {
                     <p className="text-body3-medium text-akili-grey-600">{apprenant.derniereActivite}</p>
                     <p className="text-body4-medium text-akili-grey-500">Invité le {apprenant.dateInvitation}</p>
                   </div>
-                  <Button variant="outline" size="sm" className="border-akili-purple-300 text-akili-purple-700 hover:bg-akili-purple-50">
+                  <Button variant="outline" size="sm" className="border-orange-300 text-orange-700 hover:bg-orange-50">
                     Voir détails
                   </Button>
                 </div>

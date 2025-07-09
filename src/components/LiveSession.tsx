@@ -22,14 +22,14 @@ export function LiveSession({ onNavigate, planificationData }: LiveSessionProps)
   const [gamePin] = useState(planificationData?.pin || "123456");
   
   const participants = [
-    { id: 1, name: "Emma Martin", score: 850, streak: 3, answered: true },
-    { id: 2, name: "Lucas Dubois", score: 720, streak: 2, answered: true },
-    { id: 3, name: "Léa Bernard", score: 680, streak: 1, answered: false },
-    { id: 4, name: "Noah Petit", score: 640, streak: 0, answered: true },
-    { id: 5, name: "Chloé Moreau", score: 580, streak: 1, answered: false },
-    { id: 6, name: "Gabriel Simon", score: 520, streak: 0, answered: true },
-    { id: 7, name: "Manon Laurent", score: 480, streak: 2, answered: true },
-    { id: 8, name: "Tom Michel", score: 420, streak: 0, answered: false },
+    { id: 1, name: "Amina Diallo", score: 850, streak: 3, answered: true },
+    { id: 2, name: "Kwame Asante", score: 720, streak: 2, answered: true },
+    { id: 3, name: "Fatou Ndiaye", score: 680, streak: 1, answered: false },
+    { id: 4, name: "Mamadou Keita", score: 640, streak: 0, answered: true },
+    { id: 5, name: "Aissatou Ba", score: 580, streak: 1, answered: false },
+    { id: 6, name: "Ousmane Traoré", score: 520, streak: 0, answered: true },
+    { id: 7, name: "Mariam Kone", score: 480, streak: 2, answered: true },
+    { id: 8, name: "Ibrahim Sow", score: 420, streak: 0, answered: false },
   ];
 
   const questions = [

@@ -44,8 +44,8 @@ const GroupeApprenantPage = () => {
   const apprenants = [
     {
       id: 1,
-      nom: "Emma Martin",
-      email: "emma.martin@ecole.fr",
+      nom: "Amina Diallo",
+      email: "amina.diallo@ecole.fr",
       classe: "3èmeA",
       niveau: "Avancé",
       derniere_connexion: "Il y a 1 heure",
@@ -53,8 +53,8 @@ const GroupeApprenantPage = () => {
     },
     {
       id: 2,
-      nom: "Lucas Dubois",
-      email: "lucas.dubois@ecole.fr",
+      nom: "Kwame Asante",
+      email: "kwame.asante@ecole.fr",
       classe: "3èmeB",
       niveau: "Intermédiaire",
       derniere_connexion: "Il y a 3 heures",
@@ -62,8 +62,8 @@ const GroupeApprenantPage = () => {
     },
     {
       id: 3,
-      nom: "Chloé Lefebvre",
-      email: "chloe.lefebvre@ecole.fr",
+      nom: "Fatou Ndiaye",
+      email: "fatou.ndiaye@ecole.fr",
       classe: "3èmeA",
       niveau: "Expert",
       derniere_connexion: "Il y a 30 min",
@@ -87,7 +87,7 @@ const GroupeApprenantPage = () => {
   return (
     <div className="p-s24 space-y-s24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-akili-orange-500 to-akili-orange-600 rounded-xl p-s24 shadow-akili-lg">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-700 rounded-xl p-s24 shadow-akili-lg">
         <div className="flex items-center space-x-s16">
           <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
             <GraduationCap className="w-8 h-8 text-white" />
@@ -100,11 +100,11 @@ const GroupeApprenantPage = () => {
       </div>
 
       <Tabs defaultValue="groupes" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 bg-teal-50">
-          <TabsTrigger value="groupes" className="data-[state=active]:bg-teal-500 data-[state=active]:text-white">
+        <TabsList className="grid w-full grid-cols-2 bg-orange-50">
+          <TabsTrigger value="groupes" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
             Groupes
           </TabsTrigger>
-          <TabsTrigger value="apprenants" className="data-[state=active]:bg-teal-500 data-[state=active]:text-white">
+          <TabsTrigger value="apprenants" className="data-[state=active]:bg-orange-500 data-[state=active]:text-white">
             Apprenants
           </TabsTrigger>
         </TabsList>
@@ -114,16 +114,16 @@ const GroupeApprenantPage = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center space-x-4 flex-1">
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 w-4 h-4" />
                 <Input
                   placeholder="Rechercher un groupe..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-teal-200 focus:border-teal-500 focus:ring-teal-500"
+                  className="pl-10 border-orange-200 focus:border-orange-500 focus:ring-orange-500"
                 />
               </div>
             </div>
-            <Button className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-lg">
+            <Button className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 text-white shadow-lg">
               <Plus className="w-4 h-4 mr-2" />
               Nouveau Groupe
             </Button>
@@ -132,7 +132,7 @@ const GroupeApprenantPage = () => {
           {/* Liste des Groupes */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {groupes.map((groupe) => (
-              <Card key={groupe.id} className="border-2 border-teal-200 hover:shadow-xl transition-all duration-300">
+              <Card key={groupe.id} className="border-2 border-orange-200 hover:shadow-xl transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
@@ -149,16 +149,16 @@ const GroupeApprenantPage = () => {
                 <CardContent className="space-y-4">
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center space-x-2">
-                      <Users className="w-4 h-4 text-teal-500" />
+                      <Users className="w-4 h-4 text-orange-500" />
                       <span>{groupe.membres} membres</span>
                     </div>
                     <span className="text-gray-500">{groupe.derniere_activite}</span>
                   </div>
                   <div className="flex space-x-2">
-                    <Button variant="outline" size="sm" className="border-teal-300 text-teal-700 hover:bg-teal-50 flex-1">
+                    <Button variant="outline" size="sm" className="border-orange-300 text-orange-700 hover:bg-orange-50 flex-1">
                       Modifier
                     </Button>
-                    <Button size="sm" className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white flex-1">
+                    <Button size="sm" className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 text-white flex-1">
                       Voir détails
                     </Button>
                   </div>
@@ -173,17 +173,17 @@ const GroupeApprenantPage = () => {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center space-x-4 flex-1">
               <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-400 w-4 h-4" />
                 <Input
                   placeholder="Rechercher un apprenant..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-teal-200 focus:border-teal-500 focus:ring-teal-500"
+                  className="pl-10 border-orange-200 focus:border-orange-500 focus:ring-orange-500"
                 />
               </div>
               <Select value={filterType} onValueChange={setFilterType}>
-                <SelectTrigger className="w-40 border-teal-200 focus:border-teal-500">
-                  <Filter className="w-4 h-4 mr-2 text-teal-500" />
+                <SelectTrigger className="w-40 border-orange-200 focus:border-orange-500">
+                  <Filter className="w-4 h-4 mr-2 text-orange-500" />
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -194,7 +194,7 @@ const GroupeApprenantPage = () => {
                 </SelectContent>
               </Select>
             </div>
-            <Button className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white shadow-lg">
+            <Button className="bg-gradient-to-r from-orange-500 to-orange-700 hover:from-orange-600 hover:to-orange-800 text-white shadow-lg">
               <UserPlus className="w-4 h-4 mr-2" />
               Nouvel Apprenant
             </Button>
@@ -203,12 +203,12 @@ const GroupeApprenantPage = () => {
           {/* Liste des Apprenants */}
           <div className="space-y-4">
             {apprenants.map((apprenant) => (
-              <Card key={apprenant.id} className="border-2 border-teal-200 hover:shadow-lg transition-all duration-300">
+              <Card key={apprenant.id} className="border-2 border-orange-200 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex flex-col md:flex-row md:items-center justify-between space-y-4 md:space-y-0">
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
-                        <User className="w-6 h-6 text-teal-600" />
+                      <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <User className="w-6 h-6 text-orange-600" />
                       </div>
                       <div>
                         <h3 className="font-bold text-gray-900">{apprenant.nom}</h3>
@@ -219,7 +219,7 @@ const GroupeApprenantPage = () => {
                     
                     <div className="flex items-center space-x-4">
                       <div className="text-center">
-                        <div className="text-lg font-bold text-teal-600">{apprenant.score_moyen}/5</div>
+                        <div className="text-lg font-bold text-orange-600">{apprenant.score_moyen}/5</div>
                         <div className="text-xs text-gray-600">Score moyen</div>
                       </div>
                       <Badge className={getNiveauColor(apprenant.niveau)}>
@@ -227,7 +227,7 @@ const GroupeApprenantPage = () => {
                       </Badge>
                       <div className="text-right">
                         <p className="text-sm text-gray-600">{apprenant.derniere_connexion}</p>
-                        <Button variant="outline" size="sm" className="mt-2 border-teal-300 text-teal-700 hover:bg-teal-50">
+                        <Button variant="outline" size="sm" className="mt-2 border-orange-300 text-orange-700 hover:bg-orange-50">
                           Voir profil
                         </Button>
                       </div>

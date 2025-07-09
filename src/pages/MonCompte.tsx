@@ -13,7 +13,7 @@ const MonComptePage = () => {
   return (
     <div className="p-s24 space-y-s24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-akili-blue-500 to-akili-blue-600 rounded-xl p-s24 shadow-akili-lg">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-700 rounded-xl p-s24 shadow-akili-lg">
         <div className="flex items-center space-x-s16">
           <div className="w-16 h-16 bg-white/20 rounded-xl flex items-center justify-center">
             <User className="w-8 h-8 text-white" />
@@ -86,28 +86,28 @@ const MonComptePage = () => {
         <Card className="bg-white shadow-akili-sm border-0">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <User className="w-5 h-5 text-akili-blue-500" />
+              <User className="w-5 h-5 text-orange-500" />
               <span className="text-h5-bold text-akili-grey-800">{t('pages.monCompte.personalInfo.title')}</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-s20">
             <div className="space-y-s8">
               <Label htmlFor="nom" className="text-body2-bold text-akili-grey-800">{t('pages.monCompte.personalInfo.fullName')}</Label>
-              <Input id="nom" defaultValue="Marie Dubois" className="border-akili-grey-300 focus:border-akili-blue-500" />
+              <Input id="nom" defaultValue="Marie Dubois" className="border-akili-grey-300 focus:border-orange-500" />
             </div>
             <div className="space-y-s8">
               <Label htmlFor="email" className="text-body2-bold text-akili-grey-800">{t('pages.monCompte.personalInfo.email')}</Label>
-              <Input id="email" type="email" defaultValue="marie.dubois@ecole.fr" className="border-akili-grey-300 focus:border-akili-blue-500" />
+              <Input id="email" type="email" defaultValue="marie.dubois@ecole.fr" className="border-akili-grey-300 focus:border-orange-500" />
             </div>
             <div className="space-y-s8">
               <Label htmlFor="etablissement" className="text-body2-bold text-akili-grey-800">{t('pages.monCompte.personalInfo.institution')}</Label>
-              <Input id="etablissement" defaultValue="École Primaire Saint-Martin" className="border-akili-grey-300 focus:border-akili-blue-500" />
+              <Input id="etablissement" defaultValue="École Primaire Saint-Martin" className="border-akili-grey-300 focus:border-orange-500" />
             </div>
             <div className="space-y-s8">
               <Label htmlFor="fonction" className="text-body2-bold text-akili-grey-800">{t('pages.monCompte.personalInfo.function')}</Label>
-              <Input id="fonction" defaultValue="Professeure des écoles" className="border-akili-grey-300 focus:border-akili-blue-500" />
+              <Input id="fonction" defaultValue="Professeure des écoles" className="border-akili-grey-300 focus:border-orange-500" />
             </div>
-            <Button className="bg-akili-blue-500 hover:bg-akili-blue-600 text-white font-akili-bold mt-s20">
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white font-akili-bold mt-s20">
               {t('pages.monCompte.personalInfo.update')}
             </Button>
           </CardContent>
@@ -117,7 +117,7 @@ const MonComptePage = () => {
         <Card className="bg-white shadow-akili-sm border-0">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Settings className="w-5 h-5 text-akili-blue-500" />
+              <Settings className="w-5 h-5 text-orange-500" />
               <span className="text-h5-bold text-akili-grey-800">{t('pages.monCompte.preferences.title')}</span>
             </CardTitle>
           </CardHeader>
@@ -150,7 +150,7 @@ const MonComptePage = () => {
         <Card className="bg-white shadow-akili-sm border-0 lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Shield className="w-5 h-5 text-akili-blue-500" />
+              <Shield className="w-5 h-5 text-orange-500" />
               <span className="text-h5-bold text-akili-grey-800">{t('pages.monCompte.security.title')}</span>
             </CardTitle>
           </CardHeader>
